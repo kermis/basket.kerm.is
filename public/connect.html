@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Shooting.Kerm.is | Connect</title>
+
+	<link rel="stylesheet" href="assets/css/main.css">
+
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+
+</head>
+<body>
+
+	<div class="container">
+
+		<div class="logo"></div>
+		<div class="introduction">Sync your phone to your computer to get started.</div>
+
+		<div class="step display">
+			<div class="instruction">
+				Sync you phone to your computer to get started by entering your game code :
+			</div>
+			<form action="controller.html">
+				<input type="text" id="roomNumber" name="roomNumber" autofocus>
+				<button id="roomConnect" type="submit">Connect</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- jQuery stuff -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+	<!-- Socket.io stuff-->
+	<script src="assets/js/libs/socket.io.min.js"></script>
+
+	<!-- Local stuff -->
+	<script src="assets/js/partials/url.js"></script>
+
+</body>
+</html>
