@@ -19,6 +19,13 @@
         display: flex;
     }
 
+    #start {
+        position: absolute;
+        right: 50%;
+        top:0px;
+        z-index: 44;
+    }
+
    /* #qrcode {
         z-index: 10;
         display: block;
@@ -33,7 +40,7 @@
 <body>
     <div id="qrcode"></div>
 
-
+<!--     <button id="start">start game</button> -->
     <article id="container"><div class="filler"></div></article>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -42,38 +49,53 @@
     <script src="assets/js/libs/socket.io.min.js"></script>
     <script src="assets/js/libs/qrcode.js"></script>
     <script src="assets/js/libs/stats.min.js"></script>
-    <!-- <script src="assets/js/libs/dat.gui.min.js"></script> -->
+    <script src="assets/js/libs/dat.gui.min.js"></script>
 
-
-
+    <script src="assets/js/partials/watch.js"></script>
+    <script src="assets/js/partials/sos.js"></script>
     <script src="assets/js/partials/url.js"></script>
     <script src="assets/js/partials/room.js"></script>
     <script src="assets/js/partials/main.js"></script>
+    <script src="assets/js/partials/physics.js"></script>
+    <script src="assets/js/partials/canwebuildit.js"></script>
     <script src="assets/js/partials/basket.js"></script>
 
 
     <script>
-        init();
-        animate();
+            basket.init();
+            basket.animate();
 
 
-            document.addEventListener('click', shoot, false);
-            window.addEventListener( 'resize', onWindowResize, false );
-            // document.addEventListener( 'mousemove', mousemove, false );
-            document.addEventListener( 'keydown', onKeyDown, false );
-            document.addEventListener('fullscreenchange', fullscreenChange, false);
-            document.addEventListener('mozfullscreenchange', fullscreenChange, false);
-            document.addEventListener('webkitfullscreenchange', fullscreenChange, false);
-            document.addEventListener('pointerlockchange', pointerLockChange, false);
-            document.addEventListener('mozpointerlockchange', pointerLockChange, false);
-            document.addEventListener('webkitpointerlockchange', pointerLockChange, false);
-            document.addEventListener('pointerlockerror', pointerLockError, false);
-            document.addEventListener('mozpointerlockerror', pointerLockError, false);
-            document.addEventListener('webkitpointerlockerror', pointerLockError, false);
+            /**
+             *
+             * Call functions in watch.js
+             *
+             */
+
+
+            document.addEventListener('click', look.theUserIsShooting, false);
+            window.addEventListener( 'resize', look.theWindowIsResizing, false );
+            document.addEventListener( 'mousemove', look.theMouseIsMoving, false );
+            document.addEventListener( 'keydown', look.theKeyIsGoingDown, false );
+            document.addEventListener('fullscreenchange', look.theScreenIsGoingFullscreen, false);
+            document.addEventListener('mozfullscreenchange', look.theScreenIsGoingFullscreen, false);
+            document.addEventListener('webkitfullscreenchange', look.theScreenIsGoingFullscreen, false);
+            document.addEventListener('pointerlockchange', look.thePointerIsBeingLocked, false);
+            document.addEventListener('mozpointerlockchange', look.thePointerIsBeingLocked, false);
+            document.addEventListener('webkitpointerlockchange', look.thePointerIsBeingLocked, false);
+            document.addEventListener('pointerlockerror', look.thePointerLockHasGoneWrong, false);
+            document.addEventListener('mozpointerlockerror', look.thePointerLockHasGoneWrong, false);
+            document.addEventListener('webkitpointerlockerror', look.thePointerLockHasGoneWrong, false);
+
+            $('#start').on('click', function() {
+                look.theUserIsLockingThePointer();
+            });
+
     </script>
 
 
     <script type="text/javascript">
+
 
         // var qrcode = new QRCode("qrcode", {
         //     text: url.currentURL + "/controller.html?roomNumber=" + room.id,
