@@ -83,8 +83,14 @@
 		});
 
 		socket.on('shoot', function(data) {
+			console.log('user is shooting', data);
+			io.sockets.in(data.message).emit('shooting', data);
+		})
+
+		socket.on('power', function(data) {
+			console.log('power');
 			//console.log('user is shooting', data);
-			io.sockets.in(data.message).emit('shoot', data);
+			io.sockets.in(data.message).emit('user_power', data);
 		})
 
 	});

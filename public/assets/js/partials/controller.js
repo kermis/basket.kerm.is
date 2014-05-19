@@ -7,6 +7,9 @@ var room_id = room.getID();
 
 var socket = io.connect(url.currentURL);
 
+var power = 0;
+var way = 'up';
+var powerCheck;
 
 $(function() {
 
@@ -27,10 +30,51 @@ $(function() {
 
 	});
 
-            $('.shoot').on('click', function() {
-                console.log('test');
-                socket.emit('shoot', {message :  room_id});
-            })
+            // $('.shoot').on('click', function() {
+            //     console.log('test');
+            //     socket.emit('shoot', {message :  room_id});
+            // })
 
+            $('.shoot').on('touchstart', function() {
+                power = 0;
+                howMuchPower();
+            });
+
+            $('.shoot').on('touchend', function() {
+                socket.emit('shoot', {message :  room_id, power : power});
+
+                clearInterval(powerCheck);
+
+            });
 
 });
+
+
+var howMuchPower = function() {
+    powerCheck = setInterval(function() {
+
+        if(way == 'up')
+        {
+            if(power < 10) {
+                power++;
+            }
+            else {
+                way = 'down';
+            }
+        }
+
+        if(way == 'down')
+        {
+            if(power > 1) {
+                power--;
+            }
+            else {
+                way = 'up';
+                power++;
+            }
+        }
+
+        socket.emit('power', {message :  room_id, power : power });
+
+    }, 250);
+}

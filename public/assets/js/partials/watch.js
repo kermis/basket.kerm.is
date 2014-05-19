@@ -33,32 +33,116 @@ var look = {
         renderer.setSize( sceneW, sceneH );
     },
 
+    theUserIsGettingPower : function() {
+      basket.power = 0;
+      basket.way = 'up';
+
+      basket.powerCheck = setInterval(function() {
+
+        if(basket.way == 'up')
+        {
+            if(basket.power < 10) {
+                basket.power++;
+            }
+            else {
+                basket.way = 'down';
+            }
+        }
+
+        if(basket.way == 'down')
+        {
+            if(basket.power > 1) {
+                basket.power--;
+            }
+            else {
+                basket.way = 'up';
+                basket.power++;
+            }
+        }
+
+
+
+        if(basket.power <= 5) {
+          basket.color = 'orange';
+        }
+
+        if(basket.power == 6 ) {
+          basket.color = 'green';
+        }
+
+        if(basket.power >= 7) {
+          basket.color = 'red';
+        }
+
+
+        $('.power').css({ 'height' : (10 * basket.power), 'background-color' : basket.color });
+
+      }, 250);
+    },
+
+
     theUserIsShooting : function(event) {
 
+       clearInterval(basket.powerCheck);
 
+
+      if(basket.start) {
+
+         // console.log('start capturing');
+         //  capturer.start();
+
+
+        if(basket.controller == 'mobile') {
+          var x =  (event.x - sceneW)+ sceneW /2;
+          var y = 100 * mobile.power;
+          var z = -550;
+        }
+        else if(basket.controller == 'mouse') {
 
          var x = (event.x - sceneW)+ sceneW /2;
-         var y = sceneH - event.y;
+         var y = 100 * basket.power;
          var z = -550;
 
+        }
+        else if(basket.controller == 'leap') {
+
+        }
+
+        // #TODO delay on direct shooten
+
          if(!ball.shot) {
+            console.log('shoot');
             ball.setAngularFactor(new THREE.Vector3( 1, 1, 1 ));
             ball.setLinearFactor(new THREE.Vector3( 1, 1, 1 ));
             ball.setLinearVelocity(new THREE.Vector3(  x , y, z ));
             ball.setAngularVelocity(new THREE.Vector3( -10, 0, 0 ));
             ball.shot = true;
             basket.reload = true;
-          }
 
-          setTimeout(function() {
-            if(basket.reload) {
-              yeswecan.build_theball();
-              basket.reload = false;
-            }
-          }, 2000);
+
+          if(basket.reload) {
+
+
+
+            setTimeout(function() {
+
+                yeswecan.build_theball();
+                basket.reload = false;
+
+                setTimeout(function() {
+                       basket.removeABall();
+                }, 5000);
+
+            }, 2000);
+          }
+        }
+      }
     },
 
     theMouseIsMoving : function ( event ) {
+        if(basket.start) {
+          if(basket.controller == 'mouse') {
+            //console.log('mobile not connected');
             basket.movementX = event.movementX       ||
                         event.mozMovementX    ||
                         event.webkitMovementX ||
@@ -68,7 +152,34 @@ var look = {
                             event.webkitMovementY ||
                             0;
 
-         // moveStuff(movementX, movementY);
+                            //console.log(basket.movementY);
+
+            look.AtTheObjectsMove(basket.movementX, basket.movementY);
+          }
+        }
+    },
+
+    AtTheObjectsMove : function(x, y) {
+
+      // console.log(mobile.connected);
+
+      // console.log('move', x, y);
+
+      if(!ball.shot)
+      {
+        if(basket.controller == 'mobile') {
+          ball.position.x = x * 1.5;
+        }
+        else if(basket.controller == 'mouse') {
+          ball.position.x += x * 0.9;
+        }
+
+        ball.__dirtyPosition = true;
+      }
+      else {
+        ball.__dirtyPosition = false;
+      }
+
     },
 
     theScreenIsGoingFullscreen : function() {
@@ -112,23 +223,36 @@ var look = {
 
     theKeyIsGoingDown : function ( event ) {
 
+        if(basket.start) {
             switch ( event.keyCode ) {
 
                 case 40: // down
-                    camera.position.z += 10;
+                    yeswecan.get_theSceneCam.position.z += 10;
                     break;
                 case 37: // links
-                    camera.rotation.y -= 0.1;
+                    yeswecan.get_theSceneCam.rotation.y -= 0.1;
                     break;
                 case 39: // rechts
-                    camera.rotation.y += 0.1;
+                    yeswecan.get_theSceneCam.rotation.y += 0.1;
                     break;
                 case 38: // up
-                    camera.position.z -= 10;
+                    yeswecan.get_theSceneCam.position.z -= 10;
                     break;
                 case 32 : // spatie
+                   console.log('spatie');
+
+                    if(yeswecan.get_thecurrentCam < yeswecan.get_AllTheCameras.length -1)
+                    {
+                      yeswecan.get_thecurrentCam++;
+                    }
+                    else {
+                      yeswecan.get_thecurrentCam = 0;
+                    }
+
+                    yeswecan.get_theSceneCam = yeswecan.get_AllTheCameras[yeswecan.get_thecurrentCam];
                   break;
             }
+          }
 
     },
 

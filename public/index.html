@@ -19,14 +19,71 @@
         display: flex;
     }
 
-    #start {
+
+     .overlay {
+        position: absolute;
+        width: 100%;
+        height: 60%;
+        top:30%;
+        min-height: 250px;
+        margin-top:-5%;
+        background-color: rgba(0, 105, 206, .8);
+        z-index: 4;
+    }
+
+    .info {
+        color:white;
+        font-family: 'Helvetica';
+
+        margin-top: 20px;
+        text-align: center;
+
+    }
+
+    .info h3 {
+        text-transform: uppercase;
+        font-size: 30px;
+    }
+
+    .ready {
+        display: none;
+    }
+
+    .ready p {
+        font-size: 20px;
+    }
+
+    .ready > button, #mouse {
+        background-color:white;
+        border:none;
+        color:#CC0030;
+        width : 100px;
+        height: 40px;
+        border-radius: 5px;
+        cursor: pointer;
+        outline: none;
+        margin-top:20px;
+    }
+
+    .slideUp {
+        top: -100%;
+
+
+        -webkit-transition: all .4s linear;
+-moz-transition: all .4s linear;
+-ms-transition: all .4s linear;
+-o-transition: all .4s linear;
+transition: all .4s linear;
+    }
+
+    /*#start {
         position: absolute;
         right: 50%;
         top:0px;
         z-index: 44;
-    }
+    }*/
 
-   /* #qrcode {
+    #qrcode {
         z-index: 10;
         display: block;
         width: 100px;
@@ -34,14 +91,86 @@
         position: absolute;
         border: 3px white solid;
         right: 0px
-    }*/
+    }
+
+    .power {
+        position: absolute;
+        bottom:0;
+        left: 10px;
+        width: 100px;
+        z-index: 44444;
+        background-color: orange;
+        height : 10px;
+
+        -webkit-transition: all 400ms ease;
+-moz-transition: all 400ms ease;
+-ms-transition: all 400ms ease;
+-o-transition: all 400ms ease;
+transition: all 400ms ease;
+    }
+
+    .preload {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background: #EFEFEF;
+        z-index: 1000;
+    }
+    .percentLoaded {
+        position: absolute;
+        text-align: center;
+        font-size: 8em;
+        width: 100%;
+        left: 0;
+        top: 20%;
+        z-index: 1001;
+    }
+    .progress{
+        width: 0%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #6588D6;
+        z-index: 1000
+    }
     </style>
 </head>
 <body>
     <div id="qrcode"></div>
 
-<!--     <button id="start">start game</button> -->
-    <article id="container"><div class="filler"></div></article>
+
+        <div class="preload">
+            <div class="percentLoaded">0%</div>
+            <div class="progress"></div>
+        </div>
+
+        <div class="overlay">
+        <div class="info">
+            <h3>Welcome to Basket.Kerm.is</h3>
+
+
+            <div class="waiting">
+                <p>Go to </p>
+                <div class="browser"></div>
+                <p>and enter the following code.</p>
+                <div class="code"></div>
+                <p>or scan the QR code.</p>
+
+                <p>Want to play with your mouse?</p>
+                <button id="mouse">yes!</button>
+            </div>
+
+            <div class="ready">
+                <p>Click to shoot :) </p>
+                <button id="start">Let's play!</button>
+            </div>
+
+        </div>
+     </div>
+
+    <article id="container"><div class="filler"></div><div class="power"></div></article>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="assets/js/libs/three.min.js"></script>
@@ -50,7 +179,10 @@
     <script src="assets/js/libs/qrcode.js"></script>
     <script src="assets/js/libs/stats.min.js"></script>
     <script src="assets/js/libs/dat.gui.min.js"></script>
+    <script src="assets/js/libs/CCapture.min.js"></script>
+    <script src="assets/js/libs/Whammy.js"></script>
 
+    <script src="assets/js/partials/level.js"></script>
     <script src="assets/js/partials/watch.js"></script>
     <script src="assets/js/partials/sos.js"></script>
     <script src="assets/js/partials/url.js"></script>
@@ -60,10 +192,25 @@
     <script src="assets/js/partials/canwebuildit.js"></script>
     <script src="assets/js/partials/basket.js"></script>
 
+    <!-- load fonts -->
+    <script src="assets/fonts/gentilis_bold.typeface.js"></script>
+    <script src="assets/fonts/gentilis_regular.typeface.js"></script>
+    <script src="assets/fonts/optimer_bold.typeface.js"></script>
+    <script src="assets/fonts/optimer_regular.typeface.js"></script>
+    <script src="assets/fonts/helvetiker_bold.typeface.js"></script>
+    <script src="assets/fonts/helvetiker_regular.typeface.js"></script>
+    <script src="assets/fonts/droid_sans_regular.typeface.js"></script>
+    <script src="assets/fonts/droid_sans_bold.typeface.js"></script>
+    <script src="assets/fonts/droid_serif_regular.typeface.js"></script>
+    <script src="assets/fonts/droid_serif_bold.typeface.js"></script>
+
+    <!-- Preload and sound stuff -->
+    <script src="//code.createjs.com/preloadjs-0.4.1.min.js"></script>
+    <script src="//code.createjs.com/soundjs-0.5.2.min.js"></script>
+
 
     <script>
-            basket.init();
-            basket.animate();
+
 
 
             /**
@@ -73,10 +220,14 @@
              */
 
 
-            document.addEventListener('click', look.theUserIsShooting, false);
+
+            // document.addEventListener('click', look.theUserIsShooting, false);
+            document.addEventListener('mousedown', look.theUserIsGettingPower, false);
+            document.addEventListener('mouseup', look.theUserIsShooting, false);
             window.addEventListener( 'resize', look.theWindowIsResizing, false );
             document.addEventListener( 'mousemove', look.theMouseIsMoving, false );
             document.addEventListener( 'keydown', look.theKeyIsGoingDown, false );
+
             document.addEventListener('fullscreenchange', look.theScreenIsGoingFullscreen, false);
             document.addEventListener('mozfullscreenchange', look.theScreenIsGoingFullscreen, false);
             document.addEventListener('webkitfullscreenchange', look.theScreenIsGoingFullscreen, false);
@@ -88,8 +239,39 @@
             document.addEventListener('webkitpointerlockerror', look.thePointerLockHasGoneWrong, false);
 
             $('#start').on('click', function() {
-                look.theUserIsLockingThePointer();
+                //look.theUserIsLockingThePointer();
+
+                $('.overlay').addClass('slideUp');
+
+                basket.controller = 'mobile';
+
+                setTimeout(
+                    function() {
+                        look.theUserIsLockingThePointer();
+                        basket.start = true;
+                    },
+                    400
+                );
             });
+
+            $('#mouse').on('click', function() {
+
+                 basket.controller = 'mouse';
+
+                 $('.overlay').addClass('slideUp');
+
+
+
+
+                setTimeout(
+                    function() {
+                        //look.theUserIsLockingThePointer();
+                        basket.start = true;
+                    },
+                    400
+                );
+            });
+
 
     </script>
 
@@ -97,16 +279,25 @@
     <script type="text/javascript">
 
 
-        // var qrcode = new QRCode("qrcode", {
-        //     text: url.currentURL + "/controller.html?roomNumber=" + room.id,
-        //     width: 100,
-        //     height: 100,
-        //     colorDark : "#CC0030",
-        //     colorLight : "#ffffff",
-        //     correctLevel : QRCode.CorrectLevel.H
-        // });
+        var qrcode = new QRCode("qrcode", {
+            text: url.currentURL + "/controller.html?roomNumber=" + room.id,
+            width: 100,
+            height: 100,
+            colorDark : "#CC0030",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+
+
+
+
+
 
         </script>
+
+
+
+
 
 
 </body>
