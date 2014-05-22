@@ -34,50 +34,58 @@ var look = {
     },
 
     theUserIsGettingPower : function() {
-      basket.power = 0;
-      basket.way = 'up';
 
-      basket.powerCheck = setInterval(function() {
+      console.log('power');
 
-        if(basket.way == 'up')
-        {
-            if(basket.power < 10) {
-                basket.power++;
+      if(basket.start)
+      {
+        if(!ball.shot) {
+          basket.power = 0;
+          basket.way = 'up';
+
+          basket.powerCheck = setInterval(function() {
+
+            if(basket.way == 'up')
+            {
+                if(basket.power < 10) {
+                    basket.power++;
+                }
+                else {
+                    basket.way = 'down';
+                }
             }
-            else {
-                basket.way = 'down';
+
+            if(basket.way == 'down')
+            {
+                if(basket.power > 1) {
+                    basket.power--;
+                }
+                else {
+                    basket.way = 'up';
+                    basket.power++;
+                }
             }
-        }
 
-        if(basket.way == 'down')
-        {
-            if(basket.power > 1) {
-                basket.power--;
+
+
+            if(basket.power <= 5) {
+              basket.color = 'orange';
             }
-            else {
-                basket.way = 'up';
-                basket.power++;
+
+            if(basket.power == 6 ) {
+              basket.color = 'green';
             }
+
+            if(basket.power >= 7) {
+              basket.color = 'red';
+            }
+
+
+            $('.power').css({ 'height' : (10 * basket.power), 'background-color' : basket.color });
+
+          }, 250);
         }
-
-
-
-        if(basket.power <= 5) {
-          basket.color = 'orange';
-        }
-
-        if(basket.power == 6 ) {
-          basket.color = 'green';
-        }
-
-        if(basket.power >= 7) {
-          basket.color = 'red';
-        }
-
-
-        $('.power').css({ 'height' : (10 * basket.power), 'background-color' : basket.color });
-
-      }, 250);
+      }
     },
 
 
@@ -111,6 +119,11 @@ var look = {
         // #TODO delay on direct shooten
 
          if(!ball.shot) {
+
+           basket.totalMissed++;
+
+           console.log('missed', basket.totalMissed);
+
             console.log('shoot');
             ball.setAngularFactor(new THREE.Vector3( 1, 1, 1 ));
             ball.setLinearFactor(new THREE.Vector3( 1, 1, 1 ));
@@ -122,12 +135,43 @@ var look = {
 
           if(basket.reload) {
 
-
+            basket.totalBalls--;
 
             setTimeout(function() {
 
-                yeswecan.build_theball();
-                basket.reload = false;
+
+
+
+
+                if(basket.totalBalls == 0)
+                {
+                  basket.start = false;
+
+                  //console.log('Congrats you have scored ' + basket.totalPoints + ' points in level ' + basket.level);
+
+                  $('.the_level span').text(basket.level + 1);
+                  $('.the_points span').text(basket.totalPoints);
+                  $('.next_level span').text(basket.level + 2);
+
+                  //$('.totall').removeClass('active');
+
+                  $('.totall').addClass('score');
+
+                  // $('.level_overlay').fadeIn('slow');
+
+
+
+                  // console.log(levels, basket.level);
+                  // basket.totalBalls = levels[basket.level].totalBalls;
+                  // basket.totalPoints = 0;
+
+                  //yeswecan.build_thecamera();
+
+               }
+               else {
+                  yeswecan.build_theball();
+                  basket.reload = false;
+              }
 
                 setTimeout(function() {
                        basket.removeABall();
@@ -168,7 +212,7 @@ var look = {
       if(!ball.shot)
       {
         if(basket.controller == 'mobile') {
-          ball.position.x = x * 1.5;
+          ball.position.x = x * 5;
         }
         else if(basket.controller == 'mouse') {
           ball.position.x += x * 0.9;

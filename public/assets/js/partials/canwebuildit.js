@@ -4,9 +4,14 @@
  *
  */
 
-
-
 var yeswecan = {
+
+    build_everything : function() {
+      yeswecan.build_thebasketstand();
+      yeswecan.build_thelights();
+      yeswecan.build_thebasket();
+      yeswecan.build_theball();
+    },
 
     /**
      *
@@ -37,7 +42,7 @@ var yeswecan = {
     build_thecamera : function() {
 
       camera = new THREE.PerspectiveCamera(50, sceneW / sceneH, 1, 10000);
-      camera.position.z = 750; // move back
+      camera.position.z =  750; // move back
       camera.position.y = 100; // move up
       camera.name = "front";
       camera.lookAt(new THREE.Vector3(0,0,0)); // point it down at the center of the 3D scene
@@ -60,10 +65,10 @@ var yeswecan = {
       rightCamera.name = "right";
 
       var cams = new THREE.PerspectiveCamera(50, sceneW / sceneH, 1, 10000);
-      cams.position.z = 105; // move back
-      cams.position.y =220; // move up
+      cams.position.z = -63; // move back
+      cams.position.y =200; // move up
       cams.position.x = 0;
-      //cams.rotation.y = helpMe.calculate('rad', 90);
+      cams.rotation.y = helpMe.calculate('rad', 180);
       cams.name = "right";
 
       // // camera.lookAt(new THREE.Vector3(0,0,0)); // point it down at the center of the 3D scene
@@ -90,7 +95,7 @@ var yeswecan = {
 
        this.build_thelowpolystand('plane', 1000, 1000, 10, 10, 0xCC0030, false, 0,  .4, .4, false, false, 100, -90, false, false, 'ground');
 
-       /**
+      /**
        *
        * Build the prizewall
        *
@@ -98,31 +103,6 @@ var yeswecan = {
 
       this.build_thelowpolystand('cube', 500, 75, 10, 10, 0xCC0030, true, 0,  .4, .4, false, 45, 92, -90, false, false, 'wallprize');
       this.build_thelowpolystand('cube', 500, 75, 10, 10, 0xFFFF00, true, 0,  .4, .4, false, 10, 120, false, false, false, 'wallprizebottom');
-
-
-        /**
-        *
-        * Build the back wall
-        *
-        */
-
-        //this.build_thelowpolystand('cube', 490, 230, 10, 10, 0xff6fcf, true, 0,  4, .4, false, 100, -83, 0, false, false, 'backwall');
-
-        /**
-        *
-        * Build the left wall
-        *
-        */
-
-        //this.build_thelowpolystand('plane', 150, 200, 10, 10, 0x8000040, true, .5,  .4, .4, -200, 100, 30, false, 84, false, 'leftwall');
-
-        /**
-        *
-        * Build the right wall
-        *
-        */
-
-        //this.build_thelowpolystand('plane', 230, 200, 10, 10, 0x8000040, true, .5,  .4, .4, 174, 111, 70, false, -90, false, 'rightwall');
 
 
         /**
@@ -136,13 +116,48 @@ var yeswecan = {
 
             mesh.scale.set(0.25, 0.25, 0.25);
             mesh.position.set(0, 0, 100);
+            mesh.name = 'basketstand';
 
             scene.add(mesh);
 
-            });
+        });
+
+        /**
+         *
+         * Create all the hitboxes
+         *
+         */
+
+        hitboxes.create();
 
 
     },
+
+    build_theHitBoxes : function(points, color, transparent, opacity, posX, posY, posZ, rotX, rotY, rotZ) {
+
+      var rectShape = new THREE.Shape();
+      rectShape.moveTo( 0,0 );
+      for(var i = 0; i < points.length; i++)
+      {
+          rectShape.lineTo(points[i].from, points[i].to );
+      }
+      rectShape.lineTo( 0, 0 );
+
+      var rectGeom = new THREE.ShapeGeometry( rectShape );
+      var rectMesh = new Physijs.ConvexMesh( rectGeom, new THREE.MeshBasicMaterial( { color: color, transparent : transparent, opacity : opacity } ) ) ;
+
+      rectMesh.name = 'hitbox';
+
+      if(posX) rectMesh.position.x = posX;
+      if(posY) rectMesh.position.y = posY;
+      if(posZ) rectMesh.position.z = posZ;
+      if(rotX) rectMesh.rotation.x = helpMe.calculate('rad', rotX);
+      if(rotY) rectMesh.rotation.y = helpMe.calculate('rad', rotY);
+      if(rotZ) rectMesh.rotation.z = helpMe.calculate('rad', rotZ);
+
+      scene.add( rectMesh );
+    },
+
 
     build_thelowpolystand : function(object, width, height, wSegments, hSegments, color, transparent, opacity, friction, restitution, posX, posY, posZ, rotX, rotY, rotZ, name) {
             if(object == 'plane')
@@ -193,6 +208,7 @@ var yeswecan = {
     build_thelights : function() {
 
       var light = new THREE.HemisphereLight(0xffffff, 0x000000, 1)
+      light.name = 'light';
       scene.add(light)
 
     },
@@ -213,36 +229,38 @@ var yeswecan = {
 
 
 
-       var l = 0;
-       for(var i = 0; i < 12; i += 4)
+      var totalBacks = levels[basket.level].totalRings.back;
+
+       var b =  0;
+      //var length = levels[basket.level].totalRings * 4;
+       for(var i = 0; i < totalBacks.length; i ++) //  for(var i = 0; i < 12; i += 4)
        {
-          var basketMaterial = new THREE.MeshPhongMaterial( {  color : 0xCC0030, transparent : true, opacity : 0 }, 1, 1 );
+          var basketMaterial = new THREE.MeshPhongMaterial( {  color : totalBacks[i].physics.color, transparent : totalBacks[i].physics.transparent, opacity : totalBacks[i].physics.opacity }, 1, 1 );
           var basketBack = new Physijs.BoxMesh(
-            new THREE.CubeGeometry( 100, 60, 20 ),
+            new THREE.CubeGeometry( totalBacks[i].physics.width, totalBacks[i].physics.height, totalBacks[i].physics.depth ),
             basketMaterial,
             0
            );
 
-          basketBack.position.set(304 + (-38 * (i +4)), 200, -60);
+          basketBack.position.set(totalBacks[i].physics.posX, totalBacks[i].physics.posY, totalBacks[i].physics.posZ); // rechts = center = 0  links =
           basketBack.receiveShadow = true;
-          basketBack.name = "basketBack";
+          basketBack.name = totalBacks[i].physics.name;
           basketBack.castShadow = true;
           scene.add(basketBack);
 
           var basketLoader = new THREE.ObjectLoader();
-          basketLoader.load('assets/js/models/basketback.js', function (mesh) {
 
-              mesh.scale.set(0.25, 0.25, 0.25);
-              mesh.position.set(150 - (150 * l), 200, -60);
-              mesh.name= "basketback-" + l;
 
-              // console.log('mesh', l, mesh);
+          basketLoader.load('assets/js/models/basketback2.js', function (mesh) {
+
+              mesh.scale.set(totalBacks[b].model.scale, totalBacks[b].model.scale, totalBacks[b].model.scale);
+              mesh.position.set(totalBacks[b].model.posX, totalBacks[b].model.posY, totalBacks[b].model.posZ);
+              mesh.name= totalBacks[b].model.name;
+              mesh.material.color.setHex(totalBacks[b].model.color);
               scene.add(mesh);
-
-              l++;
+              b++;
 
             });
-
         }
 
       /**
@@ -251,33 +269,37 @@ var yeswecan = {
        *
        */
 
-       var j = 100, k = 0;
-       for(var i = 0; i < 12; i += 4)
+       var k = 0;
+
+      var totalRings = levels[basket.level].totalRings.ring;
+
+      console.log('length rings', totalRings);
+
+       for(var i = 0; i < totalRings.length; i++)
        {
-          var ringMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00, transparent : true, opacity : 0 } );
+          var ringMaterial = new THREE.MeshBasicMaterial( { color: totalRings[i].physics.color, transparent : totalRings[i].physics.transparent, opacity : totalRings[i].physics.opacity } );
           basketRing = new Physijs.ConcaveMesh(
-            new THREE.TorusGeometry( 27, 3, 7, 100 + j ),
+            new THREE.TorusGeometry( totalRings[i].physics.radius, totalRings[i].physics.tube, totalRings[i].physics.segmentsR, totalRings[i].physics.segmentsT),
             ringMaterial,
             0
            );
-          basketRing.position.set(302 + (-37.7 * (i +4)), 180, -30);
-          //console.log(basket.position);
-          //basket.position.set(0, 70, 50);
+
+          basketRing.position.set(totalRings[i].physics.posX, totalRings[i].physics.posY, totalRings[i].physics.posZ); // ring right = 150, ring center = 0, ring left = -150
           basketRing.receiveShadow = true;
-          basketRing.rotation.x = helpMe.calculate('rad', -90);
-          basketRing.name = "basketRing";
+          basketRing.rotation.x = helpMe.calculate('rad', totalRings[i].physics.rotX);
+          basketRing.name = totalRings[i].physics.name;
+          basketRing.number = i;
           basketRing.castShadow = true;
           scene.add(basketRing);
           basketRings.push(basketRing);
 
-
           var ringLoader = new THREE.ObjectLoader();
           ringLoader.load('assets/js/models/basketring.js', function (mesh) {
 
-              mesh.scale.set(0.25, 0.25, 0.25);
-              mesh.position.set(150 - (150 * k), 180, -30);
-              mesh.rotation.y = helpMe.calculate('rad', 10 + k);
-              mesh.name= "ring-" + k;
+              mesh.scale.set(totalRings[k].model.scale, totalRings[k].model.scale, totalRings[k].model.scale);
+              mesh.position.set(totalRings[k].model.posX, totalRings[k].model.posY, totalRings[k].model.posZ);
+              mesh.rotation.y = helpMe.calculate('rad', totalRings[k].model.rotY);
+              mesh.name= totalRings[k].model.name;
 
               scene.add(mesh);
 
@@ -285,21 +307,8 @@ var yeswecan = {
 
             });
 
-
-          j += 250;
-
-
       }
 
-
-
-
-         // var wallGeometry = new THREE.CylinderGeometry( 30, 30, 5, 20 );
-         // var wireMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, transparent : true, opacity : 0 } );
-         // var wall = new THREE.Mesh(wallGeometry, wireMaterial);
-         // wall.position.set(0, 180, -35);
-         // scene.add(wall);
-         // collidableMeshList.push(wall);
 
     },
 
@@ -310,6 +319,12 @@ var yeswecan = {
      */
 
     build_theball : function() {
+
+      // reset power
+      $('.power').css({ 'height' : '10px', 'background-color' : 'orange' });
+      basket.power = 0;
+      basket.way = 'up';
+
 
        var ballTexture = THREE.ImageUtils.loadTexture( 'assets/img/basket.png' );
        ballTexture.wrapS =ballTexture.wrapT = THREE.RepeatWrapping;
@@ -335,8 +350,6 @@ var yeswecan = {
       ball.shot = false;
       ball.castShadow = true;
 
-
-
       scene.add(ball);
 
       balls.push(ball);
@@ -346,16 +359,7 @@ var yeswecan = {
       ball.setLinearVelocity(new THREE.Vector3( 0, 0, 0 ));
       ball.setAngularVelocity(new THREE.Vector3( 0, 0, 0 ));
 
-
-      // // Enable CCD if the object moves more than 1 meter in one simulation frame
-      // ball.setCcdMotionThreshold(10);
-
-      // // Set the radius of the embedded sphere such that it is smaller than the object
-      // ball.setCcdSweptSphereRadius(0.2);
-
       ball.addEventListener( 'collision', look.theBallIsBouncing);
-
-
 
     }
 
