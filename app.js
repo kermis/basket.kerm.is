@@ -88,7 +88,7 @@
 		})
 
 		socket.on('power', function(data) {
-			console.log('power');
+			console.log('power', data);
 			//console.log('user is shooting', data);
 			io.sockets.in(data.message).emit('user_power', data);
 		})

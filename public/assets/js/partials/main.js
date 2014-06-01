@@ -9,7 +9,7 @@ $(function() {
 
 
     $('.browser').html(url.currentURL + '/connect.html');
-    $('.code').html(room.id);
+    $('.room_id').html(room.id);
 });
 
 
@@ -55,11 +55,13 @@ room.setID();
           console.log('A new user (mobile) is connected');
            if(room.id == data)
            {
-                $('.waiting').fadeOut(400, function() {
-                  $('.ready').fadeIn(400);
-                });
+                  basket.start = true;
 
-                mobile.connected = true;
+                  $('.info').fadeOut();
+
+                  $('.info-score').addClass('active');
+
+                basket.controller = "mobile";
            }
       });
 
@@ -67,7 +69,8 @@ room.setID();
         console.log('shoot', data.power);
         //shoot();
 
-        mobile.power = data.power
+        mobile.power = data.power;
+        basket.power = data.power;
 
         look.theUserIsShooting(mobile.position.gamma, mobile.position.beta);
 
@@ -87,22 +90,25 @@ room.setID();
 
 
         socket.on('user_power', function(data) {
-          console.log('power', data.power);
-           if(data.power <= 5) {
-              data.color = 'orange';
-            }
-
-            if(data.power == 6 ) {
-              data.color = 'green';
-            }
-
-            if(data.power >= 7) {
-              data.color = 'red';
-            }
 
 
-        $('.power').css({ 'height' : (10 * data.power), 'background-color' : data.color });
+          // console.log('power', data.power);
+          //  if(data.power <= 5) {
+          //     data.color = 'orange';
+          //   }
 
+          //   if(data.power == 6 ) {
+          //     data.color = 'green';
+          //   }
+
+          //   if(data.power >= 7) {
+          //     data.color = 'red';
+          //   }
+
+          if(basket.start)
+          {
+            $('.powerIndicator').css({ 'bottom' : 30 * data.power});
+          }
         })
 
 

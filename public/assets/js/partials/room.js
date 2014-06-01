@@ -32,6 +32,11 @@ var room = {
 
 	getID : function() {
 		var id = room.queryParam('roomNumber');
+
+                        if(!id)
+                        {
+                            id = false;
+                        }
 		return id;
 	},
 

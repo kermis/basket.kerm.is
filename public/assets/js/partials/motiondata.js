@@ -11,6 +11,7 @@ var motionD;
  *
  */
 
+
 // buffer object to track recent values
 var ValueBuffer = function(numSamples) {
   console.log('create value buffer of', numSamples);
@@ -84,7 +85,7 @@ var updateRollGesture = function( tilt ) {
   tiltBuffer.update(tiltDelta);
   lastTiltValue = tilt;
 
-  console.log('update gesture', tilt.toFixed(0));
+  // console.log('update gesture', tilt.toFixed(0));
 
 
   if(tilt.toFixed(0) == 0 || tilt.toFixed(0) == -1 || tilt.toFixed(0) == 1)
@@ -96,8 +97,9 @@ var updateRollGesture = function( tilt ) {
     room : room.getID()
   }
 
-  socket.emit('motiondata', motionD );
-
+  if(motionD.room != false) {
+     socket.emit('motiondata', motionD );
+  }
   // show a visual indication that the user has performed the gesture
   // if( tiltBuffer.sumPos() >= 100 ) {
   //   alert('test');

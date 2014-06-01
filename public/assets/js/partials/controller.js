@@ -41,7 +41,7 @@ $(function() {
             });
 
             $('.shoot').on('touchend', function() {
-                socket.emit('shoot', {message :  room_id, power : power});
+                socket.emit('shoot', {room :  room_id, power : power});
 
                 clearInterval(powerCheck);
 
@@ -74,7 +74,7 @@ var howMuchPower = function() {
             }
         }
 
-        socket.emit('power', {message :  room_id, power : power });
+        socket.emit('power', {room :  room_id, power : power });
 
     }, 250);
 }

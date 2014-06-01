@@ -45,7 +45,7 @@ $(function() {
 
 
 function handleComplete() {
-    $('.preload').delay(10).fadeOut('slow');
+    $('.overlay').delay(10).fadeOut('slow');
     basket.init();
     basket.animate();
 }
@@ -63,3 +63,5 @@ function handleProgress(e) {
     $('.percentLoaded').html(percentLoaded + ' %');
     $('.progress').css('width', percentLoaded + '%')
 }
+
+
