@@ -263,7 +263,7 @@ var yeswecan = {
 
             for(var i = 0; i < totalRings.length; i++)
             {
-                  var ringMaterial = new THREE.MeshBasicMaterial( { color: totalRings[i].physics.color, transparent : true, opacity : 0 } );
+                  var ringMaterial = new THREE.MeshLambertMaterial( { color: totalRings[i].physics.color, transparent : true, opacity : 0 } );
                   basketRing = new Physijs.ConcaveMesh(
                         new THREE.TorusGeometry( 27, 3, 7, 100),
                         ringMaterial,

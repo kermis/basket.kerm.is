@@ -6,7 +6,7 @@ var basket = {
        *
        */
 
-      level : 1, reload : false, start : false,
+      level : 4, reload : false, start : false,
       controller : 'mouse', totalPoints : 0,
       totalScored : 0, totalMissed : 0, isNextLevel : false,
 
@@ -182,7 +182,6 @@ var basket = {
                        basket.animateRings(levels[basket.level].animate.ring);
                   }
             }
-
       },
 
 
