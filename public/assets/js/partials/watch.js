@@ -289,7 +289,7 @@ var look = {
       },
 
       theKeyIsGoingDown : function ( event ) {
-
+          console.log('r', event.keyCode);
             if(basket.start) {
                   switch ( event.keyCode ) {
 
@@ -327,8 +327,16 @@ var look = {
             else {
               if(basket.isNextLevel)
               {
-                console.log('basket.nextLevel', basket.isNextLevel);
-                basket.nextLevel();
+                switch ( event.keyCode ) {
+                        case 32 : // spatie
+                              basket.nextLevel();
+                              break;
+                        case 82 : // R
+                              basket.replayLevel();
+                              break;
+
+                  }
+
               }
             }
 

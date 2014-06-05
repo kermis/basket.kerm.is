@@ -8,7 +8,7 @@ var levels = [
 
 
     {
-        'totalBalls' : 10,
+        'totalBalls' : 2,
         'pointsPerGoal' : 10,
         'bonusPoints' : 30,
         'totalRings' : { // one ring
@@ -32,7 +32,7 @@ var levels = [
                         'rotX' : false,
                         'rotY' : 10,
                         'rotZ' : false,
-                        'color' : 0xCC0030,
+                        'color' : 'CC0030',
                         'name' : 'basketring-model'
                     }
                 }
@@ -53,7 +53,7 @@ var levels = [
                         'name' : 'basketback-physics'
                     },
                     'model' : {
-                        'color' : 0x00FF00,
+                        'color' : '00FF00',
                         'scale' : 0.25,
                         'posX' : 0,
                         'posY' : 200,
@@ -111,7 +111,7 @@ var levels = [
                         'rotX' : false,
                         'rotY' : 10,
                         'rotZ' : false,
-                        'color' : 0xCC0030,
+                        'color' : 'CC0030',
                         'name' : 'basketring-model'
                     }
                 },
@@ -135,7 +135,7 @@ var levels = [
                         'rotX' : false,
                         'rotY' : 10,
                         'rotZ' : false,
-                        'color' : 0xCC0030,
+                        'color' : 'CC0030',
                         'name' : 'basketring-model'
                     }
                 }
@@ -156,7 +156,7 @@ var levels = [
                         'name' : 'basketback-physics'
                     },
                     'model' : {
-                        'color' : 0x00FF00,
+                        'color' : '00FF00',
                         'scale' : 0.25,
                         'posX' : -75,
                         'posY' : 200,
@@ -183,7 +183,7 @@ var levels = [
                         'name' : 'basketback-physics'
                     },
                     'model' : {
-                        'color' : 0x00FF00,
+                        'color' : '00FF00',
                         'scale' : 0.25,
                         'posX' : 75,
                         'posY' : 200,
@@ -241,7 +241,7 @@ var levels = [
                         'rotX' : false,
                         'rotY' : 10,
                         'rotZ' : false,
-                        'color' : 0xCC0030,
+                        'color' : 'CC0030',
                         'name' : 'basketring-model'
                     }
                 },
@@ -265,7 +265,7 @@ var levels = [
                         'rotX' : false,
                         'rotY' : 10,
                         'rotZ' : false,
-                        'color' : 0xCC0030,
+                        'color' : 'CC0030',
                         'name' : 'basketring-model'
                     }
                 },
@@ -289,7 +289,7 @@ var levels = [
                         'rotX' : false,
                         'rotY' : 10,
                         'rotZ' : false,
-                        'color' : 0xCC0030,
+                        'color' : 'CC0030',
                         'name' : 'basketring-model'
                     }
                 }
@@ -310,7 +310,7 @@ var levels = [
                         'name' : 'basketback-physics'
                     },
                     'model' : {
-                        'color' : 0x00FF00,
+                        'color' : '00FF00',
                         'scale' : 0.25,
                         'posX' : -150,
                         'posY' : 200,
@@ -337,7 +337,7 @@ var levels = [
                         'name' : 'basketback-physics'
                     },
                     'model' : {
-                        'color' : 0x00FF00,
+                        'color' : '00FF00',
                         'scale' : 0.25,
                         'posX' : 0,
                         'posY' : 200,
@@ -364,7 +364,7 @@ var levels = [
                         'name' : 'basketback-physics'
                     },
                     'model' : {
-                        'color' : 0x00FF00,
+                        'color' : '00FF00',
                         'scale' : 0.25,
                         'posX' : 150,
                         'posY' : 200,
@@ -419,7 +419,7 @@ var levels = [
                         'rotX' : false,
                         'rotY' : 10,
                         'rotZ' : false,
-                        'color' : 0xCC0030,
+                        'color' : 'CC0030',
                         'name' : 'basketring-model'
                     }
                 }
@@ -440,7 +440,7 @@ var levels = [
                         'name' : 'basketback-physics'
                     },
                     'model' : {
-                        'color' : 0x00FF00,
+                        'color' : '00FF00',
                         'scale' : 0.25,
                         'posX' : 0,
                         'posY' : 200,
@@ -453,11 +453,13 @@ var levels = [
                 }
             ]
         },
-        'animate' : {
-            'ring' : 0,
-            'position' : 'down',
-            'length' : 100
-        }
+        'animate' : [
+            {
+                'ring' : 0,
+                'position' : 'down',
+                'length' : 100
+            }
+        ]
     },
 
 
@@ -506,7 +508,7 @@ var levels = [
                         'rotX' : false,
                         'rotY' : 10,
                         'rotZ' : false,
-                        'color' : 0xCC0030,
+                        'color' : 'CC0030',
                         'name' : 'basketring-model'
                     }
                 },
@@ -515,7 +517,7 @@ var levels = [
                     'physics' : {
                         'color' : 0x00FF00,
                         'posX' : 75,
-                        'posY' : 180,
+                        'posY' : 80,
                         'posZ' : -30,
                         'rotX' : -90,
                         'rotY' : false,
@@ -525,12 +527,12 @@ var levels = [
                     'model' : {
                         'scale' : 0.25,
                         'posX' : 75,
-                        'posY' : 180,
+                        'posY' : 80,
                         'posZ' : -30,
                         'rotX' : false,
                         'rotY' : 10,
                         'rotZ' : false,
-                        'color' : 0xCC0030,
+                        'color' : 'CC0030',
                         'name' : 'basketring-model'
                     }
                 }
@@ -551,7 +553,7 @@ var levels = [
                         'name' : 'basketback-physics'
                     },
                     'model' : {
-                        'color' : 0x00FF00,
+                        'color' : '00FF00',
                         'scale' : 0.25,
                         'posX' : -75,
                         'posY' : 200,
@@ -570,7 +572,7 @@ var levels = [
                         'height' : 60,
                         'depth' : 20,
                         'posX' : 75,
-                        'posY' : 200,
+                        'posY' : 100,
                         'posZ' : -60,
                         'rotX' : false,
                         'rotY' : false,
@@ -578,10 +580,10 @@ var levels = [
                         'name' : 'basketback-physics'
                     },
                     'model' : {
-                        'color' : 0x00FF00,
+                        'color' : '00FF00',
                         'scale' : 0.25,
                         'posX' : 75,
-                        'posY' : 200,
+                        'posY' : 100,
                         'posZ' : -60,
                         'rotX' : false,
                         'rotY' : false,
@@ -591,11 +593,20 @@ var levels = [
                 }
             ]
         },
-        'animate' : {
-            'ring' : 1,
-            'position' : 'down',
-            'length' : 100
-        }
+        'animate' : [
+
+            {
+                'ring' : 0,
+                'position' : 'down',
+                'length' : 100
+            },
+            {
+                'ring' : 1,
+                'position' : 'up',
+                'length' : 100
+            }
+
+        ]
     }
 
 

@@ -6,9 +6,9 @@ var basket = {
        *
        */
 
-      level : 4, reload : false, start : false,
+      level : 0, reload : false, start : false,
       controller : 'mouse', totalPoints : 0,
-      totalScored : 0, totalMissed : 0, isNextLevel : false,
+      totalScored : 0, globalPoints : 0, totalMissed : 0, isNextLevel : false,
 
       /**
        *
@@ -85,11 +85,44 @@ var basket = {
 
                         setTimeout(function() {
                               basket.isNextLevel = true;
-                               $('.next-level-button').fadeIn();
+                               $('.level-button').fadeIn();
                                $('.ticket-holder').append(newTicket)
                         }, 2500)
 
                    }, 1000)
+      },
+
+      replayLevel : function() {
+            $('.big').css({
+                  right: '500%'
+              });
+
+             //only do this after the big ticket is gone from the screen
+              setTimeout(function() {
+                  $('.big').remove();
+
+                  $('.info-score').addClass('active');
+
+
+                  if(basket.level < levels.length)
+                  {
+                      basket.totalBalls = levels[basket.level].totalBalls;
+                      basket.totalPoints = 0;
+                      basket.totalScored = 0;
+                      basket.totalMissed = 0;
+
+
+                              reloadScene();
+
+                              basket.start = true;
+                              basket.isNextLevel = false;
+                      }
+                      else {
+                          alert('You have successfully completed this game.');
+                      }
+                    }, 500)
+
+
       },
 
       nextLevel : function() {
@@ -106,7 +139,8 @@ var basket = {
 
                   if(basket.level < levels.length)
                   {
-
+                      basket.globalPoints += basket.totalPoints;
+                      console.log(basket.globalPoints);
                       basket.level++;
                       basket.totalBalls = levels[basket.level].totalBalls;
                       basket.totalPoints = 0;
@@ -179,9 +213,17 @@ var basket = {
 
             if(basket.start) {
                   if(levels[basket.level].animate) {
-                       basket.animateRings(levels[basket.level].animate.ring);
+
+                              for(var i = 0; i < levels[basket.level].animate.length; i++)
+                              {
+                                    console.log('length', levels[basket.level].animate[i].ring);
+
+                                    basket.animateRings(levels[basket.level].animate[i].ring);
+                              }
+
                   }
             }
+
       },
 
 
@@ -382,7 +424,7 @@ var basket = {
 
       animateRings : function(i) {
 
-            if(levels[basket.level].animate.position == 'up') {
+            if(levels[basket.level].animate[i].position == 'up') {
                   if(basketRings[i].model.position.y < 200) {
                         basketRings[i].model.position.y += 0.5;
                         basketRings[i].physics.position.y += 0.5;
@@ -393,16 +435,16 @@ var basket = {
                   else {
                         basketRings[i].model.position.y -= 0.5;
                         basketRings[i].physics.position.y -= 0.5;
-                        levels[basket.level].animate.position = 'down';
+                        levels[basket.level].animate[i].position = 'down';
 
                         basketBacks[i].model.position.y -= 0.5;
                         basketBacks[i].physics.position.y -= 0.5;
                   }
             }
 
-            if(levels[basket.level].animate.position == 'down')
+            if(levels[basket.level].animate[i].position == 'down')
             {
-                  if(basketRings[i].model.position.y > levels[basket.level].animate.length) {
+                  if(basketRings[i].model.position.y > levels[basket.level].animate[i].length) {
                         basketRings[i].model.position.y -= 0.5;
                         basketRings[i].physics.position.y -= 0.5;
 
@@ -412,7 +454,7 @@ var basket = {
                   else {
                         basketRings[i].model.position.y += 0.5;
                         basketRings[i].physics.position.y += 0.5;
-                        levels[basket.level].animate.position = 'up';
+                        levels[basket.level].animate[i].position = 'up';
 
                         basketBacks[i].model.position.y += 0.5;
                         basketBacks[i].physics.position.y += 0.5;

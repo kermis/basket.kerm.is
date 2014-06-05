@@ -40,12 +40,10 @@ var yeswecan = {
             mainCamera.lookAt(new THREE.Vector3(0,0,0)); // point it down at the center of the 3D scene
 
             // var backCamera = new THREE.PerspectiveCamera(50, sceneW / sceneH, 1, 10000);
-            // backCamera.position.z = -63; // move back
-            // backCamera.position.y =210; // move up
-            // backCamera.position.x = 0;
-            // backCamera.rotation.y = helpMe.calculate('rad', 180);
-            // backCamera.rotation.x = helpMe.calculate('rad', 20);
+            // backCamera.position.z =  1200; // move back
+            // backCamera.position.y = 300; // move up
             // backCamera.name = "back";
+            // backCamera.lookAt(new THREE.Vector3(0,0,0)); // point it down at the center of the 3D scene
 
             this.get_thecurrentCam = 0;
             this.get_AllTheCameras = [mainCamera];
@@ -203,67 +201,33 @@ var yeswecan = {
        *
        */
 
-      build_thebasket : function() {
+       buildBacks : function(totalBacks, mesh, i) {
 
-            /**
-             *
-             * Create Basketback
-             *
-             */
+              var basketMaterial = new THREE.MeshPhongMaterial( {  color : totalBacks[i].physics.color, transparent : true, opacity : 0 }, 1, 1 );
+              var basketBack = new Physijs.BoxMesh(
+                    new THREE.CubeGeometry( totalBacks[i].physics.width, totalBacks[i].physics.height, totalBacks[i].physics.depth ),
+                    basketMaterial,
+                    0
+              );
 
-            var totalBacks = levels[basket.level].totalRings.back;
+              basketBack.position.set(totalBacks[i].physics.posX, totalBacks[i].physics.posY, totalBacks[i].physics.posZ); // rechts = center = 0  links =
+              basketBack.receiveShadow = true;
+              basketBack.name = totalBacks[i].physics.name;
+              basketBack.castShadow = true;
+              basketBack.number = i;
+              scene.add(basketBack);
 
-            var b =  0;
-            for(var i = 0; i < totalBacks.length; i ++) //  for(var i = 0; i < 12; i += 4)
-            {
-                  var basketMaterial = new THREE.MeshPhongMaterial( {  color : totalBacks[i].physics.color, transparent : true, opacity : 0 }, 1, 1 );
-                  var basketBack = new Physijs.BoxMesh(
-                        new THREE.CubeGeometry( totalBacks[i].physics.width, totalBacks[i].physics.height, totalBacks[i].physics.depth ),
-                        basketMaterial,
-                        0
-                  );
+                  basket.back = {
+                    'physics' : basketBack,
+                    'model' : mesh,
+                  };
+                  basketBacks.push(basket.back)
 
-                  basketBack.position.set(totalBacks[i].physics.posX, totalBacks[i].physics.posY, totalBacks[i].physics.posZ); // rechts = center = 0  links =
-                  basketBack.receiveShadow = true;
-                  basketBack.name = totalBacks[i].physics.name;
-                  basketBack.castShadow = true;
-                  scene.add(basketBack);
+       },
 
-                  var basketLoader = new THREE.ObjectLoader();
+       buildRings: function(totalRings, mesh, i){
 
-                  basketLoader.load('assets/js/models/basketback2.js', function (mesh) {
-
-                      mesh.scale.set(totalBacks[b].model.scale, totalBacks[b].model.scale, totalBacks[b].model.scale);
-                      mesh.position.set(totalBacks[b].model.posX, totalBacks[b].model.posY, totalBacks[b].model.posZ);
-                      mesh.name= totalBacks[b].model.name;
-                      mesh.material.color.setHex(totalBacks[b].model.color);
-                      scene.add(mesh);
-                      b++;
-
-                        var back = {
-                          'physics' : basketBack,
-                          'model' : mesh,
-                        };
-
-                        basketBacks.push(back)
-
-
-                  });
-            }
-
-            /**
-             *
-             * Create Basket ring
-             *
-             */
-
-            var k = 0;
-
-            var totalRings = levels[basket.level].totalRings.ring;
-
-            for(var i = 0; i < totalRings.length; i++)
-            {
-                  var ringMaterial = new THREE.MeshLambertMaterial( { color: totalRings[i].physics.color, transparent : true, opacity : 0 } );
+               var ringMaterial = new THREE.MeshLambertMaterial( { color: totalRings[i].physics.color, transparent : true, opacity : 0 } );
                   basketRing = new Physijs.ConcaveMesh(
                         new THREE.TorusGeometry( 27, 3, 7, 100),
                         ringMaterial,
@@ -277,34 +241,88 @@ var yeswecan = {
                   basketRing.castShadow = true;
                   scene.add(basketRing);
 
-                  var ringLoader = new THREE.ObjectLoader();
-                  ringLoader.load('assets/js/models/basketring.js', function (mesh) {
+                  basket.ring = {
+                    'physics' : basketRing,
+                    'model' : mesh,
+                  };
 
-                      mesh.scale.set(totalRings[k].model.scale, totalRings[k].model.scale, totalRings[k].model.scale);
-                      mesh.position.set(totalRings[k].model.posX, totalRings[k].model.posY, totalRings[k].model.posZ);
-                      mesh.rotation.y = helpMe.calculate('rad', totalRings[k].model.rotY);
-                      mesh.material.color.setHex(totalRings[k].model.color);
-                      mesh.name= totalRings[k].model.name;
+                  basketRings.push(basket.ring)
+       },
 
-                      scene.add(mesh);
+      build_thebasket : function() {
 
-                      k++;
+            /**
+             *
+             * Create Basketback
+             *
+             */
 
-                      var rings = {
-                            'physics' : basketRing,
-                            'model' : mesh
-                      }
+             var totalBacks = levels[basket.level].totalRings.back;
 
-                       basketRings.push(rings);
+
+            var b =  0;
+
+            var basketLoader = new THREE.ObjectLoader();
+
+
+            for(var i = 0; i < totalBacks.length; i ++) //  for(var i = 0; i < 12; i += 4)
+            {
+                  basketLoader.load('assets/js/models/basketback2.js', function (mesh) {
+
+                    mesh.scale.set(totalBacks[b].model.scale, totalBacks[b].model.scale, totalBacks[b].model.scale);
+                    mesh.position.set(totalBacks[b].model.posX, totalBacks[b].model.posY, totalBacks[b].model.posZ);
+                    mesh.name= totalBacks[b].model.name;
+                    mesh.number = b;
+                    mesh.material = new THREE.MeshLambertMaterial({
+                        color: '#' + totalBacks[b].model.color
+                    });
+                    scene.add(mesh);
+
+                    console.log(b, totalBacks[b].model.color);
+
+                      yeswecan.buildBacks(totalBacks, mesh, b);
+
+                     b++;
+                      console.log(basketBacks);
                   });
-
             }
 
 
 
 
+            /**
+             *
+             * Create Basket ring
+             *
+             */
 
-                     console.log('test', basketRings);
+            var k = 0;
+
+            var totalRings = levels[basket.level].totalRings.ring;
+            var ringLoader = new THREE.ObjectLoader();
+
+            for(var i = 0; i < totalRings.length; i++)
+            {
+                  ringLoader.load('assets/js/models/basketring.js', function (mesh) {
+
+                      mesh.scale.set(totalRings[k].model.scale, totalRings[k].model.scale, totalRings[k].model.scale);
+                      mesh.position.set(totalRings[k].model.posX, totalRings[k].model.posY, totalRings[k].model.posZ);
+                      mesh.rotation.y = helpMe.calculate('rad', totalRings[k].model.rotY);
+                      mesh.material = new THREE.MeshLambertMaterial({
+                        color: '#' + totalRings[k].model.color
+                      });
+                      mesh.name= totalRings[k].model.name;
+                      mesh.number = k;
+
+                      scene.add(mesh);
+
+
+
+                      yeswecan.buildRings(totalRings, mesh, k);
+
+                       k++;
+                  });
+            }
       },
 
       /**
