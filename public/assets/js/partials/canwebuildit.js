@@ -203,7 +203,7 @@ var yeswecan = {
               'height' : 20, 'depth' : 15,
               'wSegments' : 10, 'hSegments' : 10,
               'color' : 0xFFFF00, 'transparent' : true,
-              'opacity' : 0.3, 'friction' : .4,
+              'opacity' : 0, 'friction' : .4,
               'restitution' : .4, 'posX' : -70, 'posY' : 10,
               'posZ' : 800, 'rotY' : 45, 'name' : 'blockballsleft'
             }
@@ -214,7 +214,7 @@ var yeswecan = {
               'height' : 20, 'depth' : 15,
               'wSegments' : 10, 'hSegments' : 10,
               'color' : 0xFFFF00, 'transparent' : true,
-              'opacity' : 0.3, 'friction' : .4,
+              'opacity' : 0, 'friction' : .4,
               'restitution' : .4, 'posX' : 70, 'posY' : 10,
               'posZ' : 800, 'rotY' : -45, 'name' : 'blockballsleft'
             }
