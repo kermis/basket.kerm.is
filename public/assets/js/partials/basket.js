@@ -87,6 +87,9 @@ var basket = {
                               basket.isNextLevel = true;
                                $('.level-button').fadeIn();
                                $('.ticket-holder').append(newTicket)
+
+
+
                         }, 2500)
 
                    }, 1000)
@@ -139,6 +142,14 @@ var basket = {
 
                   if(basket.level < levels.length)
                   {
+
+                      $.ajax({
+                        url: "http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket",
+                        body : { 'score' : basket.totalPoints }
+                      }).done(function() {
+                        console.log('added');
+                      });
+
                       basket.globalPoints += basket.totalPoints;
                       console.log(basket.globalPoints);
                       basket.level++;
