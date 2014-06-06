@@ -143,7 +143,9 @@ var basket = {
                   if(basket.level < levels.length)
                   {
 
+                      // #POST SCOREE
                       $.ajax({
+                        type : 'POST',
                         url: "http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket",
                         data : { 'score' : basket.totalPoints }
                       }).done(function() {
