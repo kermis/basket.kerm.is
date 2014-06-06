@@ -145,7 +145,7 @@ var basket = {
 
                       $.ajax({
                         url: "http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket",
-                        body : { 'score' : basket.totalPoints }
+                        data : { 'score' : basket.totalPoints }
                       }).done(function() {
                         console.log('added');
                       });
