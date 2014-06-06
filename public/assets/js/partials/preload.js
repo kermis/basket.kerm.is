@@ -29,6 +29,10 @@ $(function() {
         }, {
             id: "score",
             src: "/assets/sounds/score.mp3"
+        },
+        {
+            id: "texture",
+            src: "/assets/img/basket.png"
         }
     ]);
 

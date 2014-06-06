@@ -34,7 +34,7 @@ var yeswecan = {
       build_thecamera : function() {
 
             var mainCamera = new THREE.PerspectiveCamera(50, sceneW / sceneH, 1, 10000);
-            mainCamera.position.z =  750; // move back
+            mainCamera.position.z =  1050; // move back
             mainCamera.position.y = 100; // move up
             mainCamera.name = "main";
             mainCamera.lookAt(new THREE.Vector3(0,0,0)); // point it down at the center of the 3D scene
@@ -71,9 +71,9 @@ var yeswecan = {
               'type' : 'plane', 'width' : 1000,
               'height' : 1000, 'wSegments' : 10,
               'hSegments' : 10, 'color' : 0xCC0030,
-              'transparent' : false, 'opacity' : 1,
+              'transparent' : false, 'texture' : 'court.jpg', 'opacity' : 1,
               'friction' : .1, 'restitution' : .3,
-              'posZ' : 100, 'rotX' : -90, 'name' : 'ground'
+              'posZ' : 500, 'rotX' : -90, 'name' : 'ground'
             }
             this.build_thelowpolystand(yeswecan_setSomeArguments);
 
@@ -93,6 +93,80 @@ var yeswecan = {
                 scene.add(mesh);
 
             });
+
+
+
+            var court = new THREE.ObjectLoader();
+
+            court.load('assets/js/models/court.js', function (mesh) {
+
+                mesh.scale.set(70, 70, 70);
+                mesh.position.set(1300, -20, 2500);
+                mesh.rotation.y = helpMe.calculate('rad', 90);
+
+
+                console.log(mesh);
+                mesh.name = 'court';
+                scene.add(mesh);
+
+            });
+
+
+                        var plane = new THREE.ObjectLoader();
+
+                        plane.load('assets/js/models/plane.js', function (mesh) {
+
+                            mesh.scale.set(5, 5, 5);
+                            mesh.position.set(3000, 400, -400);
+                            mesh.rotation.y = helpMe.calculate('rad', 90);
+
+
+                            console.log(mesh);
+                            mesh.name = 'plane';
+                            scene.add(mesh);
+
+
+                            var materialFront = new THREE.MeshBasicMaterial( { color: 0xCC0030, transparent : true, opacity : 1 } );
+                            var materialSide = new THREE.MeshBasicMaterial( { color: '#FFF', transparent: true, opacity: 0.5 } );
+                            var materialArray = [ materialFront, materialSide ];
+                            var textGeom = new THREE.TextGeometry( 'GO ROBBERT GO!!!',
+                            {
+                                  size: 20, height: 7, curveSegments: 3,
+                                  font: "helvetiker", weight: "bold", style: "normal",
+                                  bevelThickness: 0, bevelSize: 0, bevelEnabled: false,
+                                  material: 0, extrudeMaterial: 1
+                            });
+
+                            var textMaterial = new THREE.MeshFaceMaterial(materialArray);
+                            var textMesh = new THREE.Mesh(textGeom, textMaterial );
+
+                            textGeom.computeBoundingBox();
+                            var textWidth = textGeom.boundingBox.max.x - textGeom.boundingBox.min.x;
+
+                            textMesh.position.set( 3180 , 390, -400 );
+                            textMesh.name = 'gogogo';
+
+                            scene.add(textMesh);
+
+
+                            setTimeout(function() {
+
+
+                            var flyPlain = setInterval(function() {
+                              if(basket.start) {
+                                if(mesh.position.x <= -3000)
+                                {
+                                  clearInterval(flyPlain);
+                                }
+                                else {
+                                  mesh.position.x -= 2.5;
+                                  textMesh.position.x -= 2.5;
+                                }
+                              }
+                            }, 10)
+                          }, 1000 + Math.random() * 2000);
+
+                        });
 
             /**
              *
@@ -123,6 +197,41 @@ var yeswecan = {
               'posZ' : 120, 'name' : 'wallprizebottom'
             }
             this.build_thelowpolystand(yeswecan_setSomeArguments);
+
+            yeswecan_setSomeArguments = {
+              'type' : 'cube', 'width' : 200,
+              'height' : 20, 'depth' : 15,
+              'wSegments' : 10, 'hSegments' : 10,
+              'color' : 0xFFFF00, 'transparent' : true,
+              'opacity' : 0.3, 'friction' : .4,
+              'restitution' : .4, 'posX' : -70, 'posY' : 10,
+              'posZ' : 800, 'rotY' : 45, 'name' : 'blockballsleft'
+            }
+            this.build_thelowpolystand(yeswecan_setSomeArguments);
+
+            yeswecan_setSomeArguments = {
+              'type' : 'cube', 'width' : 200,
+              'height' : 20, 'depth' : 15,
+              'wSegments' : 10, 'hSegments' : 10,
+              'color' : 0xFFFF00, 'transparent' : true,
+              'opacity' : 0.3, 'friction' : .4,
+              'restitution' : .4, 'posX' : 70, 'posY' : 10,
+              'posZ' : 800, 'rotY' : -45, 'name' : 'blockballsleft'
+            }
+            this.build_thelowpolystand(yeswecan_setSomeArguments);
+
+            // yeswecan_setSomeArguments = {
+            //   'type' : 'cube', 'width' : 300,
+            //   'height' : 200, 'depth' : 15,
+            //   'wSegments' : 10, 'hSegments' : 10,
+            //   'color' : 0xFFFF00, 'texture' : 'kdg.jpg', 'transparent' : true,
+            //   'opacity' : 1, 'friction' : .4,
+            //   'restitution' : .4, 'posX' : -500, 'posY' : 350,
+            //   'posZ' : -220, 'rotY' : 2, 'name' : 'KDGwall'
+            // }
+            // this.build_thelowpolystand(yeswecan_setSomeArguments);
+
+
       },
 
       build_thelowpolystand : function(args) {
@@ -139,21 +248,25 @@ var yeswecan = {
 
             geometry.computeFaceNormals();
             geometry.computeVertexNormals();
+            var texture;
+
+            if(args.texture)
+            {
+              texture = THREE.ImageUtils.loadTexture( 'assets/img/' + args.texture );
+              texture.wrapS =texture.wrapT = THREE.RepeatWrapping;
+              // texture.repeat.set( 1, 1 );
+            }
 
             if(args.name == 'ground')
             {
-              var texture = THREE.ImageUtils.loadTexture( 'assets/img/court.jpg' );
-              texture.wrapS =texture.wrapT = THREE.RepeatWrapping;
-              texture.repeat.set( 1, 1 );
-
                var material = Physijs.createMaterial (
-                  new THREE.MeshBasicMaterial( {  map : texture, transparent : args.transparent, opacity : args.opacity }),
+                  new THREE.MeshLambertMaterial( {  map : texture, transparent : args.transparent, opacity : args.opacity }),
                   args.friction,
                   args.restitution
               );
             }else {
                  var material = Physijs.createMaterial (
-                    new THREE.MeshBasicMaterial( {  color : args.color, transparent : args.transparent, opacity : args.opacity }),
+                    new THREE.MeshLambertMaterial( {  map : texture, color : args.color, transparent : args.transparent, opacity : args.opacity }),
                     args.friction,
                     args.restitution
                 );
@@ -340,7 +453,7 @@ var yeswecan = {
 
             var ballTexture = THREE.ImageUtils.loadTexture( 'assets/img/basket.png' );
             ballTexture.wrapS =ballTexture.wrapT = THREE.RepeatWrapping;
-            ballTexture.repeat.set( 1, 0 );
+            ballTexture.repeat.set( 1, 1 );
 
 
 
@@ -355,7 +468,7 @@ var yeswecan = {
                   ballMaterial
             );
 
-            ball.position.set(0, 30, 600);
+            ball.position.set(0, 30, 800);
             ball.receiveShadow = true;
             ball.rotation.x = helpMe.calculate('rad', -85);
             ball.name = "ball";

@@ -6,7 +6,7 @@ var basket = {
        *
        */
 
-      level : 0, reload : false, start : false,
+      level : 9, reload : false, start : false,
       controller : 'mouse', totalPoints : 0,
       totalScored : 0, globalPoints : 0, totalMissed : 0, isNextLevel : false,
 
@@ -218,7 +218,7 @@ var basket = {
                               {
                                     console.log('length', levels[basket.level].animate[i].ring);
 
-                                    basket.animateRings(levels[basket.level].animate[i].ring);
+                                    basket.animateRings(i, levels[basket.level].animate[i].ring);
                               }
 
                   }
@@ -422,50 +422,179 @@ var basket = {
 
       },
 
-      animateRings : function(i) {
+      animateRings : function(i, ringNumber) {
+
 
             if(levels[basket.level].animate[i].position == 'up') {
-                  if(basketRings[i].model.position.y < 200) {
-                        basketRings[i].model.position.y += 0.5;
-                        basketRings[i].physics.position.y += 0.5;
+                  if(basketRings[ringNumber].model.position.y < levels[basket.level].animate[i].max) {
+                        basketRings[ringNumber].model.position.y += 0.5;
+                        basketRings[ringNumber].physics.position.y += 0.5;
 
-                        basketBacks[i].model.position.y += 0.5;
-                        basketBacks[i].physics.position.y += 0.5;
+                        basketBacks[ringNumber].model.position.y += 0.5;
+                        basketBacks[ringNumber].physics.position.y += 0.5;
                   }
                   else {
-                        basketRings[i].model.position.y -= 0.5;
-                        basketRings[i].physics.position.y -= 0.5;
+                        basketRings[ringNumber].model.position.y -= 0.5;
+                        basketRings[ringNumber].physics.position.y -= 0.5;
+
                         levels[basket.level].animate[i].position = 'down';
 
-                        basketBacks[i].model.position.y -= 0.5;
-                        basketBacks[i].physics.position.y -= 0.5;
+
+                        basketBacks[ringNumber].model.position.y -= 0.5;
+                        basketBacks[ringNumber].physics.position.y -= 0.5;
                   }
             }
 
             if(levels[basket.level].animate[i].position == 'down')
             {
-                  if(basketRings[i].model.position.y > levels[basket.level].animate[i].length) {
-                        basketRings[i].model.position.y -= 0.5;
-                        basketRings[i].physics.position.y -= 0.5;
+                  if(basketRings[ringNumber].model.position.y > levels[basket.level].animate[i].min) {
+                        basketRings[ringNumber].model.position.y -= 0.5;
+                        basketRings[ringNumber].physics.position.y -= 0.5;
 
-                        basketBacks[i].model.position.y -= 0.5;
-                        basketBacks[i].physics.position.y -= 0.5;
+                        basketBacks[ringNumber].model.position.y -= 0.5;
+                        basketBacks[ringNumber].physics.position.y -= 0.5;
                   }
                   else {
-                        basketRings[i].model.position.y += 0.5;
-                        basketRings[i].physics.position.y += 0.5;
+                        basketRings[ringNumber].model.position.y += 0.5;
+                        basketRings[ringNumber].physics.position.y += 0.5;
+
+
                         levels[basket.level].animate[i].position = 'up';
 
-                        basketBacks[i].model.position.y += 0.5;
-                        basketBacks[i].physics.position.y += 0.5;
+
+                        basketBacks[ringNumber].model.position.y += 0.5;
+                        basketBacks[ringNumber].physics.position.y += 0.5;
                   }
             }
 
-            basketRings[i].model.__dirtyPosition = true;
-            basketRings[i].physics.__dirtyPosition = true;
 
-            basketBacks[i].model.__dirtyPosition = true;
-            basketBacks[i].physics.__dirtyPosition = true;
+            if(levels[basket.level].animate[i].position == 'right') {
+                  if(basketRings[ringNumber].model.position.x < levels[basket.level].animate[i].max) {
+                        basketRings[ringNumber].model.position.x += 0.5;
+                        basketRings[ringNumber].physics.position.x += 0.5;
+
+                        basketBacks[ringNumber].model.position.x += 0.5;
+                        basketBacks[ringNumber].physics.position.x += 0.5;
+                  }
+                  else {
+                        basketRings[ringNumber].model.position.x -= 0.5;
+                        basketRings[ringNumber].physics.position.x -= 0.5;
+
+                              levels[basket.level].animate[i].position = 'left';
+
+                        basketBacks[ringNumber].model.position.x -= 0.5;
+                        basketBacks[ringNumber].physics.position.x -= 0.5;
+                  }
+            }
+
+            if(levels[basket.level].animate[i].position == 'left')
+            {
+                  if(basketRings[ringNumber].model.position.x > levels[basket.level].animate[i].min) {
+                        basketRings[ringNumber].model.position.x -= 0.5;
+                        basketRings[ringNumber].physics.position.x -= 0.5;
+
+                        basketBacks[ringNumber].model.position.x -= 0.5;
+                        basketBacks[ringNumber].physics.position.x -= 0.5;
+                  }
+                  else {
+                        basketRings[ringNumber].model.position.x += 0.5;
+                        basketRings[ringNumber].physics.position.x += 0.5;
+
+                              levels[basket.level].animate[i].position = 'right';
+
+
+                        basketBacks[ringNumber].model.position.x += 0.5;
+                        basketBacks[ringNumber].physics.position.x += 0.5;
+                  }
+            }
+
+            if(levels[basket.level].animate[i].position == 'square-up') {
+                  if(basketRings[ringNumber].model.position.y < levels[basket.level].animate[i].max) {
+                        basketRings[ringNumber].model.position.y += 0.5;
+                        basketRings[ringNumber].physics.position.y += 0.5;
+
+                        basketBacks[ringNumber].model.position.y += 0.5;
+                        basketBacks[ringNumber].physics.position.y += 0.5;
+                  }
+                  else {
+                        basketRings[ringNumber].model.position.y -= 0.5;
+                        basketRings[ringNumber].physics.position.y -= 0.5;
+
+
+                             levels[basket.level].animate[i].position = 'square-right';
+
+                        basketBacks[ringNumber].model.position.y -= 0.5;
+                        basketBacks[ringNumber].physics.position.y -= 0.5;
+                  }
+            }
+
+            if(levels[basket.level].animate[i].position == 'square-down')
+            {
+                  if(basketRings[ringNumber].model.position.y > levels[basket.level].animate[i].min) {
+                        basketRings[ringNumber].model.position.y -= 0.5;
+                        basketRings[ringNumber].physics.position.y -= 0.5;
+
+                        basketBacks[ringNumber].model.position.y -= 0.5;
+                        basketBacks[ringNumber].physics.position.y -= 0.5;
+                  }
+                  else {
+                        basketRings[ringNumber].model.position.y += 0.5;
+                        basketRings[ringNumber].physics.position.y += 0.5;
+
+
+                             levels[basket.level].animate[i].position = 'square-left';
+
+                        basketBacks[ringNumber].model.position.y += 0.5;
+                        basketBacks[ringNumber].physics.position.y += 0.5;
+                  }
+            }
+
+
+            if(levels[basket.level].animate[i].position == 'square-right') {
+                  if(basketRings[ringNumber].model.position.x < (levels[basket.level].animate[i].max - ( levels[basket.level].animate[i].max / 2 ))) {
+                        basketRings[ringNumber].model.position.x += 0.5;
+                        basketRings[ringNumber].physics.position.x += 0.5;
+
+                        basketBacks[ringNumber].model.position.x += 0.5;
+                        basketBacks[ringNumber].physics.position.x += 0.5;
+                  }
+                  else {
+                        basketRings[ringNumber].model.position.x -= 0.5;
+                        basketRings[ringNumber].physics.position.x -= 0.5;
+
+
+                             levels[basket.level].animate[i].position = 'square-down';
+
+                        basketBacks[ringNumber].model.position.x -= 0.5;
+                        basketBacks[ringNumber].physics.position.x -= 0.5;
+                  }
+            }
+
+            if( levels[basket.level].animate[i].position == 'square-left')
+            {
+                  if(basketRings[ringNumber].model.position.x > -levels[basket.level].animate[i].min) {
+                        basketRings[ringNumber].model.position.x -= 0.5;
+                        basketRings[ringNumber].physics.position.x -= 0.5;
+
+                        basketBacks[ringNumber].model.position.x -= 0.5;
+                        basketBacks[ringNumber].physics.position.x -= 0.5;
+                  }
+                  else {
+                        basketRings[ringNumber].model.position.x += 0.5;
+                        basketRings[ringNumber].physics.position.x += 0.5;
+
+                             levels[basket.level].animate[i].position = 'square-up';
+
+                        basketBacks[ringNumber].model.position.x += 0.5;
+                        basketBacks[ringNumber].physics.position.x += 0.5;
+                  }
+            }
+
+            basketRings[ringNumber].model.__dirtyPosition = true;
+            basketRings[ringNumber].physics.__dirtyPosition = true;
+
+            basketBacks[ringNumber].model.__dirtyPosition = true;
+            basketBacks[ringNumber].physics.__dirtyPosition = true;
       }
 }
 
