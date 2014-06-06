@@ -848,7 +848,7 @@ var levels = [
         'animate' : [
             {
                 'ring' : 0,
-                'position' : 'right',
+            'position': 'right',
                 'min' : -150,
                 'max' : 150
             }

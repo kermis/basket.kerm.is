@@ -6,9 +6,15 @@ var basket = {
        *
        */
 
-      level : 0, reload : false, start : false,
-      controller : 'mouse', totalPoints : 0,
-      totalScored : 0, globalPoints : 0, totalMissed : 0, isNextLevel : false,
+      level: 2,
+      reload: false,
+      start: false,
+      controller: 'mouse',
+      totalPoints: 0,
+      totalScored: 0,
+      globalPoints: 0,
+      totalMissed: 0,
+      isNextLevel: false,
 
       /**
        *
@@ -16,7 +22,7 @@ var basket = {
        *
        */
 
-      init : function() {
+      init: function() {
 
             /**
              *
@@ -52,139 +58,90 @@ var basket = {
              *
              */
 
-            yeswecan.build_therenderer();
-            yeswecan.build_thecamera();
-            yeswecan.build_thebasketstand();
-            yeswecan.build_thelights();
-            yeswecan.build_thebasket();
-            yeswecan.build_theball();
+            yeswecan.build_everything();
 
 
             /**
              *
-             * Leap motion
+             * Leap motion initialization
              *
              */
 
             leap.init();
       },
 
-      endGame : function() {
-                  basket.start = false;
+      endGame: function() {
+            basket.start = false;
 
+            var newTicket = $('.info-score').clone();
+            newTicket.removeClass('active');
 
-                  var newTicket = $('.info-score').clone();
-                  newTicket.removeClass('active');
+            $('.info-score').addClass('ripping');
 
-                  $('.info-score').addClass('ripping');
+            setTimeout(function() {
+                  $('.info-score').removeClass('ripping').addClass('big');
 
                   setTimeout(function() {
-                        $('.info-score').removeClass('ripping').addClass('big')
+                        basket.isNextLevel = true;
+                        $('.level-button').fadeIn();
+                        $('.ticket-holder').append(newTicket)
+                  }, 2500)
 
-
-
-                        setTimeout(function() {
-                              basket.isNextLevel = true;
-                               $('.level-button').fadeIn();
-                               $('.ticket-holder').append(newTicket)
-
-
-
-                        }, 2500)
-
-                   }, 1000)
+            }, 1000)
       },
 
-      replayLevel : function() {
+      resetGame: function(type) {
             $('.big').css({
                   right: '500%'
-              });
+            });
 
-             //only do this after the big ticket is gone from the screen
-              setTimeout(function() {
+            //only do this after the big ticket is gone from the screen
+            setTimeout(function() {
                   $('.big').remove();
 
                   $('.info-score').addClass('active');
 
+                  if (basket.level < levels.length) {
 
-                  if(basket.level < levels.length)
-                  {
-                      basket.totalBalls = levels[basket.level].totalBalls;
-                      basket.totalPoints = 0;
-                      basket.totalScored = 0;
-                      basket.totalMissed = 0;
+                        if (type == 'next') {
+                              // #POST SCOREE
+                              $.ajax({
+                                    type: 'POST',
+                                    url: "http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket",
+                                    data: {
+                                          'score': basket.totalPoints
+                                    }
+                              }).done(function() {
+                                    console.log('added');
+                              });
+
+                              basket.globalPoints += basket.totalPoints;
+                              basket.level++;
+                        }
 
 
-                              reloadScene();
+                        basket.totalBalls = levels[basket.level].totalBalls;
+                        basket.totalPoints = 0;
+                        basket.totalScored = 0;
+                        basket.totalMissed = 0;
 
-                              basket.start = true;
-                              basket.isNextLevel = false;
-                      }
-                      else {
-                          alert('You have successfully completed this game.');
-                      }
-                    }, 500)
+                        reloadScene();
 
+                        basket.start = true;
+                        basket.isNextLevel = false;
+                  } else {
+                        alert('You have successfully completed this game.');
+                  }
+            }, 500)
 
       },
 
-      nextLevel : function() {
+      replayLevel: function() {
+            basket.resetGame('replay');
+      },
 
-            $('.big').css({
-                  right: '500%'
-              });
-              //only do this after the big ticket is gone from the screen
-              setTimeout(function() {
-                  $('.big').remove();
-
-                  $('.info-score').addClass('active');
-
-
-                  if(basket.level < levels.length)
-                  {
-
-                      // #POST SCOREE
-                      $.ajax({
-                        type : 'POST',
-                        url: "http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket",
-                        data : { 'score' : basket.totalPoints }
-                      }).done(function() {
-                        console.log('added');
-                      });
-
-                      basket.globalPoints += basket.totalPoints;
-                      console.log(basket.globalPoints);
-                      basket.level++;
-                      basket.totalBalls = levels[basket.level].totalBalls;
-                      basket.totalPoints = 0;
-                      basket.totalScored = 0;
-                      basket.totalMissed = 0;
-                      // yeswecan.build_thecamera();
-                      // yeswecan.build_thebasket();
-
-                              reloadScene();
-
-                              basket.start = true;
-                              basket.isNextLevel = false;
-
-                              // $('.totall').fadeOut('slow', function() {
-                              //     $('.totall').removeClass('score').removeClass('active');
-                              //     basket.start = true;
-                              //     $('.totall').fadeIn('slow', function() {
-                              //         $('.totall').addClass('active');
-                              //     });
-                              // })
-
-                              // $('.level_overlay').fadeOut('slow', function() {
-                              //     basket.start = true;
-                              //     $('.totall').addClass('active');
-                              // });
-                      }
-                      else {
-                          alert('You have successfully completed this game.');
-                      }
-                    }, 500)
-
+      nextLevel: function() {
+            basket.resetGame('next');
       },
 
       /**
@@ -193,13 +150,12 @@ var basket = {
        *
        */
 
-      animate : function() {
+      animate: function() {
 
             scene.simulate(); // run physics
             renderer.render(scene, yeswecan.get_theSceneCam); // render the scene
             stats.update(); // update the stats
             requestAnimationFrame(basket.animate); // continue animating
-
 
             /**
              *
@@ -214,9 +170,7 @@ var basket = {
              * Update the game info in the ticket
              *
              */
-
             basket.updateInfo();
-
 
             /**
              *
@@ -224,21 +178,9 @@ var basket = {
              *
              */
 
-            if(basket.start) {
-                  if(levels[basket.level].animate) {
-
-                              for(var i = 0; i < levels[basket.level].animate.length; i++)
-                              {
-                                    console.log('length', levels[basket.level].animate[i].ring);
-
-                                    basket.animateRings(i, levels[basket.level].animate[i].ring);
-                              }
-
-                  }
-            }
+            basket.animateObjects();
 
       },
-
 
       /**
        *
@@ -246,7 +188,7 @@ var basket = {
        *
        */
 
-      createStats : function() {
+      createStats: function() {
 
             stats = new Stats();
             stats.domElement.style.position = 'absolute';
@@ -256,7 +198,7 @@ var basket = {
 
       },
 
-      checkCollision : function() {
+      checkCollision: function() {
 
             /**
              *
@@ -272,44 +214,33 @@ var basket = {
       checkDistanceTo: function(posY, distanceTo) {
 
             var ballPos = new THREE.Vector3(
-                ball.position.x,
-                ball.position.y,
-                ball.position.z
+                  ball.position.x,
+                  ball.position.y,
+                  ball.position.z
             );
 
             var basketRingPos;
 
-            for(var i = 0; i < basketRings.length; i++) {
-
+            for (var i = 0; i < basketRings.length; i++) {
                   basketRingPos = new THREE.Vector3(
                         basketRings[i].model.position.x,
                         basketRings[i].model.position.y - posY,
                         basketRings[i].model.position.z
                   );
 
-                  if(ballPos.distanceTo(basketRingPos) < distanceTo) {
-
-                        if(!ball.score) {
+                  if (ballPos.distanceTo(basketRingPos) < distanceTo) {
+                        if (!ball.score) {
                               ball.score = true;
                               console.log('number', i);
                               basket.score(i);
                         }
-
                   }
             }
-
       },
 
-      score : function(ringnumber) {
+      score: function(ringnumber) {
 
             console.log(ringnumber);
-
-            // setTimeout(function() {
-            //   var videoURL = capturer.save();
-            //   capturer.stop();
-            //   console.log(videoURL);
-            // }, 2000);
-
 
             /**
              *
@@ -330,33 +261,45 @@ var basket = {
             basket.totalMissed--;
             basket.totalPoints += levels[basket.level].pointsPerGoal;
 
-
             /**
              *
              * Show points in 3D
              *
              */
 
-            var materialFront = new THREE.MeshBasicMaterial( { color: 0xCC0030, transparent : true, opacity : 1 } );
-            var materialSide = new THREE.MeshBasicMaterial( { color: 0x00ff00, transparent : true, opacity : 1 } );
-            var materialArray = [ materialFront, materialSide ];
-            var textGeom = new THREE.TextGeometry( levels[basket.level].pointsPerGoal,
-            {
-                  size: 10, height: 10, curveSegments: 3,
-                  font: "helvetiker", weight: "bold", style: "normal",
-                  bevelThickness: 0, bevelSize: 0, bevelEnabled: false,
-                  material: 0, extrudeMaterial: 1
+            var materialFront = new THREE.MeshBasicMaterial({
+                  color: 0xCC0030,
+                  transparent: true,
+                  opacity: 1
+            });
+
+            var materialSide = new THREE.MeshBasicMaterial({
+                  color: 0x00ff00,
+                  transparent: true,
+                  opacity: 1
+            });
+
+            var materialArray = [materialFront, materialSide];
+            var textGeom = new THREE.TextGeometry(levels[basket.level].pointsPerGoal, {
+                  size: 10,
+                  height: 10,
+                  curveSegments: 3,
+                  font: "helvetiker",
+                  weight: "bold",
+                  style: "normal",
+                  bevelThickness: 0,
+                  bevelSize: 0,
+                  bevelEnabled: false,
+                  material: 0,
+                  extrudeMaterial: 1
             });
 
             var textMaterial = new THREE.MeshFaceMaterial(materialArray);
-            var textMesh = new THREE.Mesh(textGeom, textMaterial );
-
+            var textMesh = new THREE.Mesh(textGeom, textMaterial);
             textGeom.computeBoundingBox();
             var textWidth = textGeom.boundingBox.max.x - textGeom.boundingBox.min.x;
-
-            textMesh.position.set( basketRings[ringnumber].model.position.x , 200, 30 );
+            textMesh.position.set(basketRings[ringnumber].model.position.x, 200, 30);
             textMesh.name = 'points';
-
             scene.add(textMesh);
 
             /**
@@ -375,7 +318,7 @@ var basket = {
                         textMesh.material.materials[0].opacity -= .1;
                         textMesh.material.materials[1].opacity -= .1;
 
-                        if(textMesh.material.materials[0].opacity == 0 && textMesh.material.materials[1].opacity == 0) {
+                        if (textMesh.material.materials[0].opacity == 0 && textMesh.material.materials[1].opacity == 0) {
                               clearInterval(animateUp);
                               clearInterval(fadeOut);
                               scene.remove(textMesh);
@@ -390,130 +333,115 @@ var basket = {
        *
        */
 
-
-      removeABall : function() {
+      removeABall: function() {
 
             var i = 0;
 
-            $.each(balls, function( index, basketball ) {
-
-                  if(i == 0) {
-
-                    if(basketball.shot)
-                    {
-                      if( basketball.position.z < 100
-                          && basketball.position.y< 50
-                          && basketball.position.x > -250
-                          && basketball.position.x < 250) {
-
-                        scene.remove(basketball);
-                        balls.splice(index, 1);
-                        i++
-
-                      }
-                    }
-
+            $.each(balls, function(index, basketball) {
+                  if (i == 0) {
+                        if (basketball.shot) {
+                              if (basketball.position.z < 100 && basketball.position.y < 50 && basketball.position.x > -250 && basketball.position.x < 250) {
+                                    scene.remove(basketball);
+                                    balls.splice(index, 1);
+                                    i++
+                              }
+                        }
                   }
-
             });
       },
 
-      updateInfo : function() {
+      /**
+       *
+       * Update info in ticket
+       *
+       */
 
+
+      updateInfo: function() {
             $('.level').text(basket.level + 1);
             $('.count').text(basket.totalBalls);
             $('.score').text(basket.totalPoints);
-
-
-            // if(basket.totalScored == levels[basket.level].totalBalls)
-            // {
-            //   $('.the_bonus span').text(levels[basket.level].bonusPoints);
-            // }
-            //$('.level').text('Level ' + (basket.level + 1));
-            // $('.scored span').text(basket.totalScored);
-            // $('.missed span').text(basket.totalMissed);
-
       },
 
-      animateRings : function(i, ringNumber) {
+      /**
+       *
+       * If level has animated rings animate them
+       *
+       */
 
 
-            if(levels[basket.level].animate[i].position == 'up') {
-                  if(basketRings[ringNumber].model.position.y < levels[basket.level].animate[i].max) {
-                        basketRings[ringNumber].model.position.y += 0.5;
-                        basketRings[ringNumber].physics.position.y += 0.5;
-
-                        basketBacks[ringNumber].model.position.y += 0.5;
-                        basketBacks[ringNumber].physics.position.y += 0.5;
-                  }
-                  else {
-                        basketRings[ringNumber].model.position.y -= 0.5;
-                        basketRings[ringNumber].physics.position.y -= 0.5;
-
-                        levels[basket.level].animate[i].position = 'down';
-
-
-                        basketBacks[ringNumber].model.position.y -= 0.5;
-                        basketBacks[ringNumber].physics.position.y -= 0.5;
+      animateObjects: function() {
+            if (basket.start) {
+                  if (levels[basket.level].animate) {
+                        for (var i = 0; i < levels[basket.level].animate.length; i++) {
+                              basket.animateRings(i, levels[basket.level].animate[i].ring);
+                        }
                   }
             }
+      },
 
-            if(levels[basket.level].animate[i].position == 'down')
-            {
-                  if(basketRings[ringNumber].model.position.y > levels[basket.level].animate[i].min) {
-                        basketRings[ringNumber].model.position.y -= 0.5;
-                        basketRings[ringNumber].physics.position.y -= 0.5;
+      animateRings: function(i, ringNumber) {
 
-                        basketBacks[ringNumber].model.position.y -= 0.5;
-                        basketBacks[ringNumber].physics.position.y -= 0.5;
+            if (levels[basket.level].animate[i].position == 'right' || levels[basket.level].animate[i].position == 'square-right') {
+
+                  if (levels[basket.level].animate[i].position == 'right') {
+                        basket.MaxPos = basketRings[ringNumber].model.position.x < levels[basket.level].animate[i].max
                   }
-                  else {
-                        basketRings[ringNumber].model.position.y += 0.5;
-                        basketRings[ringNumber].physics.position.y += 0.5;
 
-
-                        levels[basket.level].animate[i].position = 'up';
-
-
-                        basketBacks[ringNumber].model.position.y += 0.5;
-                        basketBacks[ringNumber].physics.position.y += 0.5;
+                  if (levels[basket.level].animate[i].position == 'square-right') {
+                        basket.MaxPos = basketRings[ringNumber].model.position.x < (levels[basket.level].animate[i].max - (levels[basket.level].animate[i].max / 2));
                   }
-            }
 
-
-            if(levels[basket.level].animate[i].position == 'right') {
-                  if(basketRings[ringNumber].model.position.x < levels[basket.level].animate[i].max) {
+                  if (basket.MaxPos) {
                         basketRings[ringNumber].model.position.x += 0.5;
                         basketRings[ringNumber].physics.position.x += 0.5;
 
                         basketBacks[ringNumber].model.position.x += 0.5;
                         basketBacks[ringNumber].physics.position.x += 0.5;
-                  }
-                  else {
+                  } else {
                         basketRings[ringNumber].model.position.x -= 0.5;
                         basketRings[ringNumber].physics.position.x -= 0.5;
 
+                        if (levels[basket.level].animate[i].position == 'right') {
                               levels[basket.level].animate[i].position = 'left';
+                        }
+
+                        if (levels[basket.level].animate[i].position == 'square-right') {
+                              levels[basket.level].animate[i].position = 'square-down'
+                        }
 
                         basketBacks[ringNumber].model.position.x -= 0.5;
                         basketBacks[ringNumber].physics.position.x -= 0.5;
                   }
             }
 
-            if(levels[basket.level].animate[i].position == 'left')
-            {
-                  if(basketRings[ringNumber].model.position.x > levels[basket.level].animate[i].min) {
+            if (levels[basket.level].animate[i].position == 'left' || levels[basket.level].animate[i].position == 'square-left') {
+
+                  if (levels[basket.level].animate[i].position == 'left') {
+                        basket.MinPos = basketRings[ringNumber].model.position.x > levels[basket.level].animate[i].min;
+                  }
+
+                  if (levels[basket.level].animate[i].position == 'square-left') {
+                        basket.MinPos = basketRings[ringNumber].model.position.x > -levels[basket.level].animate[i].min;
+                  }
+
+                  if (basket.MinPos) {
                         basketRings[ringNumber].model.position.x -= 0.5;
                         basketRings[ringNumber].physics.position.x -= 0.5;
 
                         basketBacks[ringNumber].model.position.x -= 0.5;
                         basketBacks[ringNumber].physics.position.x -= 0.5;
-                  }
-                  else {
+                  } else {
                         basketRings[ringNumber].model.position.x += 0.5;
                         basketRings[ringNumber].physics.position.x += 0.5;
 
+                        if (levels[basket.level].animate[i].position == 'left') {
                               levels[basket.level].animate[i].position = 'right';
+                        }
+
+                        if (levels[basket.level].animate[i].position == 'square-left') {
+                              levels[basket.level].animate[i].position = 'square-up'
+                        }
 
 
                         basketBacks[ringNumber].model.position.x += 0.5;
@@ -521,85 +449,53 @@ var basket = {
                   }
             }
 
-            if(levels[basket.level].animate[i].position == 'square-up') {
-                  if(basketRings[ringNumber].model.position.y < levels[basket.level].animate[i].max) {
+            if (levels[basket.level].animate[i].position == 'up' || levels[basket.level].animate[i].position == 'square-up') {
+                  if (basketRings[ringNumber].model.position.y < levels[basket.level].animate[i].max) {
                         basketRings[ringNumber].model.position.y += 0.5;
                         basketRings[ringNumber].physics.position.y += 0.5;
 
                         basketBacks[ringNumber].model.position.y += 0.5;
                         basketBacks[ringNumber].physics.position.y += 0.5;
-                  }
-                  else {
+                  } else {
                         basketRings[ringNumber].model.position.y -= 0.5;
                         basketRings[ringNumber].physics.position.y -= 0.5;
 
+                        if (levels[basket.level].animate[i].position == 'up') {
+                              levels[basket.level].animate[i].position = 'down';
+                        }
 
-                             levels[basket.level].animate[i].position = 'square-right';
-
-                        basketBacks[ringNumber].model.position.y -= 0.5;
-                        basketBacks[ringNumber].physics.position.y -= 0.5;
-                  }
-            }
-
-            if(levels[basket.level].animate[i].position == 'square-down')
-            {
-                  if(basketRings[ringNumber].model.position.y > levels[basket.level].animate[i].min) {
-                        basketRings[ringNumber].model.position.y -= 0.5;
-                        basketRings[ringNumber].physics.position.y -= 0.5;
-
-                        basketBacks[ringNumber].model.position.y -= 0.5;
-                        basketBacks[ringNumber].physics.position.y -= 0.5;
-                  }
-                  else {
-                        basketRings[ringNumber].model.position.y += 0.5;
-                        basketRings[ringNumber].physics.position.y += 0.5;
-
-
-                             levels[basket.level].animate[i].position = 'square-left';
-
-                        basketBacks[ringNumber].model.position.y += 0.5;
-                        basketBacks[ringNumber].physics.position.y += 0.5;
-                  }
-            }
-
-
-            if(levels[basket.level].animate[i].position == 'square-right') {
-                  if(basketRings[ringNumber].model.position.x < (levels[basket.level].animate[i].max - ( levels[basket.level].animate[i].max / 2 ))) {
-                        basketRings[ringNumber].model.position.x += 0.5;
-                        basketRings[ringNumber].physics.position.x += 0.5;
-
-                        basketBacks[ringNumber].model.position.x += 0.5;
-                        basketBacks[ringNumber].physics.position.x += 0.5;
-                  }
-                  else {
-                        basketRings[ringNumber].model.position.x -= 0.5;
-                        basketRings[ringNumber].physics.position.x -= 0.5;
-
-
-                             levels[basket.level].animate[i].position = 'square-down';
+                        if (levels[basket.level].animate[i].position == 'square-up') {
+                              levels[basket.level].animate[i].position = 'square-right';
+                        }
 
                         basketBacks[ringNumber].model.position.x -= 0.5;
                         basketBacks[ringNumber].physics.position.x -= 0.5;
                   }
             }
 
-            if( levels[basket.level].animate[i].position == 'square-left')
-            {
-                  if(basketRings[ringNumber].model.position.x > -levels[basket.level].animate[i].min) {
-                        basketRings[ringNumber].model.position.x -= 0.5;
-                        basketRings[ringNumber].physics.position.x -= 0.5;
 
-                        basketBacks[ringNumber].model.position.x -= 0.5;
-                        basketBacks[ringNumber].physics.position.x -= 0.5;
-                  }
-                  else {
-                        basketRings[ringNumber].model.position.x += 0.5;
-                        basketRings[ringNumber].physics.position.x += 0.5;
+            if (levels[basket.level].animate[i].position == 'down' || levels[basket.level].animate[i].position == 'square-down') {
+                  if (basketRings[ringNumber].model.position.y > levels[basket.level].animate[i].min) {
+                        basketRings[ringNumber].model.position.y -= 0.5;
+                        basketRings[ringNumber].physics.position.y -= 0.5;
 
-                             levels[basket.level].animate[i].position = 'square-up';
+                        basketBacks[ringNumber].model.position.y -= 0.5;
+                        basketBacks[ringNumber].physics.position.y -= 0.5;
+                  } else {
+                        basketRings[ringNumber].model.position.y += 0.5;
+                        basketRings[ringNumber].physics.position.y += 0.5;
 
-                        basketBacks[ringNumber].model.position.x += 0.5;
-                        basketBacks[ringNumber].physics.position.x += 0.5;
+
+                        if (levels[basket.level].animate[i].position == 'square-down') {
+                              levels[basket.level].animate[i].position = 'square-left';
+                        }
+
+                        if (levels[basket.level].animate[i].position == 'down') {
+                              levels[basket.level].animate[i].position = 'up';
+                        }
+
+                        basketBacks[ringNumber].model.position.y += 0.5;
+                        basketBacks[ringNumber].physics.position.y += 0.5;
                   }
             }
 
@@ -610,21 +506,6 @@ var basket = {
             basketBacks[ringNumber].physics.__dirtyPosition = true;
       }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -655,7 +536,8 @@ var physicsMaterial;
 var throwing = false;
 
 var ball, basketRing;
-var basketRings = [], basketBacks =  [];
+var basketRings = [],
+      basketBacks = [];
 var balls = [];
 
 var stats;
@@ -663,6 +545,3 @@ var stats;
 
 // The element we'll make fullscreen and pointer locked.
 var fullscreenElement;
-
-
-
