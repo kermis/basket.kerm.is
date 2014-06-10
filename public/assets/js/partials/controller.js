@@ -13,68 +13,73 @@ var powerCheck;
 
 $(function() {
 
-	socket.on('connect', function() {
-		socket.emit('room', room_id);
-		socket.emit('message', {message : 'Controller joined to the room : ' + room_id});
-
-		socket.on('checkroom', function(data) {
-		    $('#controller_message').text(data);
-
-                            socket.emit('connected_user', room_id);
-	           });
-
-                        socket.on('connected_person', function() {
-                        	console.log('connected person controller.js');
-                        });
-
-
-	});
-
-            // $('.shoot').on('click', function() {
-            //     console.log('test');
-            //     socket.emit('shoot', {message :  room_id});
-            // })
-
-            $('.shoot').on('touchstart', function() {
-                power = 0;
-                howMuchPower();
+      socket.on('connect', function() {
+            socket.emit('room', room_id);
+            socket.emit('message', {
+                  message: 'Controller joined to the room : ' + room_id
             });
 
-            $('.shoot').on('touchend', function() {
-                socket.emit('shoot', {room :  room_id, power : power});
+            socket.on('checkroom', function(data) {
+                  $('#controller_message').text(data);
 
-                clearInterval(powerCheck);
+                  socket.emit('connected_user', room_id);
 
             });
+
+            socket.on('connected_person', function() {
+                  console.log('connected person controller.js');
+            });
+
+
+      });
+
+      // $('.shoot').on('click', function() {
+      //     console.log('test');
+      //     socket.emit('shoot', {message :  room_id});
+      // })
+
+      $('.shoot').on('touchstart', function() {
+            power = 0;
+            howMuchPower();
+      });
+
+      $('.shoot').on('touchend', function() {
+            socket.emit('shoot', {
+                  room: room_id,
+                  power: power
+            });
+
+            clearInterval(powerCheck);
+
+      });
 
 });
 
 
 var howMuchPower = function() {
-    powerCheck = setInterval(function() {
+      powerCheck = setInterval(function() {
 
-        if(way == 'up')
-        {
-            if(power < 10) {
-                power++;
+            if (way == 'up') {
+                  if (power < 10) {
+                        power++;
+                  } else {
+                        way = 'down';
+                  }
             }
-            else {
-                way = 'down';
-            }
-        }
 
-        if(way == 'down')
-        {
-            if(power > 1) {
-                power--;
+            if (way == 'down') {
+                  if (power > 1) {
+                        power--;
+                  } else {
+                        way = 'up';
+                        power++;
+                  }
             }
-            else {
-                way = 'up';
-                power++;
-            }
-        }
 
-        socket.emit('power', {room :  room_id, power : power });
+            socket.emit('power', {
+                  room: room_id,
+                  power: power
+            });
 
-    }, 250);
+      }, 250);
 }

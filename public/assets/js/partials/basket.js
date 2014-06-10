@@ -6,7 +6,7 @@ var basket = {
        *
        */
 
-      level: 2,
+      level: 0,
       reload: false,
       start: false,
       controller: 'mouse',
@@ -32,6 +32,7 @@ var basket = {
 
             basket.totalBalls = levels[basket.level].totalBalls;
             $('.level').text('Level ' + (basket.level + 1));
+            timeRemaining = levels[basket.level].time;
 
 
             /**
@@ -68,6 +69,12 @@ var basket = {
              */
 
             leap.init();
+
+            /**
+             *
+             * Check time
+             *
+             */
       },
 
       endGame: function() {
@@ -90,7 +97,7 @@ var basket = {
             }, 1000)
       },
 
-      resetGame: function(type) {
+      resetGame: function(type, i) {
             $('.big').css({
                   right: '500%'
             });
@@ -117,9 +124,11 @@ var basket = {
 
                               basket.globalPoints += basket.totalPoints;
                               basket.level++;
+                        } else {
+                              basket.level = i;
                         }
 
-
+                        timeRemaining = levels[basket.level].time;
                         basket.totalBalls = levels[basket.level].totalBalls;
                         basket.totalPoints = 0;
                         basket.totalScored = 0;
@@ -129,6 +138,8 @@ var basket = {
 
                         basket.start = true;
                         basket.isNextLevel = false;
+
+                        basket.timeLeft();
                   } else {
                         alert('You have successfully completed this game.');
                   }
@@ -136,12 +147,12 @@ var basket = {
 
       },
 
-      replayLevel: function() {
-            basket.resetGame('replay');
+      replayLevel: function(i) {
+            basket.resetGame('replay', i);
       },
 
-      nextLevel: function() {
-            basket.resetGame('next');
+      nextLevel: function(i) {
+            basket.resetGame('next', i);
       },
 
       /**
@@ -152,10 +163,14 @@ var basket = {
 
       animate: function() {
 
+
+
             scene.simulate(); // run physics
             renderer.render(scene, yeswecan.get_theSceneCam); // render the scene
             stats.update(); // update the stats
+
             requestAnimationFrame(basket.animate); // continue animating
+
 
             /**
              *
@@ -361,6 +376,7 @@ var basket = {
             $('.level').text(basket.level + 1);
             $('.count').text(basket.totalBalls);
             $('.score').text(basket.totalPoints);
+            $('.timeLeft').text(timeRemaining);
       },
 
       /**
@@ -393,14 +409,14 @@ var basket = {
                   }
 
                   if (basket.MaxPos) {
-                        basketRings[ringNumber].model.position.x += 0.5;
-                        basketRings[ringNumber].physics.position.x += 0.5;
+                        basketRings[ringNumber].model.position.x += levels[basket.level].animate[i].speed;
+                        basketRings[ringNumber].physics.position.x += levels[basket.level].animate[i].speed;
 
-                        basketBacks[ringNumber].model.position.x += 0.5;
-                        basketBacks[ringNumber].physics.position.x += 0.5;
+                        basketBacks[ringNumber].model.position.x += levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.x += levels[basket.level].animate[i].speed;
                   } else {
-                        basketRings[ringNumber].model.position.x -= 0.5;
-                        basketRings[ringNumber].physics.position.x -= 0.5;
+                        basketRings[ringNumber].model.position.x -= levels[basket.level].animate[i].speed;
+                        basketRings[ringNumber].physics.position.x -= levels[basket.level].animate[i].speed;
 
                         if (levels[basket.level].animate[i].position == 'right') {
                               levels[basket.level].animate[i].position = 'left';
@@ -410,8 +426,8 @@ var basket = {
                               levels[basket.level].animate[i].position = 'square-down'
                         }
 
-                        basketBacks[ringNumber].model.position.x -= 0.5;
-                        basketBacks[ringNumber].physics.position.x -= 0.5;
+                        basketBacks[ringNumber].model.position.x -= levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.x -= levels[basket.level].animate[i].speed;
                   }
             }
 
@@ -426,14 +442,14 @@ var basket = {
                   }
 
                   if (basket.MinPos) {
-                        basketRings[ringNumber].model.position.x -= 0.5;
-                        basketRings[ringNumber].physics.position.x -= 0.5;
+                        basketRings[ringNumber].model.position.x -= levels[basket.level].animate[i].speed;
+                        basketRings[ringNumber].physics.position.x -= levels[basket.level].animate[i].speed;
 
-                        basketBacks[ringNumber].model.position.x -= 0.5;
-                        basketBacks[ringNumber].physics.position.x -= 0.5;
+                        basketBacks[ringNumber].model.position.x -= levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.x -= levels[basket.level].animate[i].speed;
                   } else {
-                        basketRings[ringNumber].model.position.x += 0.5;
-                        basketRings[ringNumber].physics.position.x += 0.5;
+                        basketRings[ringNumber].model.position.x += levels[basket.level].animate[i].speed;
+                        basketRings[ringNumber].physics.position.x += levels[basket.level].animate[i].speed;
 
                         if (levels[basket.level].animate[i].position == 'left') {
                               levels[basket.level].animate[i].position = 'right';
@@ -444,21 +460,21 @@ var basket = {
                         }
 
 
-                        basketBacks[ringNumber].model.position.x += 0.5;
-                        basketBacks[ringNumber].physics.position.x += 0.5;
+                        basketBacks[ringNumber].model.position.x += levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.x += levels[basket.level].animate[i].speed;
                   }
             }
 
             if (levels[basket.level].animate[i].position == 'up' || levels[basket.level].animate[i].position == 'square-up') {
                   if (basketRings[ringNumber].model.position.y < levels[basket.level].animate[i].max) {
-                        basketRings[ringNumber].model.position.y += 0.5;
-                        basketRings[ringNumber].physics.position.y += 0.5;
+                        basketRings[ringNumber].model.position.y += levels[basket.level].animate[i].speed;
+                        basketRings[ringNumber].physics.position.y += levels[basket.level].animate[i].speed;
 
-                        basketBacks[ringNumber].model.position.y += 0.5;
-                        basketBacks[ringNumber].physics.position.y += 0.5;
+                        basketBacks[ringNumber].model.position.y += levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.y += levels[basket.level].animate[i].speed;
                   } else {
-                        basketRings[ringNumber].model.position.y -= 0.5;
-                        basketRings[ringNumber].physics.position.y -= 0.5;
+                        basketRings[ringNumber].model.position.y -= levels[basket.level].animate[i].speed;
+                        basketRings[ringNumber].physics.position.y -= levels[basket.level].animate[i].speed;
 
                         if (levels[basket.level].animate[i].position == 'up') {
                               levels[basket.level].animate[i].position = 'down';
@@ -468,22 +484,22 @@ var basket = {
                               levels[basket.level].animate[i].position = 'square-right';
                         }
 
-                        basketBacks[ringNumber].model.position.x -= 0.5;
-                        basketBacks[ringNumber].physics.position.x -= 0.5;
+                        basketBacks[ringNumber].model.position.x -= levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.x -= levels[basket.level].animate[i].speed;
                   }
             }
 
 
             if (levels[basket.level].animate[i].position == 'down' || levels[basket.level].animate[i].position == 'square-down') {
                   if (basketRings[ringNumber].model.position.y > levels[basket.level].animate[i].min) {
-                        basketRings[ringNumber].model.position.y -= 0.5;
-                        basketRings[ringNumber].physics.position.y -= 0.5;
+                        basketRings[ringNumber].model.position.y -= levels[basket.level].animate[i].speed;
+                        basketRings[ringNumber].physics.position.y -= levels[basket.level].animate[i].speed;
 
-                        basketBacks[ringNumber].model.position.y -= 0.5;
-                        basketBacks[ringNumber].physics.position.y -= 0.5;
+                        basketBacks[ringNumber].model.position.y -= levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.y -= levels[basket.level].animate[i].speed;
                   } else {
-                        basketRings[ringNumber].model.position.y += 0.5;
-                        basketRings[ringNumber].physics.position.y += 0.5;
+                        basketRings[ringNumber].model.position.y += levels[basket.level].animate[i].speed;
+                        basketRings[ringNumber].physics.position.y += levels[basket.level].animate[i].speed;
 
 
                         if (levels[basket.level].animate[i].position == 'square-down') {
@@ -494,8 +510,8 @@ var basket = {
                               levels[basket.level].animate[i].position = 'up';
                         }
 
-                        basketBacks[ringNumber].model.position.y += 0.5;
-                        basketBacks[ringNumber].physics.position.y += 0.5;
+                        basketBacks[ringNumber].model.position.y += levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.y += levels[basket.level].animate[i].speed;
                   }
             }
 
@@ -504,6 +520,48 @@ var basket = {
 
             basketBacks[ringNumber].model.__dirtyPosition = true;
             basketBacks[ringNumber].physics.__dirtyPosition = true;
+      },
+
+      pause: function() {
+            console.log('pauze');
+            if (!basket.start) {
+                  $('.pause').fadeOut(100);
+                  basket.start = true;
+            } else {
+                  $('.pause').fadeIn(100);
+                  basket.start = false;
+                  basket.timeLeft();
+            }
+      },
+
+      timeLeft: function() {
+
+            //ticks once a second for the score, checks for remaining time
+            if (timeRemaining == 0) {
+                  basket.endGame();
+            }
+
+            if (basket.start && timeRemaining > 0) {
+
+                  timeRemaining -= 1;
+                  //game.updateScoreInfo();
+
+                  setTimeout(function() {
+                        if (basket.start) {
+                              basket.timeLeft();
+
+                        }
+                  }, 1000)
+            }
+      },
+
+      showNotification: function(text) {
+            $('.notification').html(text);
+
+            $('.notification').addClass('active');
+            setTimeout(function() {
+                  $('.notification').removeClass('active');
+            }, 1500)
       }
 }
 
@@ -538,6 +596,9 @@ var throwing = false;
 var ball, basketRing;
 var basketRings = [],
       basketBacks = [];
+
+var timeRemaining;
+
 var balls = [];
 
 var stats;

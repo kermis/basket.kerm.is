@@ -42,16 +42,12 @@
         </div>
 
         <div class="chose hide two chose_computer">
-            <div class="container pull-left">
-                <p>Move your mouse to controll the gun,
-                    <br>Press your mouse down to get power
-                    <br> Release your mouse to shoot.
+
+                <p><strong>Move</strong> your mouse to controll the ball, <br>
+                    <br>Press your mouse down to get <strong>power</strong><br>
+                    <br> Release your mouse to <strong>shoot</strong>.
                 </p>
-            </div>
-            <div class="container pull-right">
-                <img src="/assets/img/fishtructions_L.png" class="instruct-img" />
-            </div>
-            <br>
+
             <div class="full-width">
                 <button id="mouse" class="play">Play</button>
             </div>
@@ -70,46 +66,58 @@
              <div class="container pull-center text">
                 <p>Or go to
                     <br>
-                    <span class="go_to_site">http://s.kerm.is/</span>
+                    <strong class="go_to_site">http://b.kerm.is/</strong>
                     <br>and enter
                     <br>
-                    <span class="room_id"></span>
+                    <strong class="room_id"></strong>
                 </p>
             </div>
             <div class="container pull-right">
-                <p>Rotate your phone to <br />controll the gun.
-                <br>Push the trigger to
-                <br>to fire a bullet.
-                <br>
-                <img src="/assets/img/fishtructions_R_sm.png" class="instruct-img"></p>
+                <p>Rotate your <strong>smartphone</strong> <br > to controll the ball. <br>
+                <br>Press the ball to get <strong>power</strong> <br >
+                <br> Release the ball to <strong>shoot</strong>. </p>
+            </div>
+
+            <div class="full-width">
+                <button class="play hide">Play</button>
             </div>
         </div>
 
-        <div class="chose hide two chose_leap">
+        <div class="chose hide three chose_leap">
             <div class="container pull-left">
                 <video width="320" height="240" autoplay loop>
-                    <source src="videos/arm.mp4" type="video/mp4">
-                        <source src="videos/arm.webm" type="video/webm">
+                    <source src="/assets/videos/instructions-move.mp4" type="video/mp4">
+                    <source src="/assets/videos/instructions-move.webm" type="video/webm">
+                </video>
+            </div>
+            <div class="container pull-left">
+                <video width="320" height="240" autoplay loop>
+                    <source src="/assets/videos/instructions-power.mp4" type="video/mp4">
+                    <source src="/assets/videos/instructions-power.webm" type="video/webm">
                 </video>
             </div>
             <div class="container pull-right width-50">
                 <p>Move your arm left and right
-                    <br>to control the gun. <br >
-                    <br>Press <img src="/assets/img/icons/space_inverted.png" class="icon">
-                    <br> to fire a bullet.
+                    <br>to control the ball. <br ><br>
+                    Move your arm up and down
+                    <br>to control the power. <br >
+                    <br>Press <strong>space</strong>
+                    <br> to shoot the ball.
                 </p>
             </div>
-            <!-- <br>
+            <br>
             <br>
             <div class="full-width">
                 <button class="play hide">Play</button>
-            </div> -->
+            </div>
         </div>
 
     </div>
     <div class="pause">
         ll
     </div>
+
+       <div class="notification"></div>
 
     <!-- <canvas id="canvas" style="z-index: 10; display:none;"></canvas>
     <div id="container"></div> -->
@@ -175,6 +183,9 @@
                     <div class="remaining">
                         <span class="count"></span>&nbsp;balls remaining
                     </div>
+                    <div class="time">
+                        <span class="timeLeft"></span>&nbsp;seconds
+                    </div>
                     <br>Score :&nbsp;
                     <span class="score"></span>
                     <a href="#" class="next-level-button next-level level-button">Press <span>space</span> for next level &rarr;</a>
@@ -227,6 +238,17 @@
 
     <script>
 
+
+            //redirect if on mobile
+            if (Modernizr.touch) {
+                // var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+
+                // if (isMobile.matches) {
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    window.location.replace("http://basket.kerm.is/connect");
+                }
+                // }
+            }
 
 
             /**
@@ -436,9 +458,13 @@
                     $('.play').on('click', function(){
                             basket.start = true;
 
-                            $('.info').fadeOut();
+                            $('.info').removeClass('slide_down');
                             //look.theUserIsLockingThePointer();
                             $('.info-score').addClass('active');
+
+                            basket.timeLeft();
+
+
                     })
 
                     // $(document).on('click', '.next-level-button', function(){

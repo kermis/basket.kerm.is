@@ -51,11 +51,13 @@ var yeswecan = {
 
       build_thecamera: function() {
 
-            var mainCamera = new THREE.PerspectiveCamera(50, sceneW / sceneH, 1, 10000);
-            mainCamera.position.z = 1050; // move back
+            var mainCamera = new THREE.PerspectiveCamera(75, sceneW / sceneH, 1, 10000);
+            mainCamera.position.z = 750; // move back
             mainCamera.position.y = 100; // move up
             mainCamera.name = "main";
             mainCamera.lookAt(new THREE.Vector3(0, 0, 0)); // point it down at the center of the 3D scene
+
+
 
             // var backCamera = new THREE.PerspectiveCamera(50, sceneW / sceneH, 1, 10000);
             // backCamera.position.z =  1200; // move back
@@ -258,7 +260,7 @@ var yeswecan = {
                   'restitution': .4,
                   'posX': -70,
                   'posY': 10,
-                  'posZ': 800,
+                  'posZ': 600,
                   'rotY': 45,
                   'name': 'blockballsleft'
             }
@@ -278,7 +280,7 @@ var yeswecan = {
                   'restitution': .4,
                   'posX': 70,
                   'posY': 10,
-                  'posZ': 800,
+                  'posZ': 600,
                   'rotY': -45,
                   'name': 'blockballsleft'
             }
@@ -515,7 +517,7 @@ var yeswecan = {
                   ballMaterial
             );
 
-            ball.position.set(0, 30, 800);
+            ball.position.set(0, 30, 600);
             ball.receiveShadow = true;
             ball.rotation.x = helpMe.calculate('rad', -85);
             ball.name = "ball";

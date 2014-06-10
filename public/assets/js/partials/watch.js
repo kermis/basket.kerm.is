@@ -6,12 +6,12 @@ var look = {
        *
        */
 
-      theWindowIsResizing : function() {
+      theWindowIsResizing: function() {
             /**
-              *
-              * store scene dimensions
-              *
-              */
+             *
+             * store scene dimensions
+             *
+             */
 
             sceneW = container.offsetWidth;
             sceneH = container.offsetHeight;
@@ -31,7 +31,7 @@ var look = {
              *
              */
 
-            renderer.setSize( sceneW, sceneH );
+            renderer.setSize(sceneW, sceneH);
       },
 
       /**
@@ -40,51 +40,50 @@ var look = {
        *
        */
 
-      theUserIsGettingPower : function() {
+      theUserIsGettingPower: function() {
 
-            if(basket.start)
-            {
-                  if(!ball.shot) {
+            if (basket.start) {
+                  if (!ball.shot) {
                         basket.power = 0;
                         basket.way = 'up';
 
                         basket.powerCheck = setInterval(function() {
 
-                              if(basket.way == 'up') {
-                                    if(basket.power < 10) {
-                                        basket.power++;
-                                    }
-                                    else {
-                                        basket.way = 'down';
+                              if (basket.way == 'up') {
+                                    if (basket.power < 10) {
+                                          basket.power++;
+                                    } else {
+                                          basket.way = 'down';
                                     }
                               }
 
-                              if(basket.way == 'down') {
-                                    if(basket.power > 1) {
-                                        basket.power--;
-                                    }
-                                    else {
-                                        basket.way = 'up';
-                                        basket.power++;
+                              if (basket.way == 'down') {
+                                    if (basket.power > 1) {
+                                          basket.power--;
+                                    } else {
+                                          basket.way = 'up';
+                                          basket.power++;
                                     }
                               }
 
 
 
-                              if(basket.power <= 5) {
-                                basket.color = 'orange';
+                              if (basket.power <= 5) {
+                                    basket.color = 'orange';
                               }
 
-                              if(basket.power == 6 ) {
-                                basket.color = 'green';
+                              if (basket.power == 6) {
+                                    basket.color = 'green';
                               }
 
-                              if(basket.power >= 7) {
-                                basket.color = 'red';
+                              if (basket.power >= 7) {
+                                    basket.color = 'red';
                               }
 
 
-                              $('.powerIndicator').css({ 'bottom' : 30 * basket.power});
+                              $('.powerIndicator').css({
+                                    'bottom': 30 * basket.power
+                              });
 
                         }, 250);
                   }
@@ -97,34 +96,34 @@ var look = {
        *
        */
 
-      theUserIsShooting : function(event) {
+      theUserIsShooting: function(event) {
 
             clearInterval(basket.powerCheck);
             console.log('shoot');
 
-            if(basket.start) {
+            if (basket.start) {
 
 
                   // capturer.start();
 
                   var x, y, z;
 
-                  if(basket.controller == 'mobile') {
-                        x =  (event.x - sceneW)+ sceneW /2;
+
+                  if (basket.controller == 'mobile') {
+                        x = (event.x - sceneW) + sceneW / 2;
                         y = 100 * mobile.power;
                         z = -550;
-                  }
-                  else if(basket.controller == 'mouse') {
-                        x = 0; //(event.x - sceneW)+ sceneW /2;
+                  } else if (basket.controller == 'mouse') {
+                        x = 0; // (event.x - sceneW) + sceneW / 2;
                         y = 100 * basket.power;
                         z = -550;
-                  }
-                  else if(basket.controller == 'leap') {
-                      console.log('controller is leap', basket.power);
+                  } else if (basket.controller == 'leap') {
+                        console.log('controller is leap', basket.power);
 
-                       x = 0
-                       y =  basket.power;
-                       z = -550;
+                        x = 0
+                        y = basket.power;
+                        z = -550;
+                        leap.setPower = false;
                   }
 
                   // #TODO delay on direct shooten
@@ -135,13 +134,13 @@ var look = {
                    *
                    */
 
-                  if(!ball.shot) {
+                  if (!ball.shot) {
 
                         basket.totalMissed++;
-                        ball.setAngularFactor(new THREE.Vector3( 1, 1, 1 ));
-                        ball.setLinearFactor(new THREE.Vector3( 1, 1, 1 ));
-                        ball.setLinearVelocity(new THREE.Vector3(  x , y, z ));
-                        ball.setAngularVelocity(new THREE.Vector3( -10, 0, 0 ));
+                        ball.setAngularFactor(new THREE.Vector3(1, 1, 1));
+                        ball.setLinearFactor(new THREE.Vector3(1, 1, 1));
+                        ball.setLinearVelocity(new THREE.Vector3(x, y, z));
+                        ball.setAngularVelocity(new THREE.Vector3(-10, 0, 0));
                         ball.shot = true;
                         basket.reload = true;
                         basket.power = 0;
@@ -152,7 +151,7 @@ var look = {
                          *
                          */
 
-                        if(basket.reload) {
+                        if (basket.reload) {
 
                               basket.totalBalls--; // update total balls
 
@@ -165,12 +164,11 @@ var look = {
                                      */
 
 
-                                    if(basket.totalBalls == 0) { // no balls left so stop the game
+                                    if (basket.totalBalls == 0) { // no balls left so stop the game
 
                                           basket.endGame();
 
-                                    }
-                                   else { // create new ball
+                                    } else { // create new ball
                                           yeswecan.build_theball();
                                           basket.reload = false;
                                     }
@@ -190,33 +188,33 @@ var look = {
             }
       },
 
-      theMouseIsMoving : function ( event ) {
+      theMouseIsMoving: function(event) {
 
-            if(basket.start) {
-                if(basket.controller == 'mouse') { // check if controller is mouse
+            if (basket.start) {
+                  if (basket.controller == 'mouse') { // check if controller is mouse
 
-                      basket.movementX = event.movementX       ||
-                                  event.mozMovementX    ||
-                                  event.webkitMovementX ||
-                                  0,
+                        basket.movementX = event.movementX ||
+                              event.mozMovementX ||
+                              event.webkitMovementX ||
+                              0,
 
-                      basket.movementY = event.movementY       ||
-                                      event.mozMovementY    ||
-                                      event.webkitMovementY ||
-                                      0;
-                      /**
-                       *
-                       * Update ball position
-                       *
-                       */
+                        basket.movementY = event.movementY ||
+                              event.mozMovementY ||
+                              event.webkitMovementY ||
+                              0;
+                        /**
+                         *
+                         * Update ball position
+                         *
+                         */
 
-                      look.AtTheObjectsMove(basket.movementX, basket.movementY);
-                }
+                        look.AtTheObjectsMove(basket.movementX, basket.movementY);
+                  }
             }
 
       },
 
-      AtTheObjectsMove : function(x, y) {
+      AtTheObjectsMove: function(x, y) {
 
             /**
              *
@@ -224,74 +222,71 @@ var look = {
              *
              */
 
-            if(!ball.shot)
-            {
-                  if(basket.controller == 'mobile') {
+            if (!ball.shot) {
+                  if (basket.controller == 'mobile') {
                         ball.position.x = x * 5;
-                  }
-                  else if(basket.controller == 'mouse') {
+                  } else if (basket.controller == 'mouse') {
                         ball.position.x += x * 0.9;
                   }
 
                   ball.__dirtyPosition = true;
-            }
-            else {
+            } else {
                   ball.__dirtyPosition = false;
             }
 
       },
 
-      theScreenIsGoingFullscreen : function() {
+      theScreenIsGoingFullscreen: function() {
 
             if (document.webkitFullscreenElement === elem ||
-                document.mozFullscreenElement === elem ||
-                document.mozFullScreenElement === elem) { // Older API upper case 'S'.
+                  document.mozFullscreenElement === elem ||
+                  document.mozFullScreenElement === elem) { // Older API upper case 'S'.
 
                   // Element is fullscreen, now we can request pointer lock
-                  elem.requestPointerLock = elem.requestPointerLock    ||
-                                            elem.mozRequestPointerLock ||
-                                            elem.webkitRequestPointerLock;
+                  elem.requestPointerLock = elem.requestPointerLock ||
+                        elem.mozRequestPointerLock ||
+                        elem.webkitRequestPointerLock;
                   elem.requestPointerLock();
             }
 
       },
 
-      thePointerIsBeingLocked : function() {
+      thePointerIsBeingLocked: function() {
 
             if (document.mozPointerLockElement === elem ||
-                  document.webkitPointerLockElement === elem) {
-            } else {
+                  document.webkitPointerLockElement === elem) {} else {
                   console.log("Pointer Lock was lost."); // #TODO SHOW ERROR MESSAGE
             }
 
       },
 
-      thePointerLockHasGoneWrong : function() {
+      thePointerLockHasGoneWrong: function() {
 
             console.log("Error while locking pointer."); // #TODO ERROR MESSAGE
 
       },
 
-      theUserIsLockingThePointer : function() {
+      theUserIsLockingThePointer: function() {
 
             elem = document.getElementById("container");
 
             // Start by going fullscreen with the element. Current implementations
             // require the element to be in fullscreen before requesting pointer
             // lock--something that will likely change in the future.
-            elem.requestFullscreen = elem.requestFullscreen    ||
-                                     elem.mozRequestFullscreen ||
-                                     elem.mozRequestFullScreen || // Older API upper case 'S'.
-                                     elem.webkitRequestFullscreen;
+            elem.requestFullscreen = elem.requestFullscreen ||
+                  elem.mozRequestFullscreen ||
+                  elem.mozRequestFullScreen || // Older API upper case 'S'.
+            elem.webkitRequestFullscreen;
 
             elem.requestFullscreen();
 
       },
 
-      theKeyIsGoingDown : function ( event ) {
-          console.log('r', event.keyCode);
-            if(basket.start) {
-                  switch ( event.keyCode ) {
+      theKeyIsGoingDown: function(event) {
+            // console.log('key', event.keyCode);
+
+            if (basket.start) {
+                  switch (event.keyCode) {
 
                         case 40: // down
                               yeswecan.get_theSceneCam.position.z += 10;
@@ -305,41 +300,69 @@ var look = {
                         case 38: // up
                               yeswecan.get_theSceneCam.position.z -= 10;
                               break;
-                        case 32 : // spatie
-                              if(basket.controller == "leap")
-                              {
-                                  look.theUserIsShooting('shoot');
-                              }
-                              else {
-                                if(yeswecan.get_thecurrentCam < yeswecan.get_AllTheCameras.length -1)
-                                {
-                                      yeswecan.get_thecurrentCam++;
-                                }
-                                else {
-                                      yeswecan.get_thecurrentCam = 0;
-                                }
+                        case 32: // spatie
+                              if (basket.controller == "leap") {
+                                    look.theUserIsShooting('shoot');
+                              } else {
+                                    if (yeswecan.get_thecurrentCam < yeswecan.get_AllTheCameras.length - 1) {
+                                          yeswecan.get_thecurrentCam++;
+                                    } else {
+                                          yeswecan.get_thecurrentCam = 0;
+                                    }
 
-                                yeswecan.get_theSceneCam = yeswecan.get_AllTheCameras[yeswecan.get_thecurrentCam];
+                                    yeswecan.get_theSceneCam = yeswecan.get_AllTheCameras[yeswecan.get_thecurrentCam];
                               }
                               break;
+                        case 49: // shift 1
+                              basket.replayLevel(0);
+                              break;
+                        case 50: // shift 2
+                              basket.replayLevel(1);
+                              break;
+                        case 51: // shift 3
+                              basket.replayLevel(2);
+                              break;
+                        case 52: // shift 4
+                              basket.replayLevel(3);
+                              break;
+                        case 53: // shift 5
+                              basket.replayLevel(4);
+                              break;
+                        case 54: // shift 6
+                              basket.replayLevel(5);
+                              break;
+                        case 55: // shift 7
+                              basket.replayLevel(6);
+                              break;
+                        case 56: // shift 8
+                              basket.replayLevel(7);
+                              break;
+                        case 57: // shift 9
+                              basket.replayLevel(8);
+                              break;
+                        case 48: // shift 0
+                              basket.replayLevel(9);
+                              break;
+                  }
+            } else {
+                  if (basket.isNextLevel) {
+                        switch (event.keyCode) {
+                              case 32: // spatie
+                                    basket.nextLevel(basket.level);
+                                    break;
+                              case 82: // R
+                                    basket.replayLevel(basket.level);
+                                    break;
+
+                        }
                   }
             }
-            else {
-              if(basket.isNextLevel)
-              {
-                switch ( event.keyCode ) {
-                        case 32 : // spatie
-                              basket.nextLevel();
-                              break;
-                        case 82 : // R
-                              basket.replayLevel();
-                              break;
 
-                  }
+            if (event.keyCode == 27) {
+                  //event.preventDefault();
+                  basket.pause()
 
-              }
             }
-
       },
 
       // theBallIsBouncing : function( other_object, relative_velocity, relative_rotation, contact_normal ) {
