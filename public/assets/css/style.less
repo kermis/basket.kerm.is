@@ -27,6 +27,9 @@ video {
     filter : brightness(94%);
 }
 
+.margin {
+    padding-top:70px;
+}
 
 
 /**
@@ -137,6 +140,7 @@ p {
     -o-transition: all .7s ease;
     transition: all .7s ease;
 
+
     .choose_button {
         p, img {
             -webkit-transition: all 1s ease;
@@ -246,6 +250,14 @@ p {
                 bottom: 0;
                 width: 100%;
                 text-align: center;
+                left:0px;
+
+                button {
+                    background-color: @highlight;
+                    border-radius: 10px;
+                    padding: 10px 0px;
+                    color: white;
+                }
             }
 
             #qrcode {
@@ -296,6 +308,14 @@ p {
             -webkit-font-smoothing: antialiased;
             -webkit-font-smoothing: antialiased;
 
+            .down {
+                margin-top : -6px;
+
+                .inf {
+                    padding-bottom: 8px;
+                }
+            }
+
             &.basket {
                 background: url('/assets/img/basket-ticket.svg');
             }
@@ -328,12 +348,20 @@ p {
                 font-size: 14pt;
             }
 
-            &.big .title {
-                font-size: 200%;
-            }
+            &.big {
+                .title {
+                 font-size: 200%;
+                }
 
-            &.big .subtitle {
-                font-size: 130%;
+                .subtitle {
+                    font-size: 130%;
+                }
+
+                .down {
+                    .inf {
+                        padding-bottom: 3%;
+                    }
+                }
             }
 
             &.active {
@@ -370,7 +398,7 @@ p {
             .level-button {
                 position: absolute;
                 display: none;
-                margin-top: 85pt;
+                margin-top: 18pt;
                 font-size: 0.6em;
                 color: white;
                 text-decoration: none;

@@ -93,7 +93,7 @@ io.sockets.on('connection', function(socket) {
       })
 
       socket.on('disconnect', function() {
-            io.sockets.broadcast.to(roomio).emit('mobile_disconnect', {
+            socket.broadcast.to(roomio).emit('mobile_disconnect', {
                   room: roomio
             });
       });

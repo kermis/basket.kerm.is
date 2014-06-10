@@ -43,7 +43,7 @@
 
         <div class="chose hide two chose_computer">
 
-                <p><strong>Move</strong> your mouse to controll the ball, <br>
+                <p class="margin"><strong>Move</strong> your mouse to controll the ball, <br>
                     <br>Press your mouse down to get <strong>power</strong><br>
                     <br> Release your mouse to <strong>shoot</strong>.
                 </p>
@@ -64,7 +64,7 @@
                 </p>
             </div>
              <div class="container pull-center text">
-                <p>Or go to
+                <p class="margin">Or go to
                     <br>
                     <strong class="go_to_site">http://b.kerm.is/</strong>
                     <br>and enter
@@ -73,7 +73,7 @@
                 </p>
             </div>
             <div class="container pull-right">
-                <p>Rotate your <strong>smartphone</strong> <br > to controll the ball. <br>
+                <p class="margin">Rotate your <strong>smartphone</strong> <br > to controll the ball. <br>
                 <br>Press the ball to get <strong>power</strong> <br >
                 <br> Release the ball to <strong>shoot</strong>. </p>
             </div>
@@ -97,7 +97,9 @@
                 </video>
             </div>
             <div class="container pull-right width-50">
-                <p>Move your arm left and right
+                <p><strong>Please connect your leap motion to your computer</strong> <br >
+                <br >
+                Move your arm left and right
                     <br>to control the ball. <br ><br>
                     Move your arm up and down
                     <br>to control the power. <br >
@@ -180,14 +182,17 @@
                 <div class="info-score basket">
                     <div class="title">Basket.kerm.is</div>
                     <div class="subtitle">Level <span class="level"></span></div>
-                    <div class="remaining">
-                        <span class="count"></span>&nbsp;balls remaining
+                    <div class="down">
+                        <div class="inf remaining">
+                            <span class="count"></span>&nbsp;balls remaining
+                        </div>
+                        <div class="inf time">
+                            <span class="timeLeft"></span>&nbsp;seconds remaining
+                        </div>
+                        <div class="inf">Score :&nbsp;
+                            <span class="score"></span>
+                        </div>
                     </div>
-                    <div class="time">
-                        <span class="timeLeft"></span>&nbsp;seconds
-                    </div>
-                    <br>Score :&nbsp;
-                    <span class="score"></span>
                     <a href="#" class="next-level-button next-level level-button">Press <span>space</span> for next level &rarr;</a>
                     <a href="#" class="replay-level-button replay-level level-button">&larr; Press <span>R</span> to play again</a>
                  </div>
@@ -219,6 +224,7 @@
     <script src="assets/js/partials/hitboxes.js"></script>
     <script src="assets/js/partials/preload.js"></script>
     <script src="assets/js/partials/levels.js"></script>
+    <script src="assets/js/partials/slogans.js"></script>
 
     <!-- load fonts -->
     <script src="assets/fonts/gentilis_bold.typeface.js"></script>

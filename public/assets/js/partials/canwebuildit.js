@@ -19,6 +19,7 @@ var yeswecan = {
             yeswecan.build_thelights();
             yeswecan.build_thebasket();
             yeswecan.build_theball();
+            yeswecan.build_thecloud();
 
       },
 
@@ -51,13 +52,18 @@ var yeswecan = {
 
       build_thecamera: function() {
 
-            var mainCamera = new THREE.PerspectiveCamera(75, sceneW / sceneH, 1, 10000);
-            mainCamera.position.z = 750; // move back
+            // var mainCamera = new THREE.PerspectiveCamera(75, sceneW / sceneH, 1, 10000);
+            // mainCamera.position.z = 750; // move back
+            // mainCamera.position.y = 100; // move up
+            // mainCamera.name = "main";
+            // mainCamera.lookAt(new THREE.Vector3(0, 0, 0)); // point it down at the center of the 3D scene
+
+
+            var mainCamera = new THREE.PerspectiveCamera(45, sceneW / sceneH, 1, 10000);
+            mainCamera.position.z = 850; // move back
             mainCamera.position.y = 100; // move up
             mainCamera.name = "main";
-            mainCamera.lookAt(new THREE.Vector3(0, 0, 0)); // point it down at the center of the 3D scene
-
-
+            // mainCamera.lookAt(new THREE.Vector3(0, 0, 0)); // point it down at the center of the 3D scene
 
             // var backCamera = new THREE.PerspectiveCamera(50, sceneW / sceneH, 1, 10000);
             // backCamera.position.z =  1200; // move back
@@ -158,7 +164,9 @@ var yeswecan = {
                         opacity: 0.5
                   });
                   var materialArray = [materialFront, materialSide];
-                  var textGeom = new THREE.TextGeometry('GO ROBBERT GO!!!', {
+                  var random = 1 + Math.ceil(Math.random() * slogans.length);
+
+                  var textGeom = new THREE.TextGeometry(slogans[random], {
                         size: 20,
                         height: 7,
                         curveSegments: 3,
@@ -186,7 +194,7 @@ var yeswecan = {
                    *
                    */
 
-                  setTimeout(function() {
+                  var fly = setTimeout(function() {
                         var flyPlain = setInterval(function() {
                               if (basket.start) {
                                     if (mesh.position.x <= -3000) {
@@ -197,7 +205,7 @@ var yeswecan = {
                                     }
                               }
                         }, 10)
-                  }, 1000 + Math.random() * 2000);
+                  }, 1000 + Math.random() * (levels[basket.level].time * 1000));
 
             });
 
@@ -531,5 +539,18 @@ var yeswecan = {
             ball.setLinearFactor(new THREE.Vector3(0, 0, 0));
             ball.setLinearVelocity(new THREE.Vector3(0, 0, 0));
             ball.setAngularVelocity(new THREE.Vector3(0, 0, 0));
+      },
+
+      build_thecloud: function() {
+            var cloud = new THREE.ObjectLoader();
+            cloud.load('assets/js/models/wolk.js', function(mesh) {
+                  mesh.scale.set(2, 2, 2);
+                  mesh.position.set(-500, -400, -500);
+
+                  mesh.name = 'cloud';
+                  scene.add(mesh);
+
+                  basket.clouds = mesh;
+            });
       }
 }

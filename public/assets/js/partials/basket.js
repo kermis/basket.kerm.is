@@ -195,6 +195,18 @@ var basket = {
 
             basket.animateObjects();
 
+            /**
+             *
+             * Rotate clouds
+             *
+             */
+
+
+            if (basket.clouds) {
+                  if (basket.start) {
+                        basket.clouds.rotation.y += helpMe.calculate('rad', 0.05);
+                  }
+            }
       },
 
       /**
