@@ -379,7 +379,7 @@ var yeswecan = {
             var basketMaterial = new THREE.MeshPhongMaterial({
                   color: totalBacks[i].physics.color,
                   transparent: true,
-                  opacity: 1
+                  opacity: 0
             }, 1, 1);
             var basketBack = new Physijs.BoxMesh(
                   new THREE.CubeGeometry(totalBacks[i].physics.width, totalBacks[i].physics.height, totalBacks[i].physics.depth),
@@ -408,7 +408,7 @@ var yeswecan = {
             var ringMaterial = new THREE.MeshLambertMaterial({
                   color: totalRings[i].physics.color,
                   transparent: true,
-                  opacity: 1
+                  opacity: 0
             }, 1, 1);
 
             basketRing = new Physijs.ConcaveMesh(

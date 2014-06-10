@@ -561,7 +561,6 @@ var basket = {
                   setTimeout(function() {
                         if (basket.start) {
                               basket.timeLeft();
-
                         }
                   }, 1000)
             }
