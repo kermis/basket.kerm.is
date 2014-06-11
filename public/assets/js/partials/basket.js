@@ -15,6 +15,7 @@ var basket = {
       globalPoints: 0,
       totalMissed: 0,
       isNextLevel: false,
+      infoVisible: true,
 
       /**
        *
@@ -111,16 +112,28 @@ var basket = {
                   if (basket.level < levels.length) {
 
                         if (type == 'next') {
-                              // #POST SCOREE
-                              $.ajax({
-                                    type: 'POST',
-                                    url: "http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket",
-                                    data: {
-                                          'score': basket.totalPoints
-                                    }
-                              }).done(function() {
-                                    console.log('added');
-                              });
+
+                              // $('.score-submit').on('click', function() {
+
+                                    //var name = $('.user-name').val();
+                                    var score = basket.totalPoints;
+                                    var level = basket.level;
+                                    // var rings = game.totalRingsGame;
+                                    // var stars = game.totalStarsGame;
+                                    // var crashes = game.crashes;
+
+                                    $.post("http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket", {
+                                          score: score,
+                                          level: level
+                                    })
+                                    // .done(function() {
+                                    //       $('.score-submit').hide();
+                                    //       $('.game-over').append('score succesully shared.')
+
+                                    // }).fail(function() {
+                                    //       $('.game-over').append('something went wrong, please try again')
+                                    // });
+                              // })
 
                               basket.globalPoints += basket.totalPoints;
                               basket.level++;
@@ -535,14 +548,17 @@ var basket = {
       },
 
       pause: function() {
-            console.log('pauze');
+            console.log('pauze', basket.start);
+
             if (!basket.start) {
                   $('.pause').fadeOut(100);
                   basket.start = true;
+                  console.log('fadeout');
             } else {
                   $('.pause').fadeIn(100);
                   basket.start = false;
                   basket.timeLeft();
+                  console.log('fadein');
             }
       },
 

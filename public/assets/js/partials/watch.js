@@ -358,7 +358,7 @@ var look = {
                   }
             }
 
-            if (event.keyCode == 27) {
+            if (event.keyCode == 27 && !basket.infoVisible) {
                   //event.preventDefault();
                   basket.pause()
 
