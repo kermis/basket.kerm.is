@@ -109,31 +109,34 @@ var basket = {
 
                   $('.info-score').addClass('active');
 
-                  if (basket.level < levels.length) {
+                  console.log(basket.level, levels.length - 1);
+
+
+                  if (basket.level < levels.length - 1) {
 
                         if (type == 'next') {
 
-                              // $('.score-submit').on('click', function() {
+                              // // $('.score-submit').on('click', function() {
 
-                                    //var name = $('.user-name').val();
-                                    var score = basket.totalPoints;
-                                    var level = basket.level;
-                                    // var rings = game.totalRingsGame;
-                                    // var stars = game.totalStarsGame;
-                                    // var crashes = game.crashes;
+                              // //var name = $('.user-name').val();
+                              // var score = basket.totalPoints;
+                              // var level = basket.level + 1;
+                              // // var rings = game.totalRingsGame;
+                              // // var stars = game.totalStarsGame;
+                              // // var crashes = game.crashes;
 
-                                    $.post("http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket", {
-                                          score: score,
-                                          level: level
-                                    })
-                                    // .done(function() {
-                                    //       $('.score-submit').hide();
-                                    //       $('.game-over').append('score succesully shared.')
-
-                                    // }).fail(function() {
-                                    //       $('.game-over').append('something went wrong, please try again')
-                                    // });
+                              // $.post("http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket", {
+                              //       score: score,
+                              //       level: level
                               // })
+                              // // .done(function() {
+                              // //       $('.score-submit').hide();
+                              // //       $('.game-over').append('score succesully shared.')
+
+                              // // }).fail(function() {
+                              // //       $('.game-over').append('something went wrong, please try again')
+                              // // });
+                              // // })
 
                               basket.globalPoints += basket.totalPoints;
                               basket.level++;
@@ -154,7 +157,10 @@ var basket = {
 
                         basket.timeLeft();
                   } else {
-                        alert('You have successfully completed this game.');
+                        console.log('game over')
+                        $('.game-over').addClass('slide-up');
+
+                        $('.score-final').html(basket.globalPoints);
                   }
             }, 500)
 

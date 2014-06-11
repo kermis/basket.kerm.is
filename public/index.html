@@ -154,6 +154,16 @@
         </div>
      </div> -->
 
+    <div class="game-over">
+        <h1>Congratulations, You have finished the game!</h1>
+        <strong class="message-final">Your final score is <span class="score-final">0</span></strong><br>
+        <br>
+        Would you like to add your score to the highscores?
+        <br><br>
+        <input type="text" placeholder="name" class="user-name">
+        <br>
+        <button class="score-submit">Add</button>
+    </div>
 
     <article id="container">
         <div class="filler"></div>
@@ -193,7 +203,7 @@
                             <span class="score"></span>
                         </div>
                     </div>
-                    <a href="#" class="next-level-button next-level level-button">Press <span>space</span> for next level &rarr;</a>
+                    <a href="#" class="next-level-button next-level level-button">Press <span>space</span> to continue &rarr;</a>
                     <a href="#" class="replay-level-button replay-level level-button">&larr; Press <span>R</span> to play again</a>
                  </div>
             </div>
@@ -483,6 +493,30 @@
                     //     game.nextLevel();
                     // })
                 })
+
+                $('.score-submit').on('click', function(){
+
+                        $('.score-submit').hide();
+                        $('.game-over').append('<span class="score-message">Sharing Score</span>');
+
+                        var name = $('.user-name').val();
+                        var score = basket.globalPoints;
+                        var level = basket.level
+
+                        $.post( "http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket",
+                            {   name: name,
+                                score: score,
+                                level : level
+                            } )
+                        .done(function(){
+                            $('.score-submit').hide();
+                            $('.score-message').html('score succesully shared.')
+
+                        }).fail(function(){
+                            $('.score-message').html('something went wrong, please try again');
+                            $('.score-submit').show();
+                        });
+                    })
 
         </script>
 
