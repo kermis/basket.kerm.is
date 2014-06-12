@@ -117,9 +117,10 @@ function checkRoom(socket, roomID) {
                   socket.emit('checkroom', 'You are connected');
             }
 
-      } else {
-            socket.join(roomID);
       }
+      //else {
+      //       socket.join(roomID);
+      // }
 
       //console.log('rooms', rooms);
 }
