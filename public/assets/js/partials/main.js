@@ -99,7 +99,10 @@ socket.on('mobile_disconnect', function() {
 
       if (basket.controller == 'mobile') {
             basket.showNotification('Smartphone Connection lost')
-            basket.pause();
+
+            if (basket.start && basket.infoVisible) {
+                  basket.pause();
+            }
       }
 
       // if (!game.paused) {
