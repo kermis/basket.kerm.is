@@ -97,8 +97,10 @@ socket.on('motiondatas', function(data) {
 socket.on('mobile_disconnect', function() {
       console.log('lost connection')
 
-      basket.showNotification('Smartphone Connection lost')
-      basket.pause();
+      if (basket.controller == 'mobile') {
+            basket.showNotification('Smartphone Connection lost')
+            basket.pause();
+      }
 
       // if (!game.paused) {
       //       game.updatePauseMessage();

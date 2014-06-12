@@ -27,11 +27,11 @@ var leap = {
             console.log('Leap Succesfully disconnected ;)')
             $('.chose_leap .play').addClass('hide');
 
-            basket.controller = 'mouse';
 
             basket.showNotification('Leap Disconnected');
-
             basket.pause();
+
+            basket.controller = 'mouse';
       },
 
       onFrame: function(frame) {
