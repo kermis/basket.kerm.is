@@ -137,7 +137,9 @@ var basket = {
 
                         $('.game-over').addClass('slide-up');
 
-                        $('.score-final').html(basket.globalPoints);
+                        $('.totalScoreGame').html(basket.globalPoints);
+                        $('.totalScoredGame').html(basket.totalScored);
+                        $('.totalMissedGame').html(basket.totalMissed);
                   }
             }, 500)
 

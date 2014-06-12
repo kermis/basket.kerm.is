@@ -156,7 +156,7 @@
 
     <div class="game-over">
         <h1>Congratulations, You have finished the game!</h1>
-        <strong class="message-final">Your final score is <span class="score-final">0</span></strong><br>
+        <strong class="message-final">You have a score of <span class="totalScoreGame"></span>, with <span class="totalScoredGame"></span> shots scored, and <span class="totalMissedGame"></span> shots missed.</strong><br>
         <br>
         Would you like to add your score to the highscores?
         <br><br>
@@ -528,12 +528,16 @@
 
                         var name = $('.user-name').val();
                         var score = basket.globalPoints;
-                        var level = basket.level
+                        var level = basket.level;
+                        var scored = basket.totalScored;
+                        var missed = basket.totalMissed;
 
                         $.post( "http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket",
                             {   name: name,
                                 score: score,
-                                level : level
+                                level : level,
+                                scored: scored,
+                                missed : missed
                             } )
                         .done(function(){
                             $('.score-submit').hide();
@@ -544,6 +548,10 @@
                             $('.score-submit').show();
                         });
                     })
+
+
+                    // #CONSOLE LOG RESET
+                    console.log = function() {};
 
         </script>
 
