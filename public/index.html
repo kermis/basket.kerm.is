@@ -163,6 +163,7 @@
         <input type="text" placeholder="name" class="user-name">
         <br>
         <button class="score-submit">Add</button>
+
     </div>
 
     <article id="container">
@@ -275,18 +276,44 @@
 
 
 
-            // document.addEventListener('click', look.theUserIsShooting, false);
-            document.addEventListener('mousedown', function() {
+            // // document.addEventListener('click', look.theUserIsShooting, false);
+            // document.addEventListener('mousedown', function() {
+            //     if(basket.controller == 'mouse' && !ball.shot)
+            //     {
+            //         look.theUserIsGettingPower();
+            //     }
+            // }, false);
+            // document.addEventListener('mouseup', function(event) {
+            //     console.log(basket.power);
+            //     if(basket.power != 0)
+            //     {
+            //         look.theUserIsShooting(event);
+            //     }
+            // }, false);
+
+             document.addEventListener('mousedown', function() {
+
+                if(ball.shot)
+                {
+                    mouseDown = true;
+                }
+
                 if(basket.controller == 'mouse' && !ball.shot)
                 {
+                    mouseDown = false;
                     look.theUserIsGettingPower();
                 }
             }, false);
+
             document.addEventListener('mouseup', function(event) {
-                console.log(basket.power);
-                if(basket.power != 0)
+                if(basket.power === 0)
                 {
-                    look.theUserIsShooting(event);
+                    basket.power = 1;
+                }
+
+                if(!mouseDown){
+                   look.theUserIsShooting(event);
+                   mouseDown = false;
                 }
             }, false);
 

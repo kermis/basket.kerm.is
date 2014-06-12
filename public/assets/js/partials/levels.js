@@ -9,8 +9,6 @@ var levels = [
 
       {
             'totalBalls': 10,
-            'pointsPerGoal': 10,
-            'bonusPoints': 30,
             'time': 200,
             'totalRings': { // one ring
                   'ring': [{
@@ -33,6 +31,7 @@ var levels = [
                               'rotY': 10,
                               'rotZ': false,
                               'color': 'CC0030',
+                              'points': 10,
                               'name': 'basketring-model'
                         }
                   }],
@@ -82,8 +81,6 @@ var levels = [
 
       {
             'totalBalls': 10,
-            'pointsPerGoal': 20,
-            'bonusPoints': 40,
             'time': 180,
             'totalRings': {
                   'ring': [{
@@ -106,6 +103,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 10,
                                     'name': 'basketring-model'
                               }
                         },
@@ -130,6 +128,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 10,
                                     'name': 'basketring-model'
                               }
                         }
@@ -208,8 +207,6 @@ var levels = [
 
       {
             'totalBalls': 10,
-            'pointsPerGoal': 40,
-            'bonusPoints': 70,
             'time': 160,
             'totalRings': {
                   'ring': [{
@@ -232,6 +229,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 10,
                                     'name': 'basketring-model'
                               }
                         },
@@ -256,6 +254,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 20,
                                     'name': 'basketring-model'
                               }
                         },
@@ -280,6 +279,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 10,
                                     'name': 'basketring-model'
                               }
                         }
@@ -369,7 +369,7 @@ var levels = [
             'animate': [{
                   'ring': 1,
                   'position': 'down',
-                  'min': 100,
+                  'min': 125,
                   'max': 200,
                   'speed': 0.5
             }]
@@ -392,8 +392,6 @@ var levels = [
 
       {
             'totalBalls': 10,
-            'pointsPerGoal': 40,
-            'bonusPoints': 70,
             'time': 140,
             'totalRings': {
                   'ring': [{
@@ -416,6 +414,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 20,
                                     'name': 'basketring-model'
                               }
                         },
@@ -440,6 +439,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 10,
                                     'name': 'basketring-model'
                               }
                         },
@@ -464,6 +464,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 20,
                                     'name': 'basketring-model'
                               }
                         }
@@ -553,15 +554,15 @@ var levels = [
             'animate': [{
                   'ring': 0,
                   'position': 'down',
-                  'min': 100,
+                  'min': 125,
                   'max': 200,
                   'speed': 0.6
             }, {
                   'ring': 2,
                   'position': 'down',
-                  'min': 100,
+                  'min': 125,
                   'max': 200,
-                  'speed': 1.2
+                  'speed': 0.6
             }]
       },
 
@@ -577,15 +578,13 @@ var levels = [
 
       {
             'totalBalls': 8,
-            'pointsPerGoal': 40,
-            'bonusPoints': 70,
             'time': 120,
             'totalRings': {
                   'ring': [{
                               'physics': {
                                     'color': 0x00FF00,
                                     'posX': -150,
-                                    'posY': 80,
+                                    'posY': 105,
                                     'posZ': -30,
                                     'rotX': -90,
                                     'rotY': false,
@@ -595,12 +594,13 @@ var levels = [
                               'model': {
                                     'scale': 0.25,
                                     'posX': -150,
-                                    'posY': 80,
+                                    'posY': 105,
                                     'posZ': -30,
                                     'rotX': false,
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 20,
                                     'name': 'basketring-model'
                               }
                         },
@@ -609,7 +609,7 @@ var levels = [
                               'physics': {
                                     'color': 0x00FF00,
                                     'posX': 0,
-                                    'posY': 130,
+                                    'posY': 142,
                                     'posZ': -30,
                                     'rotX': -90,
                                     'rotY': false,
@@ -619,12 +619,13 @@ var levels = [
                               'model': {
                                     'scale': 0.25,
                                     'posX': 0,
-                                    'posY': 130,
+                                    'posY': 142,
                                     'posZ': -30,
                                     'rotX': false,
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 10,
                                     'name': 'basketring-model'
                               }
                         },
@@ -649,6 +650,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 20,
                                     'name': 'basketring-model'
                               }
                         }
@@ -660,7 +662,7 @@ var levels = [
                                     'height': 60,
                                     'depth': 20,
                                     'posX': -150,
-                                    'posY': 100,
+                                    'posY': 125,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -671,7 +673,7 @@ var levels = [
                                     'color': '00FF00',
                                     'scale': 0.25,
                                     'posX': -150,
-                                    'posY': 100,
+                                    'posY': 125,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -687,7 +689,7 @@ var levels = [
                                     'height': 60,
                                     'depth': 20,
                                     'posX': 0,
-                                    'posY': 150,
+                                    'posY': 162,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -698,7 +700,7 @@ var levels = [
                                     'color': '00FF00',
                                     'scale': 0.25,
                                     'posX': 0,
-                                    'posY': 150,
+                                    'posY': 162,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -738,13 +740,13 @@ var levels = [
             'animate': [{
                   'ring': 0,
                   'position': 'up',
-                  'min': 100,
+                  'min': 125,
                   'max': 200,
                   'speed': 0.8
             }, {
                   'ring': 2,
                   'position': 'down',
-                  'min': 100,
+                  'min': 125,
                   'max': 200,
                   'speed': 0.8
             }]
@@ -766,8 +768,6 @@ var levels = [
 
       {
             'totalBalls': 8,
-            'pointsPerGoal': 40,
-            'bonusPoints': 70,
             'time': 100,
             'totalRings': {
                   'ring': [{
@@ -790,6 +790,7 @@ var levels = [
                               'rotY': 10,
                               'rotZ': false,
                               'color': 'CC0030',
+                              'points': 30,
                               'name': 'basketring-model'
                         }
                   }],
@@ -825,7 +826,7 @@ var levels = [
                   'position': 'right',
                   'min': -150,
                   'max': 150,
-                  'speed': 1
+                  'speed': .6
             }]
       },
 
@@ -844,8 +845,6 @@ var levels = [
 
       {
             'totalBalls': 6,
-            'pointsPerGoal': 40,
-            'bonusPoints': 70,
             'time': 80,
             'totalRings': {
                   'ring': [
@@ -871,6 +870,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 20,
                                     'name': 'basketring-model'
                               }
                         },
@@ -879,7 +879,7 @@ var levels = [
                               'physics': {
                                     'color': 0x00FF00,
                                     'posX': 150,
-                                    'posY': 130,
+                                    'posY': 142,
                                     'posZ': -30,
                                     'rotX': -90,
                                     'rotY': false,
@@ -889,12 +889,13 @@ var levels = [
                               'model': {
                                     'scale': 0.25,
                                     'posX': 150,
-                                    'posY': 130,
+                                    'posY': 142,
                                     'posZ': -30,
                                     'rotX': false,
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 30,
                                     'name': 'basketring-model'
                               }
                         }
@@ -936,7 +937,7 @@ var levels = [
                                     'height': 60,
                                     'depth': 20,
                                     'posX': 150,
-                                    'posY': 150,
+                                    'posY': 162,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -947,7 +948,7 @@ var levels = [
                                     'color': '00FF00',
                                     'scale': 0.25,
                                     'posX': 150,
-                                    'posY': 150,
+                                    'posY': 162,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -960,7 +961,7 @@ var levels = [
             'animate': [{
                   'ring': 0,
                   'position': 'down',
-                  'min': 100,
+                  'min': 125,
                   'max': 200,
                   'speed': .9
             }, {
@@ -968,7 +969,7 @@ var levels = [
                   'position': 'left',
                   'min': 0,
                   'max': 150,
-                  'speed': 1.2
+                  'speed': .6
             }]
       },
 
@@ -987,15 +988,13 @@ var levels = [
 
       {
             'totalBalls': 6,
-            'pointsPerGoal': 40,
-            'bonusPoints': 70,
             'time': 60,
             'totalRings': {
                   'ring': [{
                               'physics': {
                                     'color': 0x00FF00,
                                     'posX': -150,
-                                    'posY': 130,
+                                    'posY': 142,
                                     'posZ': -30,
                                     'rotX': -90,
                                     'rotY': false,
@@ -1005,12 +1004,13 @@ var levels = [
                               'model': {
                                     'scale': 0.25,
                                     'posX': -150,
-                                    'posY': 130,
+                                    'posY': 142,
                                     'posZ': -30,
                                     'rotX': false,
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 35,
                                     'name': 'basketring-model'
                               }
                         },
@@ -1019,7 +1019,7 @@ var levels = [
                               'physics': {
                                     'color': 0x00FF00,
                                     'posX': 150,
-                                    'posY': 130,
+                                    'posY': 142,
                                     'posZ': -30,
                                     'rotX': -90,
                                     'rotY': false,
@@ -1029,12 +1029,13 @@ var levels = [
                               'model': {
                                     'scale': 0.25,
                                     'posX': 150,
-                                    'posY': 130,
+                                    'posY': 142,
                                     'posZ': -30,
                                     'rotX': false,
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 35,
                                     'name': 'basketring-model'
                               }
                         }
@@ -1046,7 +1047,7 @@ var levels = [
                                     'height': 60,
                                     'depth': 20,
                                     'posX': -150,
-                                    'posY': 150,
+                                    'posY': 162,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -1057,7 +1058,7 @@ var levels = [
                                     'color': '00FF00',
                                     'scale': 0.25,
                                     'posX': -150,
-                                    'posY': 150,
+                                    'posY': 162,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -1073,7 +1074,7 @@ var levels = [
                                     'height': 60,
                                     'depth': 20,
                                     'posX': 150,
-                                    'posY': 150,
+                                    'posY': 162,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -1084,7 +1085,7 @@ var levels = [
                                     'color': '00FF00',
                                     'scale': 0.25,
                                     'posX': 150,
-                                    'posY': 150,
+                                    'posY': 162,
                                     'posZ': -60,
                                     'rotX': false,
                                     'rotY': false,
@@ -1099,13 +1100,13 @@ var levels = [
                   'position': 'left',
                   'min': -150,
                   'max': -75,
-                  'speed': 1.5
+                  'speed': 1
             }, {
                   'ring': 1,
                   'position': 'right',
                   'min': 75,
                   'max': 150,
-                  'speed': 1.5
+                  'speed': 1
             }]
       },
 
@@ -1124,8 +1125,6 @@ var levels = [
 
       {
             'totalBalls': 5,
-            'pointsPerGoal': 40,
-            'bonusPoints': 70,
             'time': 40,
             'totalRings': {
                   'ring': [
@@ -1150,6 +1149,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 40,
                                     'name': 'basketring-model'
                               }
                         }
@@ -1187,9 +1187,9 @@ var levels = [
             'animate': [{
                   'ring': 0,
                   'position': 'square-right',
-                  'min': 100,
+                  'min': 125,
                   'max': 200,
-                  'speed': 1.8
+                  'speed': 1.3
             }]
       },
 
@@ -1200,17 +1200,15 @@ var levels = [
 
       /**
        *
-        * Level 10
+       * Level 10
        *
        */
 
 
 
       {
-            'totalBalls': 30,
-            'pointsPerGoal': 40,
-            'bonusPoints': 70,
-            'time': 20,
+            'totalBalls': 3,
+            'time': 30,
             'totalRings': {
                   'ring': [{
                               'physics': {
@@ -1232,6 +1230,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 60,
                                     'name': 'basketring-model'
                               }
                         },
@@ -1256,6 +1255,7 @@ var levels = [
                                     'rotY': 10,
                                     'rotZ': false,
                                     'color': 'CC0030',
+                                    'points': 30,
                                     'name': 'basketring-model'
                               }
                         },
@@ -1279,6 +1279,7 @@ var levels = [
                                     'rotX': false,
                                     'rotY': 10,
                                     'rotZ': false,
+                                    'points': 100,
                                     'color': 'CC0030',
                                     'name': 'basketring-model'
                               }
@@ -1367,11 +1368,4 @@ var levels = [
                   ]
             }
       }
-
-
-
-
-
-
-
 ]

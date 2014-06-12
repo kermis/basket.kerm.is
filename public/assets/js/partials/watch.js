@@ -182,7 +182,7 @@ var look = {
                                     setTimeout(function() {
                                           basket.removeABall();
                                     }, 5000);
-                              }, 2000);
+                              }, 2000); // #1000
                         }
                   }
             }
@@ -348,10 +348,14 @@ var look = {
                   if (basket.isNextLevel) {
                         switch (event.keyCode) {
                               case 32: // spatie
-                                    basket.nextLevel(basket.level);
+                                    if (!basket.gameOver) {
+                                          basket.nextLevel(basket.level);
+                                    }
                                     break;
                               case 82: // R
-                                    basket.replayLevel(basket.level);
+                                    if (!basket.gameOver) {
+                                          basket.replayLevel(basket.level);
+                                    }
                                     break;
 
                         }

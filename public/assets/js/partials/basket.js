@@ -6,16 +6,17 @@ var basket = {
        *
        */
 
-      level: 0,
+      level: 9,
       reload: false,
       start: false,
       controller: 'mouse',
-      totalPoints: 0,
-      totalScored: 0,
-      globalPoints: 0,
-      totalMissed: 0,
+      totalPoints: 0, // total points per game
+      totalScored: 0, // total balls scored
+      globalPoints: 0, // total points over whole the game
+      totalMissed: 0, // total balls missed
       isNextLevel: false,
       infoVisible: true,
+      gameOver: false,
 
       /**
        *
@@ -107,48 +108,21 @@ var basket = {
             setTimeout(function() {
                   $('.big').remove();
 
-                  $('.info-score').addClass('active');
-
-                  console.log(basket.level, levels.length - 1);
-
-
                   if (basket.level < levels.length - 1) {
 
                         if (type == 'next') {
-
-                              // // $('.score-submit').on('click', function() {
-
-                              // //var name = $('.user-name').val();
-                              // var score = basket.totalPoints;
-                              // var level = basket.level + 1;
-                              // // var rings = game.totalRingsGame;
-                              // // var stars = game.totalStarsGame;
-                              // // var crashes = game.crashes;
-
-                              // $.post("http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket", {
-                              //       score: score,
-                              //       level: level
-                              // })
-                              // // .done(function() {
-                              // //       $('.score-submit').hide();
-                              // //       $('.game-over').append('score succesully shared.')
-
-                              // // }).fail(function() {
-                              // //       $('.game-over').append('something went wrong, please try again')
-                              // // });
-                              // // })
-
                               basket.globalPoints += basket.totalPoints;
                               basket.level++;
                         } else {
                               basket.level = i;
                         }
 
+                        $('.info-score').addClass('active');
                         timeRemaining = levels[basket.level].time;
                         basket.totalBalls = levels[basket.level].totalBalls;
                         basket.totalPoints = 0;
-                        basket.totalScored = 0;
-                        basket.totalMissed = 0;
+                        // basket.totalScored = 0;
+                        // basket.totalMissed = 0;
 
                         reloadScene();
 
@@ -157,7 +131,10 @@ var basket = {
 
                         basket.timeLeft();
                   } else {
-                        console.log('game over')
+                        basket.globalPoints += basket.totalPoints;
+                        console.log('game over', basket.globalPoints);
+                        basket.gameOver = true;
+
                         $('.game-over').addClass('slide-up');
 
                         $('.score-final').html(basket.globalPoints);
@@ -305,7 +282,8 @@ var basket = {
 
             basket.totalScored++;
             basket.totalMissed--;
-            basket.totalPoints += levels[basket.level].pointsPerGoal;
+            basket.totalPoints += levels[basket.level].totalRings.ring[ringnumber].model.points;
+            console.log(basket.totalPoints);
 
             /**
              *
@@ -314,19 +292,21 @@ var basket = {
              */
 
             var materialFront = new THREE.MeshBasicMaterial({
-                  color: 0xCC0030,
+                  color: 0xFFFFFF,
                   transparent: true,
                   opacity: 1
             });
 
             var materialSide = new THREE.MeshBasicMaterial({
-                  color: 0x00ff00,
+                  color: 0x000000,
                   transparent: true,
-                  opacity: 1
+                  opacity: .8
             });
 
+            console.log(levels[basket.level].totalRings.ring);
+
             var materialArray = [materialFront, materialSide];
-            var textGeom = new THREE.TextGeometry(levels[basket.level].pointsPerGoal, {
+            var textGeom = new THREE.TextGeometry(levels[basket.level].totalRings.ring[ringnumber].model.points, {
                   size: 10,
                   height: 10,
                   curveSegments: 3,
@@ -432,11 +412,11 @@ var basket = {
             if (levels[basket.level].animate[i].position == 'right' || levels[basket.level].animate[i].position == 'square-right') {
 
                   if (levels[basket.level].animate[i].position == 'right') {
-                        basket.MaxPos = basketRings[ringNumber].model.position.x < levels[basket.level].animate[i].max
+                        basket.MaxPos = basketBacks[ringNumber].model.position.x < levels[basket.level].animate[i].max
                   }
 
                   if (levels[basket.level].animate[i].position == 'square-right') {
-                        basket.MaxPos = basketRings[ringNumber].model.position.x < (levels[basket.level].animate[i].max - (levels[basket.level].animate[i].max / 2));
+                        basket.MaxPos = basketBacks[ringNumber].model.position.x < (levels[basket.level].animate[i].max - (levels[basket.level].animate[i].max / 2));
                   }
 
                   if (basket.MaxPos) {
@@ -449,6 +429,9 @@ var basket = {
                         basketRings[ringNumber].model.position.x -= levels[basket.level].animate[i].speed;
                         basketRings[ringNumber].physics.position.x -= levels[basket.level].animate[i].speed;
 
+                        basketBacks[ringNumber].model.position.x -= levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.x -= levels[basket.level].animate[i].speed;
+
                         if (levels[basket.level].animate[i].position == 'right') {
                               levels[basket.level].animate[i].position = 'left';
                         }
@@ -457,19 +440,17 @@ var basket = {
                               levels[basket.level].animate[i].position = 'square-down'
                         }
 
-                        basketBacks[ringNumber].model.position.x -= levels[basket.level].animate[i].speed;
-                        basketBacks[ringNumber].physics.position.x -= levels[basket.level].animate[i].speed;
                   }
             }
 
             if (levels[basket.level].animate[i].position == 'left' || levels[basket.level].animate[i].position == 'square-left') {
 
                   if (levels[basket.level].animate[i].position == 'left') {
-                        basket.MinPos = basketRings[ringNumber].model.position.x > levels[basket.level].animate[i].min;
+                        basket.MinPos = basketBacks[ringNumber].model.position.x > levels[basket.level].animate[i].min;
                   }
 
                   if (levels[basket.level].animate[i].position == 'square-left') {
-                        basket.MinPos = basketRings[ringNumber].model.position.x > -levels[basket.level].animate[i].min;
+                        basket.MinPos = basketBacks[ringNumber].model.position.x > -levels[basket.level].animate[i].min;
                   }
 
                   if (basket.MinPos) {
@@ -482,6 +463,10 @@ var basket = {
                         basketRings[ringNumber].model.position.x += levels[basket.level].animate[i].speed;
                         basketRings[ringNumber].physics.position.x += levels[basket.level].animate[i].speed;
 
+                        basketBacks[ringNumber].model.position.x += levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.x += levels[basket.level].animate[i].speed;
+
+
                         if (levels[basket.level].animate[i].position == 'left') {
                               levels[basket.level].animate[i].position = 'right';
                         }
@@ -489,15 +474,11 @@ var basket = {
                         if (levels[basket.level].animate[i].position == 'square-left') {
                               levels[basket.level].animate[i].position = 'square-up'
                         }
-
-
-                        basketBacks[ringNumber].model.position.x += levels[basket.level].animate[i].speed;
-                        basketBacks[ringNumber].physics.position.x += levels[basket.level].animate[i].speed;
                   }
             }
 
             if (levels[basket.level].animate[i].position == 'up' || levels[basket.level].animate[i].position == 'square-up') {
-                  if (basketRings[ringNumber].model.position.y < levels[basket.level].animate[i].max) {
+                  if (basketBacks[ringNumber].model.position.y < levels[basket.level].animate[i].max) {
                         basketRings[ringNumber].model.position.y += levels[basket.level].animate[i].speed;
                         basketRings[ringNumber].physics.position.y += levels[basket.level].animate[i].speed;
 
@@ -507,6 +488,9 @@ var basket = {
                         basketRings[ringNumber].model.position.y -= levels[basket.level].animate[i].speed;
                         basketRings[ringNumber].physics.position.y -= levels[basket.level].animate[i].speed;
 
+                        basketBacks[ringNumber].model.position.y -= levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.y -= levels[basket.level].animate[i].speed;
+
                         if (levels[basket.level].animate[i].position == 'up') {
                               levels[basket.level].animate[i].position = 'down';
                         }
@@ -515,14 +499,12 @@ var basket = {
                               levels[basket.level].animate[i].position = 'square-right';
                         }
 
-                        basketBacks[ringNumber].model.position.x -= levels[basket.level].animate[i].speed;
-                        basketBacks[ringNumber].physics.position.x -= levels[basket.level].animate[i].speed;
                   }
             }
 
 
             if (levels[basket.level].animate[i].position == 'down' || levels[basket.level].animate[i].position == 'square-down') {
-                  if (basketRings[ringNumber].model.position.y > levels[basket.level].animate[i].min) {
+                  if (basketBacks[ringNumber].model.position.y > levels[basket.level].animate[i].min) {
                         basketRings[ringNumber].model.position.y -= levels[basket.level].animate[i].speed;
                         basketRings[ringNumber].physics.position.y -= levels[basket.level].animate[i].speed;
 
@@ -531,6 +513,9 @@ var basket = {
                   } else {
                         basketRings[ringNumber].model.position.y += levels[basket.level].animate[i].speed;
                         basketRings[ringNumber].physics.position.y += levels[basket.level].animate[i].speed;
+
+                        basketBacks[ringNumber].model.position.y += levels[basket.level].animate[i].speed;
+                        basketBacks[ringNumber].physics.position.y += levels[basket.level].animate[i].speed;
 
 
                         if (levels[basket.level].animate[i].position == 'square-down') {
@@ -541,8 +526,6 @@ var basket = {
                               levels[basket.level].animate[i].position = 'up';
                         }
 
-                        basketBacks[ringNumber].model.position.y += levels[basket.level].animate[i].speed;
-                        basketBacks[ringNumber].physics.position.y += levels[basket.level].animate[i].speed;
                   }
             }
 
@@ -639,3 +622,4 @@ var stats;
 
 // The element we'll make fullscreen and pointer locked.
 var fullscreenElement;
+var mouseDown = false;
