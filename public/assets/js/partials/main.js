@@ -42,7 +42,7 @@ socket.on('connect', function() {
       socket.emit('message', {
             msg: 'you are connected to the room ' + room.id
       })
-      socket.emit('room', room.id);
+      socket.emit('room', room.id, 'browser');
 });
 
 /**
@@ -55,7 +55,7 @@ socket.on('connect', function() {
 socket.on('connected_person', function(data) {
       console.log('A new user (mobile) is connected');
       if (room.id == data) {
-            basket.start = true;
+            basket.start = true; // REMOVE
 
             // $('.info').fadeOut();
 

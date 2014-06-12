@@ -66,10 +66,10 @@ io.sockets.on('connection', function(socket) {
             //console.log('MESSAGE', data);
       });
 
-      socket.on('room', function(room) {
+      socket.on('room', function(room, type) {
             roomID = room;
             roomio = room;
-            checkRoom(socket, roomID);
+            checkRoom(socket, roomID, type);
       });
 
       socket.on('connected_user', function(data) {
@@ -106,21 +106,36 @@ io.sockets.on('connection', function(socket) {
 | Check if room exists
 |------------------------------------------------------------------------------------
 */
-function checkRoom(socket, roomID) {
+function checkRoom(socket, roomID, type) {
       var rooms = io.sockets.manager.rooms;
 
+      console.log('room type', type);
+
       if (rooms['/' + roomID]) {
-            if (rooms['/' + roomID].length >= 2) {
-                  socket.emit('checkroom', 'You cannot connect to this room.');
-            } else {
+            // console.log('if', rooms['/' + roomID].length);
+            // if (rooms['/' + roomID].length > 1) {
+            //       // console.log(' >= 2');
+            //       // socket.emit('checkroom', 'You cannot connect to this room.');
+            // } else {
+            //       console.log('niet >= 2');
+            //       socket.join(roomID);
+            //       socket.emit('checkroom', 'You are connected');
+            // }
+
+            socket.join(roomio);
+            roomdata = rooms['/' + roomio];
+            io.sockets. in (roomio).emit('roomJoined', roomdata);
+
+      } else {
+            console.log('else');
+            if (type == 'browser') {
+                  // console.log('connect roomID else', type);
                   socket.join(roomID);
-                  socket.emit('checkroom', 'You are connected');
+            } else {
+                  socket.emit('checkroom', "Something went wrong I guess.");
             }
 
       }
-      //else {
-      //       socket.join(roomID);
-      // }
 
-      //console.log('rooms', rooms);
+      console.log('rooms', rooms);
 }
