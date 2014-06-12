@@ -20,7 +20,10 @@ var leap = {
 
             basket.showNotification('Leap Connected');
 
-            basket.pause();
+            if (basket.start && !basket.infoVisible) {
+                  console.log('basket.Start');
+                  basket.pause();
+            }
       },
 
       onDisconnect: function() {
@@ -29,7 +32,10 @@ var leap = {
 
 
             basket.showNotification('Leap Disconnected');
-            basket.pause();
+
+            if (basket.start && !basket.infoVisible) {
+                  basket.pause();
+            }
 
             basket.controller = 'mouse';
       },

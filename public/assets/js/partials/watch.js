@@ -362,7 +362,7 @@ var look = {
                   }
             }
 
-            if (event.keyCode == 27 && !basket.infoVisible) {
+            if (event.keyCode == 27 && !basket.infoVisible) { // esc
                   //event.preventDefault();
                   basket.pause()
 

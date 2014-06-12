@@ -311,7 +311,7 @@
                     basket.power = 1;
                 }
 
-                if(!mouseDown){
+                if(!mouseDown && basket.controller == 'mouse'){
                    look.theUserIsShooting(event);
                    mouseDown = false;
                 }
@@ -500,7 +500,7 @@
 
                     $('.play').on('click', function(){
 
-
+                            console.log('play button');
 
                             $('.info').removeClass('slide_down');
                             //look.theUserIsLockingThePointer();
@@ -510,9 +510,11 @@
 
                              basket.start = true;
 
-                            basket.timeLeft();
+                            basket.timeLeft('play clicked');
 
                             console.log('play', basket.start);
+
+                            $(this).blur();
 
                     })
 
@@ -551,7 +553,7 @@
 
 
                     // #CONSOLE LOG RESET
-                    console.log = function() {};
+                    //console.log = function() {};
 
         </script>
 

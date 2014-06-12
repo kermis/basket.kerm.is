@@ -129,7 +129,7 @@ var basket = {
                         basket.start = true;
                         basket.isNextLevel = false;
 
-                        basket.timeLeft();
+                        basket.timeLeft('reset Game');
                   } else {
                         basket.globalPoints += basket.totalPoints;
                         console.log('game over', basket.globalPoints);
@@ -544,17 +544,18 @@ var basket = {
             if (!basket.start) {
                   $('.pause').fadeOut(100);
                   basket.start = true;
+                  basket.timeLeft('pause fadeout'); //#REMOVE
                   console.log('fadeout');
             } else {
                   $('.pause').fadeIn(100);
                   basket.start = false;
-                  basket.timeLeft();
+                  basket.timeLeft('pause fadein');
                   console.log('fadein');
             }
       },
 
-      timeLeft: function() {
-
+      timeLeft: function(where) {
+            console.log('where timeleft?', where);
             //ticks once a second for the score, checks for remaining time
             if (timeRemaining == 0) {
                   basket.endGame();
@@ -567,7 +568,7 @@ var basket = {
 
                   setTimeout(function() {
                         if (basket.start) {
-                              basket.timeLeft();
+                              basket.timeLeft('timeLeft');
                         }
                   }, 1000)
             }
