@@ -100,7 +100,7 @@ socket.on('mobile_disconnect', function() {
       if (basket.controller == 'mobile') {
             basket.showNotification('Smartphone Connection lost')
 
-            if (basket.start && basket.infoVisible) {
+            if (basket.start && !basket.infoVisible) {
                   basket.pause();
             }
       }
