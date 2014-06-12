@@ -6,7 +6,7 @@ var basket = {
        *
        */
 
-      level: 9,
+      level: 0,
       reload: false,
       start: false,
       controller: 'mouse',
