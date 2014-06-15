@@ -1,26 +1,28 @@
 var socket = io.connect(url.currentURL);
-
+var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 var room = {
 
       setID: function() {
 
-            /*
-		|------------------------------------------------------------------------------------
-		| Generate a Room ID
-		|------------------------------------------------------------------------------------
-		*/
+            /**
+             *
+             * Get the room ID
+             *
+             */
+
+
             this.id = this.generateRoomID();
       },
 
       generateRoomID: function() {
-            /*
-		|------------------------------------------------------------------------------------
-		| Generate a Room ID of 3 chars
-		|------------------------------------------------------------------------------------
-		*/
+            /**
+             *
+             * Generate a room ID
+             *
+             */
+
             var text = '';
-            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             for (var i = 0; i < 3; i++) {
                   // generate a random id with 3 characthers
                   text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -31,7 +33,6 @@ var room = {
 
       getID: function() {
             var id;
-
             id = room.queryParam('roomNumber');
 
             if (!id) {
@@ -39,14 +40,11 @@ var room = {
                   id = id.replace('#', '');
             }
 
-
             if (!id) {
                   id = false;
             }
 
             id = id.toUpperCase();
-
-            console.log('id', id);
 
             return id;
       },
@@ -60,7 +58,6 @@ var room = {
             if (results == null) {
                   return '';
             } else {
-                  //console.log('res', results);
                   return results[1];
             }
       }

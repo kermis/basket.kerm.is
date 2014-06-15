@@ -21,24 +21,10 @@ $(function() {
                   message: 'Controller joined to the room : ' + room_id
             });
 
-            // socket.on('checkroom', function(data) {
-            //       $('#controller_message').text(data);
-
-            //       socket.emit('connected_user', room_id);
-
-            // });
-
             socket.on('connected_person', function() {
                   console.log('connected person controller.js');
             });
-
-
       });
-
-      // $('.shoot').on('click', function() {
-      //     console.log('test');
-      //     socket.emit('shoot', {message :  room_id});
-      // })
 
       $('.shoot').on('touchstart', function() {
             power = 0;
@@ -63,11 +49,8 @@ $(function() {
                   room: room_id,
                   power: power
             });
-
             clearInterval(powerCheck);
-
       });
-
 });
 
 

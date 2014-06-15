@@ -10,9 +10,7 @@ var yeswecan = {
        * Build everything
        *
        */
-
       build_everything: function() {
-
             yeswecan.build_therenderer();
             yeswecan.build_thecamera();
             yeswecan.build_thebasketstand();
@@ -20,7 +18,7 @@ var yeswecan = {
             yeswecan.build_thebasket();
             yeswecan.build_theball();
             yeswecan.build_thecloud();
-
+            yeswecan.build_theplane();
       },
 
       /**
@@ -30,7 +28,6 @@ var yeswecan = {
        */
 
       build_therenderer: function() {
-
             renderer = new THREE.WebGLRenderer({
                   antialias: true
             });
@@ -41,7 +38,6 @@ var yeswecan = {
             renderer.shadowMapType = THREE.PCFShadowMap;
             renderer.shadowMapAutoUpdate = true;
             container.appendChild(renderer.domElement);
-
       },
 
       /**
@@ -51,31 +47,15 @@ var yeswecan = {
        */
 
       build_thecamera: function() {
-
-            // var mainCamera = new THREE.PerspectiveCamera(75, sceneW / sceneH, 1, 10000);
-            // mainCamera.position.z = 750; // move back
-            // mainCamera.position.y = 100; // move up
-            // mainCamera.name = "main";
-            // mainCamera.lookAt(new THREE.Vector3(0, 0, 0)); // point it down at the center of the 3D scene
-
-
             var mainCamera = new THREE.PerspectiveCamera(45, sceneW / sceneH, 1, 10000);
             mainCamera.position.z = 850; // move back
             mainCamera.position.y = 100; // move up
             mainCamera.name = "main";
-            // mainCamera.lookAt(new THREE.Vector3(0, 0, 0)); // point it down at the center of the 3D scene
-
-            // var backCamera = new THREE.PerspectiveCamera(50, sceneW / sceneH, 1, 10000);
-            // backCamera.position.z =  1200; // move back
-            // backCamera.position.y = 300; // move up
-            // backCamera.name = "back";
-            // backCamera.lookAt(new THREE.Vector3(0,0,0)); // point it down at the center of the 3D scene
 
             this.get_thecurrentCam = 0;
             this.get_AllTheCameras = [mainCamera];
 
             yeswecan.get_theSceneCam = yeswecan.get_AllTheCameras[yeswecan.get_thecurrentCam];
-
       },
 
       /**
@@ -91,8 +71,6 @@ var yeswecan = {
              * Build the ground
              *
              */
-
-
             yeswecan_setSomeArguments = {
                   'type': 'plane',
                   'width': 1000,
@@ -109,7 +87,6 @@ var yeswecan = {
                   'rotX': -90,
                   'name': 'ground'
             }
-
             this.build_thelowpolystand(yeswecan_setSomeArguments);
 
             /**
@@ -117,96 +94,19 @@ var yeswecan = {
              * Load basket stand
              *
              */
-
-            var basketStand = new THREE.ObjectLoader();
-
-            basketStand.load('assets/js/models/stand.js', function(mesh) {
+            loader.load('assets/js/models/stand.js', function(mesh) {
                   mesh.scale.set(0.25, 0.25, 0.25);
                   mesh.position.set(0, 0, 100);
                   mesh.name = 'basketstand';
                   scene.add(mesh);
             });
 
-            var court = new THREE.ObjectLoader();
-            court.load('assets/js/models/court.js', function(mesh) {
+            loader.load('assets/js/models/court.js', function(mesh) {
                   mesh.scale.set(70, 70, 70);
                   mesh.position.set(1300, -20, 2500);
                   mesh.rotation.y = helpMe.calculate('rad', 90);
                   mesh.name = 'court';
                   scene.add(mesh);
-            });
-
-
-            var plane = new THREE.ObjectLoader();
-
-            plane.load('assets/js/models/plane.js', function(mesh) {
-
-                  mesh.scale.set(5, 5, 5);
-                  mesh.position.set(3000, 400, -400);
-                  mesh.rotation.y = helpMe.calculate('rad', 90);
-                  mesh.name = 'plane';
-                  scene.add(mesh);
-
-                  /**
-                   *
-                   * Create motivation text
-                   *
-                   */
-
-                  var materialFront = new THREE.MeshBasicMaterial({
-                        color: 0xCC0030,
-                        transparent: true,
-                        opacity: 1
-                  });
-                  var materialSide = new THREE.MeshBasicMaterial({
-                        color: '#FFF',
-                        transparent: true,
-                        opacity: 0.5
-                  });
-                  var materialArray = [materialFront, materialSide];
-                  var random = 1 + Math.ceil(Math.random() * slogans.length);
-
-                  var textGeom = new THREE.TextGeometry(slogans[random], {
-                        size: 20,
-                        height: 7,
-                        curveSegments: 3,
-                        font: "helvetiker",
-                        weight: "bold",
-                        style: "normal",
-                        bevelThickness: 0,
-                        bevelSize: 0,
-                        bevelEnabled: false,
-                        material: 0,
-                        extrudeMaterial: 1
-                  });
-
-                  var textMaterial = new THREE.MeshFaceMaterial(materialArray);
-                  var textMesh = new THREE.Mesh(textGeom, textMaterial);
-                  textGeom.computeBoundingBox();
-                  var textWidth = textGeom.boundingBox.max.x - textGeom.boundingBox.min.x;
-                  textMesh.position.set(3180, 390, -400);
-                  textMesh.name = 'gogogo';
-                  scene.add(textMesh);
-
-                  /**
-                   *
-                   * Animate Plane and text
-                   *
-                   */
-
-                  var fly = setTimeout(function() {
-                        var flyPlain = setInterval(function() {
-                              if (basket.start) {
-                                    if (mesh.position.x <= -3000) {
-                                          clearInterval(flyPlain);
-                                    } else {
-                                          mesh.position.x -= 2.5;
-                                          textMesh.position.x -= 2.5;
-                                    }
-                              }
-                        }, 10)
-                  }, 1000 + Math.random() * (levels[basket.level].time * 1000));
-
             });
 
             /**
@@ -216,99 +116,51 @@ var yeswecan = {
              */
 
             hitboxes.create();
+      },
 
-            yeswecan_setSomeArguments = {
-                  'type': 'cube',
-                  'width': 500,
-                  'height': 75,
-                  'depth': 15,
-                  'wSegments': 10,
-                  'hSegments': 10,
-                  'color': 0xCC0030,
-                  'transparent': true,
-                  'opacity': 0,
-                  'friction': .4,
-                  'restitution': .4,
-                  'posY': 45,
-                  'posZ': 92,
-                  'rotX': 90,
-                  'name': 'wallprizetop'
-            }
-            this.build_thelowpolystand(yeswecan_setSomeArguments);
+      build_theplane: function() {
+            loader.load('assets/js/models/plane.js', function(mesh) {
+                  mesh.scale.set(5, 5, 5);
+                  mesh.position.set(3000, 400, -400);
+                  mesh.rotation.y = helpMe.calculate('rad', 90);
+                  mesh.name = 'plane';
+                  scene.add(mesh);
 
-            yeswecan_setSomeArguments = {
-                  'type': 'cube',
-                  'width': 500,
-                  'height': 75,
-                  'depth': 15,
-                  'wSegments': 10,
-                  'hSegments': 10,
-                  'color': 0xFFFF00,
-                  'transparent': true,
-                  'opacity': 0,
-                  'friction': .4,
-                  'restitution': .4,
-                  'posY': 10,
-                  'posZ': 120,
-                  'name': 'wallprizebottom'
-            }
-            this.build_thelowpolystand(yeswecan_setSomeArguments);
+                  //create motivation text
+                  var random = 1 + Math.ceil(Math.random() * slogans.length);
 
-            yeswecan_setSomeArguments = {
-                  'type': 'cube',
-                  'width': 200,
-                  'height': 20,
-                  'depth': 15,
-                  'wSegments': 10,
-                  'hSegments': 10,
-                  'color': 0xFFFF00,
-                  'transparent': true,
-                  'opacity': 0,
-                  'friction': .4,
-                  'restitution': .4,
-                  'posX': -70,
-                  'posY': 10,
-                  'posZ': 600,
-                  'rotY': 45,
-                  'name': 'blockballsleft'
-            }
-            this.build_thelowpolystand(yeswecan_setSomeArguments);
+                  createTextOptions();
 
-            yeswecan_setSomeArguments = {
-                  'type': 'cube',
-                  'width': 200,
-                  'height': 20,
-                  'depth': 15,
-                  'wSegments': 10,
-                  'hSegments': 10,
-                  'color': 0xFFFF00,
-                  'transparent': true,
-                  'opacity': 0,
-                  'friction': .4,
-                  'restitution': .4,
-                  'posX': 70,
-                  'posY': 10,
-                  'posZ': 600,
-                  'rotY': -45,
-                  'name': 'blockballsleft'
-            }
-            this.build_thelowpolystand(yeswecan_setSomeArguments);
+                  var textGeom = new THREE.TextGeometry(slogans[random], setOptions(20));
+                  var textMesh = new THREE.Mesh(textGeom, textMaterial);
+                  textGeom.computeBoundingBox();
+                  var textWidth = textGeom.boundingBox.max.x - textGeom.boundingBox.min.x;
+                  textMesh.position.set(3180, 390, -400);
+                  textMesh.name = 'gogogo';
+                  scene.add(textMesh);
+
+                  // animate plane and text
+                  yeswecan.animateThePlane(mesh, textMesh);
+            });
+      },
+
+      animateThePlane: function(mesh, textMesh) {
+            var fly = setTimeout(function() {
+                  var flyPlain = setInterval(function() {
+                        if (basket.start) {
+                              if (mesh.position.x <= -3000) {
+                                    clearInterval(flyPlain);
+                              } else {
+                                    mesh.position.x -= 2.5;
+                                    textMesh.position.x -= 2.5;
+                              }
+                        }
+                  }, 10)
+            }, 1000 + Math.random() * (levels[basket.level].time * 1000));
       },
 
       build_thelowpolystand: function(args) {
 
-            if (args.type == 'plane') {
-                  var geometry = new THREE.PlaneGeometry(args.width, args.height, args.wSegments, args.hSegments); // width, height, widhtSegments, heightSegments
-            }
-
-            if (args.type == 'cube') {
-                  var geometry = new THREE.BoxGeometry(args.width, args.height, args.depth, args.wSegments, args.hSegments); // width, height, widhtSegments, heightSegments
-            }
-
-            geometry.computeFaceNormals();
-            geometry.computeVertexNormals();
-
-            var texture;
             if (args.texture) {
                   texture = THREE.ImageUtils.loadTexture('assets/img/' + args.texture);
                   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -338,12 +190,18 @@ var yeswecan = {
             }
 
             if (args.type == 'plane') {
+                  var geometry = new THREE.PlaneGeometry(args.width, args.height, args.wSegments, args.hSegments); // width, height, widhtSegments, heightSegments
                   var mesh = new Physijs.HeightfieldMesh(geometry, material, 0); // matches a regular grid of height values given in the z-coordinates
             }
 
             if (args.type == 'cube') {
+                  var geometry = new THREE.BoxGeometry(args.width, args.height, args.depth, args.wSegments, args.hSegments); // width, height, widhtSegments, heightSegments
                   var mesh = new Physijs.BoxMesh(geometry, material, 0); // matches a regular grid of height values given in the z-coordinates
+
             }
+
+            geometry.computeFaceNormals();
+            geometry.computeVertexNormals();
 
             if (args.posX) mesh.position.x = args.posX;
             if (args.posY) mesh.position.y = args.posY;
@@ -381,6 +239,7 @@ var yeswecan = {
                   transparent: true,
                   opacity: 0
             }, 1, 1);
+
             var basketBack = new Physijs.BoxMesh(
                   new THREE.CubeGeometry(totalBacks[i].physics.width, totalBacks[i].physics.height, totalBacks[i].physics.depth),
                   basketMaterial,
@@ -442,11 +301,11 @@ var yeswecan = {
 
             var totalBacks = levels[basket.level].totalRings.back;
             var b = 0;
-            var basketLoader = new THREE.ObjectLoader();
+
 
             for (var i = 0; i < totalBacks.length; i++) //  for(var i = 0; i < 12; i += 4)
             {
-                  basketLoader.load('assets/js/models/basketback2.js', function(mesh) {
+                  loader.load('assets/js/models/basketback2.js', function(mesh) {
 
                         mesh.scale.set(totalBacks[b].model.scale, totalBacks[b].model.scale, totalBacks[b].model.scale);
                         mesh.position.set(totalBacks[b].model.posX, totalBacks[b].model.posY, totalBacks[b].model.posZ);
@@ -471,10 +330,10 @@ var yeswecan = {
 
             var k = 0;
             var totalRings = levels[basket.level].totalRings.ring;
-            var ringLoader = new THREE.ObjectLoader();
+
 
             for (var i = 0; i < totalRings.length; i++) {
-                  ringLoader.load('assets/js/models/basketring.js', function(mesh) {
+                  loader.load('assets/js/models/basketring.js', function(mesh) {
 
                         mesh.scale.set(totalRings[k].model.scale, totalRings[k].model.scale, totalRings[k].model.scale);
                         mesh.position.set(totalRings[k].model.posX, totalRings[k].model.posY, totalRings[k].model.posZ);
@@ -504,21 +363,9 @@ var yeswecan = {
             $('.powerIndicator').css({
                   'bottom': 0
             });
+
             basket.power = 0;
             basket.way = 'up';
-
-            var ballTexture = THREE.ImageUtils.loadTexture('assets/img/basket.png');
-            ballTexture.wrapS = ballTexture.wrapT = THREE.RepeatWrapping;
-            ballTexture.repeat.set(1, 1);
-
-            var ballMaterial = Physijs.createMaterial(
-                  new THREE.MeshBasicMaterial({
-                        map: ballTexture,
-                        color: 0xff8000
-                  }),
-                  .8,
-                  1.5
-            );
 
             ball = new Physijs.SphereMesh(
                   new THREE.SphereGeometry(13, 10, 7),
@@ -542,14 +389,11 @@ var yeswecan = {
       },
 
       build_thecloud: function() {
-            var cloud = new THREE.ObjectLoader();
-            cloud.load('assets/js/models/wolk.js', function(mesh) {
+            loader.load('assets/js/models/wolk.js', function(mesh) {
                   mesh.scale.set(2, 2, 2);
                   mesh.position.set(-500, -400, -500);
-
                   mesh.name = 'cloud';
                   scene.add(mesh);
-
                   basket.clouds = mesh;
             });
       }

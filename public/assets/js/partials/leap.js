@@ -12,51 +12,40 @@ var leap = {
       },
 
       onConnect: function() {
-            console.log('Leap Succesfully Connected ;)')
-
             $('.chose_leap .play').removeClass('hide');
-
             basket.controller = 'leap';
-
             basket.showNotification('Leap Connected');
 
             if (basket.start && !basket.infoVisible) {
-                  console.log('basket.Start');
                   basket.pause();
             }
       },
 
       onDisconnect: function() {
-            console.log('Leap Succesfully disconnected ;)')
             $('.chose_leap .play').addClass('hide');
-
-
+            basket.controller = 'mouse';
             basket.showNotification('Leap Disconnected');
 
             if (basket.start && !basket.infoVisible) {
                   basket.pause();
             }
-
-            basket.controller = 'mouse';
       },
 
       onFrame: function(frame) {
             /**
              *
-             * Autoupdate powerindicator if leap
+             * Autoupdate powerindicator if leap is connected
              *
              */
 
-
-
-
             try {
-
                   if (basket.start) {
                         if (!ball.shot) {
                               this.hands = frame.hands;
 
                               ball.position.x = Math.ceil(this.hands[0].stabilizedPalmPosition[0] * 1.4);
+                              ball.__dirtyPosition = true;
+
                               basket.power = Math.ceil(this.hands[0].stabilizedPalmPosition[1] * 2.5);
 
                               if (this.hands[0].stabilizedPalmPosition[1] < 350 && this.hands[0].stabilizedPalmPosition[1] > 0) {
@@ -64,22 +53,8 @@ var leap = {
                                           'bottom': this.hands[0].stabilizedPalmPosition[1] - 50
                                     });
                               }
-
-                              // console.log(basket.power);
-
-                              // console.log(this.hands[0].stabilizedPalmPosition[1]);
-
-                              ball.__dirtyPosition = true;
-
-
                         }
                   }
-
-
-            } catch (e) {
-
-            }
-
-
+            } catch (e) {}
       }
 }

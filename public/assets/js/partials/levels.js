@@ -5,8 +5,6 @@ var levels = [
        * LEVEL 1
        *
        */
-
-
       {
             'totalBalls': 10,
             'time': 200,
@@ -64,20 +62,11 @@ var levels = [
             }
       },
 
-
-
-
-
-
-
-
-
       /**
        *
        * LEVEL 2
        *
        */
-
 
       {
             'totalBalls': 10,
@@ -190,20 +179,11 @@ var levels = [
             }
       },
 
-
-
-
-
-
-
-
-
       /**
        *
        * LEVEL 3
        *
        */
-
 
       {
             'totalBalls': 10,
@@ -375,20 +355,11 @@ var levels = [
             }]
       },
 
-
-
-
-
-
-
-
       /**
        *
        * Level 4
        *
        */
-
-
 
       {
             'totalBalls': 10,
@@ -566,15 +537,11 @@ var levels = [
             }]
       },
 
-
-
       /**
        *
        * Level 5
        *
        */
-
-
 
       {
             'totalBalls': 8,
@@ -752,19 +719,11 @@ var levels = [
             }]
       },
 
-
-
-
-
-
-
       /**
        *
        * Level 6
        *
        */
-
-
 
       {
             'totalBalls': 8,
@@ -830,18 +789,11 @@ var levels = [
             }]
       },
 
-
-
-
-
-
       /**
        *
        * Level 7
        *
        */
-
-
 
       {
             'totalBalls': 6,
@@ -973,18 +925,11 @@ var levels = [
             }]
       },
 
-
-
-
-
-
       /**
        *
        * Level 8
        *
        */
-
-
 
       {
             'totalBalls': 6,
@@ -1110,18 +1055,11 @@ var levels = [
             }]
       },
 
-
-
-
-
-
       /**
        *
        * Level 9
        *
        */
-
-
 
       {
             'totalBalls': 5,
@@ -1154,35 +1092,32 @@ var levels = [
                               }
                         }
                   ],
-                  'back': [
-
-                        {
-                              'physics': {
-                                    'color': 0xCC0030,
-                                    'width': 100,
-                                    'height': 60,
-                                    'depth': 20,
-                                    'posX': 0,
-                                    'posY': 200,
-                                    'posZ': -60,
-                                    'rotX': false,
-                                    'rotY': false,
-                                    'rotZ': false,
-                                    'name': 'basketback-physics'
-                              },
-                              'model': {
-                                    'color': '00FF00',
-                                    'scale': 0.25,
-                                    'posX': 0,
-                                    'posY': 200,
-                                    'posZ': -60,
-                                    'rotX': false,
-                                    'rotY': false,
-                                    'rotZ': false,
-                                    'name': 'basketback-model'
-                              }
+                  'back': [{
+                        'physics': {
+                              'color': 0xCC0030,
+                              'width': 100,
+                              'height': 60,
+                              'depth': 20,
+                              'posX': 0,
+                              'posY': 200,
+                              'posZ': -60,
+                              'rotX': false,
+                              'rotY': false,
+                              'rotZ': false,
+                              'name': 'basketback-physics'
+                        },
+                        'model': {
+                              'color': '00FF00',
+                              'scale': 0.25,
+                              'posX': 0,
+                              'posY': 200,
+                              'posZ': -60,
+                              'rotX': false,
+                              'rotY': false,
+                              'rotZ': false,
+                              'name': 'basketback-model'
                         }
-                  ]
+                  }]
             },
             'animate': [{
                   'ring': 0,
@@ -1193,18 +1128,11 @@ var levels = [
             }]
       },
 
-
-
-
-
-
       /**
        *
        * Level 10
        *
        */
-
-
 
       {
             'totalBalls': 3,

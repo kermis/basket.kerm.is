@@ -109,33 +109,17 @@ io.sockets.on('connection', function(socket) {
 function checkRoom(socket, roomID, type) {
       var rooms = io.sockets.manager.rooms;
 
-      console.log('room type', type);
-
       if (rooms['/' + roomID]) {
-            // console.log('if', rooms['/' + roomID].length);
-            // if (rooms['/' + roomID].length > 1) {
-            //       // console.log(' >= 2');
-            //       // socket.emit('checkroom', 'You cannot connect to this room.');
-            // } else {
-            //       console.log('niet >= 2');
-            //       socket.join(roomID);
-            //       socket.emit('checkroom', 'You are connected');
-            // }
-
             socket.join(roomio);
             roomdata = rooms['/' + roomio];
             io.sockets. in (roomio).emit('roomJoined', roomdata);
 
       } else {
-            console.log('else');
             if (type == 'browser') {
-                  // console.log('connect roomID else', type);
                   socket.join(roomID);
             } else {
                   socket.emit('checkroom', "Something went wrong I guess.");
             }
 
       }
-
-      console.log('rooms', rooms);
 }

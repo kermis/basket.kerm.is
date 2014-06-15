@@ -79,23 +79,38 @@ var basket = {
              */
       },
 
+      reloadScene: function() {
+            $.each(scene.children, function(index, child) {
+                  if (child != undefined) {
+                        if (child.name == 'basketring-physics' || child.name == 'basketring-model' || child.name == 'basketback-model' || child.name == 'basketback-physics' || child.name == 'ball') {
+                              removeObject.push(child);
+                        }
+                  }
+            });
+
+            for (var i = 0; i < removeObject.length; i++) {
+                  scene.remove(removeObject[i]);
+            }
+
+            balls = [];
+            basketRings = [];
+            basketBacks = [];
+            yeswecan.build_thebasket();
+            yeswecan.build_theball();
+      },
+
       endGame: function() {
             basket.start = false;
-
             var newTicket = $('.info-score').clone();
             newTicket.removeClass('active');
-
             $('.info-score').addClass('ripping');
-
             setTimeout(function() {
                   $('.info-score').removeClass('ripping').addClass('big');
-
                   setTimeout(function() {
                         basket.isNextLevel = true;
                         $('.level-button').fadeIn();
                         $('.ticket-holder').append(newTicket)
                   }, 2500)
-
             }, 1000)
       },
 
@@ -107,9 +122,7 @@ var basket = {
             //only do this after the big ticket is gone from the screen
             setTimeout(function() {
                   $('.big').remove();
-
                   if (basket.level < levels.length - 1) {
-
                         if (type == 'next') {
                               basket.globalPoints += basket.totalPoints;
                               basket.level++;
@@ -121,22 +134,14 @@ var basket = {
                         timeRemaining = levels[basket.level].time;
                         basket.totalBalls = levels[basket.level].totalBalls;
                         basket.totalPoints = 0;
-                        // basket.totalScored = 0;
-                        // basket.totalMissed = 0;
-
-                        reloadScene();
-
+                        basket.reloadScene();
                         basket.start = true;
                         basket.isNextLevel = false;
-
                         basket.timeLeft('reset Game');
-                  } else {
+                  } else { // all levels are played
                         basket.globalPoints += basket.totalPoints;
-                        console.log('game over', basket.globalPoints);
                         basket.gameOver = true;
-
                         $('.game-over').addClass('slide-up');
-
                         $('.totalScoreGame').html(basket.globalPoints);
                         $('.totalScoredGame').html(basket.totalScored);
                         $('.totalMissedGame').html(basket.totalMissed);
@@ -160,22 +165,17 @@ var basket = {
        */
 
       animate: function() {
-
-
-
             scene.simulate(); // run physics
             renderer.render(scene, yeswecan.get_theSceneCam); // render the scene
             stats.update(); // update the stats
 
             requestAnimationFrame(basket.animate); // continue animating
 
-
             /**
              *
              * Check if the user has scored
              *
              */
-
             basket.checkCollision();
 
             /**
@@ -190,7 +190,6 @@ var basket = {
              * Check if we have to animate the basketrings during a level
              *
              */
-
             basket.animateObjects();
 
             /**
@@ -198,8 +197,6 @@ var basket = {
              * Rotate clouds
              *
              */
-
-
             if (basket.clouds) {
                   if (basket.start) {
                         basket.clouds.rotation.y += helpMe.calculate('rad', 0.05);
@@ -214,37 +211,29 @@ var basket = {
        */
 
       createStats: function() {
-
             stats = new Stats();
             stats.domElement.style.position = 'absolute';
             stats.domElement.style.top = '0px';
             stats.domElement.style.zIndex = 100;
             container.appendChild(stats.domElement);
-
       },
 
       checkCollision: function() {
-
             /**
              *
              * Double check to be 100% sure a ball went through
              *
              */
-
             basket.checkDistanceTo(5, 15); // posY, distanceTo 25
             basket.checkDistanceTo(20, 20); // posY, distanceTo 30
-
       },
 
       checkDistanceTo: function(posY, distanceTo) {
-
-            var ballPos = new THREE.Vector3(
+            ballPos = new THREE.Vector3(
                   ball.position.x,
                   ball.position.y,
                   ball.position.z
             );
-
-            var basketRingPos;
 
             for (var i = 0; i < basketRings.length; i++) {
                   basketRingPos = new THREE.Vector3(
@@ -256,7 +245,6 @@ var basket = {
                   if (ballPos.distanceTo(basketRingPos) < distanceTo) {
                         if (!ball.score) {
                               ball.score = true;
-                              console.log('number', i);
                               basket.score(i);
                         }
                   }
@@ -264,9 +252,6 @@ var basket = {
       },
 
       score: function(ringnumber) {
-
-            console.log(ringnumber);
-
             /**
              *
              * Play sound when user scored
@@ -274,7 +259,6 @@ var basket = {
              */
 
             //createjs.Sound.play("score", {loop:1}); // #PLAY SOUND
-
 
             /**
              *
@@ -285,44 +269,15 @@ var basket = {
             basket.totalScored++;
             basket.totalMissed--;
             basket.totalPoints += levels[basket.level].totalRings.ring[ringnumber].model.points;
-            console.log(basket.totalPoints);
 
             /**
              *
              * Show points in 3D
              *
              */
+            createTextOptions();
 
-            var materialFront = new THREE.MeshBasicMaterial({
-                  color: 0xFFFFFF,
-                  transparent: true,
-                  opacity: 1
-            });
-
-            var materialSide = new THREE.MeshBasicMaterial({
-                  color: 0x000000,
-                  transparent: true,
-                  opacity: .8
-            });
-
-            console.log(levels[basket.level].totalRings.ring);
-
-            var materialArray = [materialFront, materialSide];
-            var textGeom = new THREE.TextGeometry(levels[basket.level].totalRings.ring[ringnumber].model.points, {
-                  size: 10,
-                  height: 10,
-                  curveSegments: 3,
-                  font: "helvetiker",
-                  weight: "bold",
-                  style: "normal",
-                  bevelThickness: 0,
-                  bevelSize: 0,
-                  bevelEnabled: false,
-                  material: 0,
-                  extrudeMaterial: 1
-            });
-
-            var textMaterial = new THREE.MeshFaceMaterial(materialArray);
+            var textGeom = new THREE.TextGeometry(levels[basket.level].totalRings.ring[ringnumber].model.points, setOptions(10));
             var textMesh = new THREE.Mesh(textGeom, textMaterial);
             textGeom.computeBoundingBox();
             var textWidth = textGeom.boundingBox.max.x - textGeom.boundingBox.min.x;
@@ -337,6 +292,10 @@ var basket = {
              *
              */
 
+            basket.animateScore(textMesh);
+      },
+
+      animateScore: function(textMesh) {
             var animateUp = setInterval(function() {
                   textMesh.position.y += 2;
             }, 100);
@@ -362,9 +321,7 @@ var basket = {
        */
 
       removeABall: function() {
-
             var i = 0;
-
             $.each(balls, function(index, basketball) {
                   if (i == 0) {
                         if (basketball.shot) {
@@ -383,8 +340,6 @@ var basket = {
        * Update info in ticket
        *
        */
-
-
       updateInfo: function() {
             $('.level').text(basket.level + 1);
             $('.count').text(basket.totalBalls);
@@ -397,8 +352,6 @@ var basket = {
        * If level has animated rings animate them
        *
        */
-
-
       animateObjects: function() {
             if (basket.start) {
                   if (levels[basket.level].animate) {
@@ -410,9 +363,7 @@ var basket = {
       },
 
       animateRings: function(i, ringNumber) {
-
             if (levels[basket.level].animate[i].position == 'right' || levels[basket.level].animate[i].position == 'square-right') {
-
                   if (levels[basket.level].animate[i].position == 'right') {
                         basket.MaxPos = basketBacks[ringNumber].model.position.x < levels[basket.level].animate[i].max
                   }
@@ -441,12 +392,10 @@ var basket = {
                         if (levels[basket.level].animate[i].position == 'square-right') {
                               levels[basket.level].animate[i].position = 'square-down'
                         }
-
                   }
             }
 
             if (levels[basket.level].animate[i].position == 'left' || levels[basket.level].animate[i].position == 'square-left') {
-
                   if (levels[basket.level].animate[i].position == 'left') {
                         basket.MinPos = basketBacks[ringNumber].model.position.x > levels[basket.level].animate[i].min;
                   }
@@ -467,7 +416,6 @@ var basket = {
 
                         basketBacks[ringNumber].model.position.x += levels[basket.level].animate[i].speed;
                         basketBacks[ringNumber].physics.position.x += levels[basket.level].animate[i].speed;
-
 
                         if (levels[basket.level].animate[i].position == 'left') {
                               levels[basket.level].animate[i].position = 'right';
@@ -500,10 +448,8 @@ var basket = {
                         if (levels[basket.level].animate[i].position == 'square-up') {
                               levels[basket.level].animate[i].position = 'square-right';
                         }
-
                   }
             }
-
 
             if (levels[basket.level].animate[i].position == 'down' || levels[basket.level].animate[i].position == 'square-down') {
                   if (basketBacks[ringNumber].model.position.y > levels[basket.level].animate[i].min) {
@@ -527,45 +473,35 @@ var basket = {
                         if (levels[basket.level].animate[i].position == 'down') {
                               levels[basket.level].animate[i].position = 'up';
                         }
-
                   }
             }
 
             basketRings[ringNumber].model.__dirtyPosition = true;
             basketRings[ringNumber].physics.__dirtyPosition = true;
-
             basketBacks[ringNumber].model.__dirtyPosition = true;
             basketBacks[ringNumber].physics.__dirtyPosition = true;
       },
 
       pause: function() {
-            console.log('pauze', basket.start);
-
             if (!basket.start) {
                   $('.pause').fadeOut(100);
                   basket.start = true;
                   basket.timeLeft('pause fadeout'); //#REMOVE
-                  console.log('fadeout');
             } else {
                   $('.pause').fadeIn(100);
                   basket.start = false;
                   basket.timeLeft('pause fadein');
-                  console.log('fadein');
             }
       },
 
       timeLeft: function(where) {
-            console.log('where timeleft?', where);
             //ticks once a second for the score, checks for remaining time
             if (timeRemaining == 0) {
                   basket.endGame();
             }
 
             if (basket.start && timeRemaining > 0) {
-
                   timeRemaining -= 1;
-                  //game.updateScoreInfo();
-
                   setTimeout(function() {
                         if (basket.start) {
                               basket.timeLeft('timeLeft');
@@ -576,53 +512,9 @@ var basket = {
 
       showNotification: function(text) {
             $('.notification').html(text);
-
             $('.notification').addClass('active');
             setTimeout(function() {
                   $('.notification').removeClass('active');
             }, 1500)
       }
 }
-
-
-
-
-
-
-
-
-
-/**
- *
- * Get the container element
- *
- */
-
-var container = document.getElementById('container');
-
-/**
- *
- * Some THREE objects
- *
- */
-
-var /* camera, */ scene, renderer;
-var sceneW, sceneH;
-var physicsMaterial;
-
-var throwing = false;
-
-var ball, basketRing;
-var basketRings = [],
-      basketBacks = [];
-
-var timeRemaining;
-
-var balls = [];
-
-var stats;
-
-
-// The element we'll make fullscreen and pointer locked.
-var fullscreenElement;
-var mouseDown = false;

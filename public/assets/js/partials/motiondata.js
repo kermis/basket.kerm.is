@@ -1,16 +1,10 @@
 var motionD;
 
-// var i = 0;
-
-
-
-
 /**
  *
  * DEVICE ORIENTATION V2
  *
  */
-
 
 // buffer object to track recent values
 var ValueBuffer = function(numSamples) {
@@ -42,26 +36,6 @@ ValueBuffer.prototype.sum = function() {
       return sum;
 }
 
-// // return a sum of the positive values
-// ValueBuffer.prototype.sumPos = function() {
-//   var sum = 0;
-//   for(var i = 0; i < this.numSamples; i++) {
-//     if(this.buffer[i] > 0) sum += this.buffer[i];
-//   }
-//   return sum;
-// }
-
-// // return the sum of the negative values
-// ValueBuffer.prototype.sumNeg = function() {
-//   var sum = 0;
-//   for(var i = 0; i < this.numSamples; i++) {
-//     if(this.buffer[i] < 0) sum += this.buffer[i];
-//   }
-//   return sum;
-// }
-
-
-
 var tiltZAxis = tiltXAxis = compass = 0;
 
 var updateOrientation = function(e) {
@@ -85,9 +59,6 @@ var updateRollGesture = function(tilt) {
       tiltBuffer.update(tiltDelta);
       lastTiltValue = tilt;
 
-      // console.log('update gesture', tilt.toFixed(0));
-
-
       if (tilt.toFixed(0) == 0 || tilt.toFixed(0) == -1 || tilt.toFixed(0) == 1)
             tilt = 0;
 
@@ -102,13 +73,6 @@ var updateRollGesture = function(tilt) {
                   socket.emit('motiondata', motionD);
             }
       }
-
-
-      // show a visual indication that the user has performed the gesture
-      // if( tiltBuffer.sumPos() >= 100 ) {
-      //   alert('test');
-      //     document.body.css({'background-color' : 'red' });
-      // }
 }
 
 

@@ -1,566 +1,181 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Basket game</title>
-    <script src="//use.edgefonts.net/bebas-neue.js"></script>
-    <link rel="stylesheet" href='assets/css/style.css'>
-
-</head>
-<body>
-
-    <!-- Preloader overlay -->
-    <div class="overlay">
-        <div class="logo"></div>
-        <div class="percentLoaded">0%</div>
-        <div class="progress"></div>
-    </div>
-
-
-   <!-- Information overlay -->
-    <div class="info">
-
-        <h1 class="title">Which controller do you want to use?</h1>
-
-        <div class="back-button">
-            <button>Back</button>
+    <head>
+        <meta charset="UTF-8">
+        <title>Basket game</title>
+        <script src="//use.edgefonts.net/bebas-neue.js"></script>
+        <link rel="stylesheet" href='assets/css/style.css'>
+    </head>
+    <body>
+        <!-- Preloader overlay -->
+        <div class="overlay">
+            <div class="logo"></div>
+            <div class="percentLoaded">0%</div>
+            <div class="progress"></div>
         </div>
-
-        <div class="buttons">
-            <button id="leap" class="choose_button">
+        <!-- Information overlay -->
+        <div class="info">
+            <h1 class="title">Which controller do you want to use?</h1>
+            <div class="back-button">
+                <button>Back</button>
+            </div>
+            <div class="buttons">
+                <button id="leap" class="choose_button">
                 <p>A Leap Motion</p>
                 <img src="/assets/img/icons/leap2_inverted.png">
-            </button>
-            <button id="socket" class="choose_button">
+                </button>
+                <button id="socket" class="choose_button">
                 <p>A smartphone</p>
                 <img src="/assets/img/icons/phone-rod_inverted.png">
-            </button>
-            <button id="computer" class="choose_button">
+                </button>
+                <button id="computer" class="choose_button">
                 <p>A computer</p>
                 <img src="/assets/img/icons/eke_inverted.png">
-            </button>
-        </div>
-
-        <div class="chose hide two chose_computer">
-
-                <p class="margin"><strong>Move</strong> your mouse to controll the ball, <br>
-                    <br>Press your mouse down to get <strong>power</strong><br>
-                    <br> Release your mouse to <strong>shoot</strong>.
-                </p>
-
-            <div class="full-width">
-                <button id="mouse" class="play">Play</button>
+                </button>
             </div>
-        </div>
-
-        <div class="chose hide three chose_socket">
-            <div class="container pull-left ">
-                <p>Scan the QR Code:
+            <div class="chose hide two chose_computer">
+                <p class="margin"><strong>Move</strong> your mouse to controll the ball, <br>
+                <br>Press your mouse down to get <strong>power</strong><br>
+                <br> Release your mouse to <strong>shoot</strong>.
+                </p>
+                <div class="full-width">
+                    <button id="mouse" class="play">Play</button>
+                </div>
+            </div>
+            <div class="chose hide three chose_socket">
+                <div class="container pull-left ">
+                    <p>Scan the QR Code:
                     <br>
                     <br>
                     <div id="qrcode">
-
                     </div>
-                </p>
-            </div>
-             <div class="container pull-center text">
-                <p class="margin">Or go to
+                    </p>
+                </div>
+                <div class="container pull-center text">
+                    <p class="margin">Or go to
                     <br>
                     <strong class="go_to_site">http://b.kerm.is/</strong>
                     <br>and enter
                     <br>
                     <strong class="room_id"></strong>
-                </p>
+                    </p>
+                </div>
+                <div class="container pull-right">
+                    <p class="margin">Rotate your <strong>smartphone</strong> <br > to controll the ball. <br>
+                    <br>Press the ball to get <strong>power</strong> <br >
+                    <br> Release the ball to <strong>shoot</strong>. </p>
+                </div>
+                <div class="full-width">
+                    <button class="play hide">Play</button>
+                </div>
             </div>
-            <div class="container pull-right">
-                <p class="margin">Rotate your <strong>smartphone</strong> <br > to controll the ball. <br>
-                <br>Press the ball to get <strong>power</strong> <br >
-                <br> Release the ball to <strong>shoot</strong>. </p>
-            </div>
-
-            <div class="full-width">
-                <button class="play hide">Play</button>
-            </div>
-        </div>
-
-        <div class="chose hide three chose_leap">
-            <div class="container pull-left">
-                <video width="320" height="240" autoplay loop>
-                    <source src="/assets/videos/instructions-move.mp4" type="video/mp4">
-                    <source src="/assets/videos/instructions-move.webm" type="video/webm">
-                </video>
-            </div>
-            <div class="container pull-left">
-                <video width="320" height="240" autoplay loop>
-                    <source src="/assets/videos/instructions-power.mp4" type="video/mp4">
-                    <source src="/assets/videos/instructions-power.webm" type="video/webm">
-                </video>
-            </div>
-            <div class="container pull-right width-50">
-                <p><strong>Please connect your leap motion to your computer</strong> <br >
-                <br >
-                Move your arm left and right
+            <div class="chose hide three chose_leap">
+                <div class="container pull-left">
+                    <video width="320" height="240" autoplay loop>
+                        <source src="/assets/videos/instructions-move.mp4" type="video/mp4">
+                        <source src="/assets/videos/instructions-move.webm" type="video/webm">
+                    </video>
+                </div>
+                <div class="container pull-left">
+                    <video width="320" height="240" autoplay loop>
+                        <source src="/assets/videos/instructions-power.mp4" type="video/mp4">
+                        <source src="/assets/videos/instructions-power.webm" type="video/webm">
+                    </video>
+                </div>
+                <div class="container pull-right width-50">
+                    <p><strong>Please connect your leap motion to your computer</strong> <br >
+                    <br >
+                    Move your arm left and right
                     <br>to control the ball. <br ><br>
                     Move your arm up and down
                     <br>to control the power. <br >
                     <br>Press <strong>space</strong>
                     <br> to shoot the ball.
-                </p>
-            </div>
-            <br>
-            <br>
-            <div class="full-width">
-                <button class="play hide">Play</button>
-            </div>
-        </div>
-
-    </div>
-    <div class="pause">
-        ll
-    </div>
-
-       <div class="notification"></div>
-
-    <!-- <canvas id="canvas" style="z-index: 10; display:none;"></canvas>
-    <div id="container"></div> -->
-
-
-        <!-- <div class="preload">
-            <div class="percentLoaded">0%</div>
-            <div class="progress"></div>
-        </div>
-
-        <div class="overlay">
-        <div class="info">
-            <h3>Welcome to Basket.Kerm.is</h3>
-
-
-            <div class="waiting">
-                <p>Go to </p>
-                <div class="browser"></div>
-                <p>and enter the following code.</p>
-                <div class="code"></div>
-                <p>or scan the QR code.</p>
-                <div id="qrcode"></div>
-                <p>Want to play with your mouse?</p>
-                <button id="mouse">yes!</button>
-            </div>
-
-            <div class="ready">
-                <p>Click to shoot :) </p>
-                <button id="start">Let's play!</button>
-            </div>
-
-        </div>
-     </div> -->
-
-    <div class="game-over">
-        <h1>Congratulations, You have finished the game!</h1>
-        <strong class="message-final">You have a score of <span class="totalScoreGame"></span>, with <span class="totalScoredGame"></span> shots scored, and <span class="totalMissedGame"></span> shots missed.</strong><br>
-        <br>
-        Would you like to add your score to the highscores?
-        <br><br>
-        <input type="text" placeholder="name" class="user-name">
-        <br>
-        <button class="score-submit">Add</button>
-
-    </div>
-
-    <article id="container">
-        <div class="filler"></div>
-       <div class="power"><div class="powerIndicator"></div></div>
-
-        <!--  <div class="totall">
-            <div class="level"></div>
-            <div class="points"></div>
-            <div class="balls"></div>
-            <button class="next_level">Go to level <span></span></button> -->
-        <!-- </div> -->
-
-
-      <!--   <div class="level_overlay">
-                <div class="info">
-                    <h3 class="the_level">Wow you finished level <span></span>! Nice job.</h3>
-                    <p class="the_points">U scored <span></span> points</p>
-                    <p class="scored">Scored :  <span></span></p>
-                    <p class="missed">Missed : <span></span></p>
-                    <p class="the_bonus">Bonus : <span>0</span></p>
-                    <button class="next_level">Go to level <span></span></button>
+                    </p>
                 </div>
-        </div> -->
-
-            <div class="ticket-holder">
-                <div class="info-score basket">
-                    <div class="title">Basket.kerm.is</div>
-                    <div class="subtitle">Level <span class="level"></span></div>
-                    <div class="down">
-                        <div class="inf remaining">
-                            <span class="count"></span>&nbsp;balls remaining
-                        </div>
-                        <div class="inf time">
-                            <span class="timeLeft"></span>&nbsp;seconds remaining
-                        </div>
-                        <div class="inf">Score :&nbsp;
-                            <span class="score"></span>
-                        </div>
-                    </div>
-                    <a href="#" class="next-level-button next-level level-button">Press <span>space</span> to continue &rarr;</a>
-                    <a href="#" class="replay-level-button replay-level level-button">&larr; Press <span>R</span> to play again</a>
-                 </div>
+                <br>
+                <br>
+                <div class="full-width">
+                    <button class="play hide">Play</button>
+                </div>
             </div>
-
-    </article>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="//js.leapmotion.com/leap-0.5.0.min.js"></script>
-    <script src="assets/js/libs/three.min.js"></script>
-    <script src="assets/js/libs/physi.js"></script>
-    <script src="assets/js/libs/socket.io.min.js"></script>
-    <script src="assets/js/libs/qrcode.js"></script>
-    <script src="assets/js/libs/stats.min.js"></script>
-    <script src="assets/js/libs/dat.gui.min.js"></script>
-    <script src="assets/js/libs/CCapture.min.js"></script>
-    <script src="assets/js/libs/Whammy.js"></script>
-    <script src="assets/js/libs/modernizr.custom.js"></script>
-
-    <script src="assets/js/partials/watch.js"></script>
-    <script src="assets/js/partials/sos.js"></script>
-    <script src="assets/js/partials/url.js"></script>
-    <script src="assets/js/partials/room.js"></script>
-    <script src="assets/js/partials/main.js"></script>
-    <script src="assets/js/partials/physics.js"></script>
-    <script src="assets/js/partials/leap.js"></script>
-    <script src="assets/js/partials/canwebuildit.js"></script>
-    <script src="assets/js/partials/basket.js"></script>
-    <script src="assets/js/partials/hitboxes.js"></script>
-    <script src="assets/js/partials/preload.js"></script>
-    <script src="assets/js/partials/levels.js"></script>
-    <script src="assets/js/partials/slogans.js"></script>
-
-    <!-- load fonts -->
-    <script src="assets/fonts/gentilis_bold.typeface.js"></script>
-    <script src="assets/fonts/gentilis_regular.typeface.js"></script>
-    <script src="assets/fonts/optimer_bold.typeface.js"></script>
-    <script src="assets/fonts/optimer_regular.typeface.js"></script>
-    <script src="assets/fonts/helvetiker_bold.typeface.js"></script>
-    <script src="assets/fonts/helvetiker_regular.typeface.js"></script>
-    <script src="assets/fonts/droid_sans_regular.typeface.js"></script>
-    <script src="assets/fonts/droid_sans_bold.typeface.js"></script>
-    <script src="assets/fonts/droid_serif_regular.typeface.js"></script>
-    <script src="assets/fonts/droid_serif_bold.typeface.js"></script>
-
-    <!-- Preload and sound stuff -->
-    <script src="//code.createjs.com/preloadjs-0.4.1.min.js"></script>
-    <script src="//code.createjs.com/soundjs-0.5.2.min.js"></script>
-
-
-    <script>
-
-
-            //redirect if on mobile
-            if (Modernizr.touch) {
-                // var isMobile = window.matchMedia("only screen and (max-width: 760px)");
-                // if (isMobile.matches) {
-                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    window.location.replace("http://basket.kerm.is/connect");
-                }
-                // }
-            }
-
-
-            /**
-             *
-             * Call functions in watch.js
-             *
-             */
-
-
-
-            // // document.addEventListener('click', look.theUserIsShooting, false);
-            // document.addEventListener('mousedown', function() {
-            //     if(basket.controller == 'mouse' && !ball.shot)
-            //     {
-            //         look.theUserIsGettingPower();
-            //     }
-            // }, false);
-            // document.addEventListener('mouseup', function(event) {
-            //     console.log(basket.power);
-            //     if(basket.power != 0)
-            //     {
-            //         look.theUserIsShooting(event);
-            //     }
-            // }, false);
-
-             document.addEventListener('mousedown', function() {
-
-                if(ball.shot)
-                {
-                    mouseDown = true;
-                }
-
-                if(basket.controller == 'mouse' && !ball.shot)
-                {
-                    mouseDown = false;
-                    look.theUserIsGettingPower();
-                }
-            }, false);
-
-            document.addEventListener('mouseup', function(event) {
-                if(basket.power === 0)
-                {
-                    basket.power = 1;
-                }
-
-                if(!mouseDown && basket.controller == 'mouse'){
-                   look.theUserIsShooting(event);
-                   mouseDown = false;
-                }
-            }, false);
-
-            window.addEventListener( 'resize', look.theWindowIsResizing, false );
-            document.addEventListener( 'mousemove', look.theMouseIsMoving, false );
-            document.addEventListener( 'keydown', look.theKeyIsGoingDown, false );
-
-            document.addEventListener('fullscreenchange', look.theScreenIsGoingFullscreen, false);
-            document.addEventListener('mozfullscreenchange', look.theScreenIsGoingFullscreen, false);
-            document.addEventListener('webkitfullscreenchange', look.theScreenIsGoingFullscreen, false);
-            document.addEventListener('pointerlockchange', look.thePointerIsBeingLocked, false);
-            document.addEventListener('mozpointerlockchange', look.thePointerIsBeingLocked, false);
-            document.addEventListener('webkitpointerlockchange', look.thePointerIsBeingLocked, false);
-            document.addEventListener('pointerlockerror', look.thePointerLockHasGoneWrong, false);
-            document.addEventListener('mozpointerlockerror', look.thePointerLockHasGoneWrong, false);
-            document.addEventListener('webkitpointerlockerror', look.thePointerLockHasGoneWrong, false);
-
-            $('#start').on('click', function() {
-                //look.theUserIsLockingThePointer();
-
-              $('.overlay').addClass('slideUp');
-
-                basket.controller = 'mobile';
-
-                setTimeout(
-                    function() {
-                        // look.theUserIsLockingThePointer();
-                        basket.start = true;
-                        $('.totall').addClass('active');
-                    },
-                    400
-                );
-            });
-
-            $('#mouse').on('click', function() {
-
-                 basket.controller = 'mouse';
-
-                 $('.overlay').addClass('slideUp');
-
-
-
-
-                setTimeout(
-                    function() {
-                        // look.theUserIsLockingThePointer();
-                        basket.start = true;
-                        $('.totall').addClass('active');
-                    },
-                    400
-                );
-            });
-
-            // $('.next-level-button').on('click', function() { // .next_level!!
-
-            //     basket.nextLevel();
-
-            // });
-
-                var removeObject = [];
-
-                 function reloadScene() {
-
-                    //basket.init();
-
-                    // console.log('scene before ', scene);
-
-                    $.each(scene.children, function(index, child) {
-
-                        if(child != undefined) {
-
-
-                            if(child.name == 'basketring-physics' || child.name == 'basketring-model' || child.name == 'basketback-model' || child.name == 'basketback-physics' || child.name == 'ball') {
-                            //     console.log('remove');
-                                // scene.remove(child);
-                                removeObject.push(child);
-                            }
-                        }
-
-                    });
-
-
-
-                    for(var i = 0; i < removeObject.length; i++)
-                    {
-                        scene.remove(removeObject[i]);
-
-                    }
-
-
-                    balls = [];
-                    //basketRings = [];
-
-                    console.log('basketRings', basketRings, basketBacks);
-                    basketRings = [];
-                    basketBacks = [];
-                    console.log('basketRings 2', basketRings, basketBacks);
-
-
-
-                    yeswecan.build_thebasket();
-                    yeswecan.build_theball();
-                     console.log('basketRings 3', basketRings, basketBacks);
-
-                     console.log('scene after', scene);
-
-                }
-
-
-                // var changeRingColor = setInterval(function() {
-                //     if(basket.start) {
-
-                //         if(!basket.bonusColor) {
-                //             console.log('random');
-                //             basket.random = Math.floor((Math.random() * basketRings.length));
-                //             basket.bonusColor = true;
-                //             basketRings[basket.random].material.color = 0x000000;
-                //             console.log(basket.random);
-                //         }
-
-                //         setTimeout(function() {
-                //             console.log('remove random points', basket.random);
-
-                //             basketRings[basket.random].material.color = 0xCC0030;
-                //             clearInterval(changeRingColor);
-                //             basket.bonusColor = false;
-
-                //         }, 3000 ) // (Math.random() * 15000) + 4000
-                //     }
-                // }, 1000); // (Math.random() * 50000) + 10000
-
-    </script>
-
-
-    <script type="text/javascript">
-
-
-              $(function(){
-
-                var qrcode = new QRCode("qrcode", {
-                    text: url.currentURL + "/mobile/#" + room.id,
-                    width: 200,
-                    height: 200,
-                    colorDark : "#f26f40",
-                    correctLevel : QRCode.CorrectLevel.H
-                });
-
-
-
-                    $('.choose_button').on('click', function(){
-                        var id = $(this).attr('id');
-                        $('.info .title').html('How do you play the game?')
-                        $('.back-button').show();
-                        switch(id){
-                            case 'socket' :
-                                basket.controller = 'mobile';
-                                $('.buttons').hide();
-                                $('.chose_socket').removeClass('hide').show();
-                                // socketController.updateInstructions();
-                                break;
-                            case 'leap':
-                                basket.controller = 'leap';
-                                $('.buttons').hide();
-                                $('.chose_leap').removeClass('hide').show();
-                                break;
-                            case 'computer':
-                                basket.controller = 'mouse';
-                                $('.buttons').hide();
-                                $('.chose_computer').removeClass('hide').show();
-                                break;
-                        }
-                    })
-
-                    $('.back-button').on('click', function(){
-                        $('.info .title').html('Which controller do you want to use?');
-                        $('.chose').addClass('hide');
-                        $('.chose_socket').hide();
-                        $('.chose_leap').hide();
-                        $('.chose_computer').hide();
-
-                        $('.buttons').show();
-                        $('.back-button').hide()
-                    });
-
-                    $('.play').on('click', function(){
-
-                            console.log('play button');
-
-                            $('.info').removeClass('slide_down');
-                            //look.theUserIsLockingThePointer();
-                            $('.info-score').addClass('active');
-
-                            basket.infoVisible = false;
-
-                             basket.start = true;
-
-                            basket.timeLeft('play clicked');
-
-                            console.log('play', basket.start);
-
-                            $(this).blur();
-
-                    })
-
-                    // $(document).on('click', '.next-level-button', function(){
-                    //     game.nextLevel();
-                    // })
-                })
-
-                $('.score-submit').on('click', function(){
-
-                        $('.score-submit').hide();
-                        $('.game-over').append('<span class="score-message">Sharing Score</span>');
-
-                        var name = $('.user-name').val();
-                        var score = basket.globalPoints;
-                        var level = basket.level + 1;
-                        var scored = basket.totalScored;
-                        var missed = basket.totalMissed;
-
-                        $.post( "http://kermisdatabasevanbartenrobbert.herokuapp.com/addhighscore/basket",
-                            {   name: name,
-                                score: score,
-                                level : level,
-                                scored: scored,
-                                missed : missed
-                            } )
-                        .done(function(){
-                            $('.score-submit').hide();
-                            $('.score-message').html('score succesully shared.')
-
-                        }).fail(function(){
-                            $('.score-message').html('something went wrong, please try again');
-                            $('.score-submit').show();
-                        });
-                    })
-
-
-                    // #CONSOLE LOG RESET
-                    //console.log = function() {};
-
-        </script>
-
-
-
-
-
-
-</body>
+        </div>
+        <div class="pause">
+            ll
+        </div>
+        <div class="notification"></div>
+        <div class="game-over">
+            <h1>Congratulations, You have finished the game!</h1>
+            <strong class="message-final">You have a score of <span class="totalScoreGame"></span>, with <span class="totalScoredGame"></span> shots scored, and <span class="totalMissedGame"></span> shots missed.</strong><br>
+            <br>
+            Would you like to add your score to the highscores?
+            <br><br>
+            <input type="text" placeholder="name" class="user-name">
+            <br>
+            <button class="score-submit">Add</button>
+        </div>
+        <article id="container">
+        <div class="filler"></div>
+        <div class="power"><div class="powerIndicator"></div></div>
+        <div class="ticket-holder">
+            <div class="info-score basket">
+                <div class="title">Basket.kerm.is</div>
+                <div class="subtitle">Level <span class="level"></span></div>
+                <div class="down">
+                    <div class="inf remaining">
+                        <span class="count"></span>&nbsp;balls remaining
+                    </div>
+                    <div class="inf time">
+                        <span class="timeLeft"></span>&nbsp;seconds remaining
+                    </div>
+                    <div class="inf">Score :&nbsp;
+                        <span class="score"></span>
+                    </div>
+                </div>
+                <a href="#" class="next-level-button next-level level-button">Press <span>space</span> to continue &rarr;</a>
+                <a href="#" class="replay-level-button replay-level level-button">&larr; Press <span>R</span> to play again</a>
+            </div>
+        </div>
+        </article>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//js.leapmotion.com/leap-0.5.0.min.js"></script>
+        <script src="assets/js/libs/three.min.js"></script>
+        <script src="assets/js/libs/physi.js"></script>
+        <script src="assets/js/libs/socket.io.min.js"></script>
+        <script src="assets/js/libs/qrcode.js"></script>
+        <script src="assets/js/libs/stats.min.js"></script>
+        <script src="assets/js/libs/dat.gui.min.js"></script>
+        <script src="assets/js/libs/CCapture.min.js"></script>
+        <script src="assets/js/libs/Whammy.js"></script>
+        <script src="assets/js/libs/modernizr.custom.js"></script>
+        <script src="assets/js/partials/watch.js"></script>
+        <script src="assets/js/partials/sos.js"></script>
+        <script src="assets/js/partials/url.js"></script>
+        <script src="assets/js/partials/room.js"></script>
+        <script src="assets/js/partials/main.js"></script>
+        <script src="assets/js/partials/physics.js"></script>
+        <script src="assets/js/partials/leap.js"></script>
+        <script src="assets/js/partials/canwebuildit.js"></script>
+        <script src="assets/js/partials/basket.js"></script>
+        <script src="assets/js/partials/hitboxes.js"></script>
+        <script src="assets/js/partials/preload.js"></script>
+        <script src="assets/js/partials/levels.js"></script>
+        <script src="assets/js/partials/slogans.js"></script>
+        <script src="assets/js/partials/game.js"></script>
+        <script src="assets/js/partials/eventlisteners.js"></script>
+        <!-- load fonts -->
+        <script src="assets/fonts/gentilis_bold.typeface.js"></script>
+        <script src="assets/fonts/gentilis_regular.typeface.js"></script>
+        <script src="assets/fonts/optimer_bold.typeface.js"></script>
+        <script src="assets/fonts/optimer_regular.typeface.js"></script>
+        <script src="assets/fonts/helvetiker_bold.typeface.js"></script>
+        <script src="assets/fonts/helvetiker_regular.typeface.js"></script>
+        <script src="assets/fonts/droid_sans_regular.typeface.js"></script>
+        <script src="assets/fonts/droid_sans_bold.typeface.js"></script>
+        <script src="assets/fonts/droid_serif_regular.typeface.js"></script>
+        <script src="assets/fonts/droid_serif_bold.typeface.js"></script>
+        <!-- Preload and sound stuff -->
+        <script src="//code.createjs.com/preloadjs-0.4.1.min.js"></script>
+        <script src="//code.createjs.com/soundjs-0.5.2.min.js"></script>
+    </body>
 </html>

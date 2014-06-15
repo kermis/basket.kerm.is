@@ -66,8 +66,6 @@ var look = {
                                     }
                               }
 
-
-
                               if (basket.power <= 5) {
                                     basket.color = 'orange';
                               }
@@ -80,11 +78,9 @@ var look = {
                                     basket.color = 'red';
                               }
 
-
                               $('.powerIndicator').css({
                                     'bottom': 30 * basket.power
                               });
-
                         }, 250);
                   }
             }
@@ -97,17 +93,11 @@ var look = {
        */
 
       theUserIsShooting: function(event) {
-
             clearInterval(basket.powerCheck);
-            console.log('shoot');
 
             if (basket.start) {
 
-
-                  // capturer.start();
-
                   var x, y, z;
-
 
                   if (basket.controller == 'mobile') {
                         x = (event.x - sceneW) + sceneW / 2;
@@ -163,11 +153,8 @@ var look = {
                                      *
                                      */
 
-
                                     if (basket.totalBalls == 0) { // no balls left so stop the game
-
                                           basket.endGame();
-
                                     } else { // create new ball
                                           yeswecan.build_theball();
                                           basket.reload = false;
@@ -188,6 +175,28 @@ var look = {
             }
       },
 
+      theMouseIsGoingDown: function() {
+            if (ball.shot) {
+                  mouseDown = true;
+            }
+
+            if (basket.controller == 'mouse' && !ball.shot) {
+                  mouseDown = false;
+                  look.theUserIsGettingPower();
+            }
+      },
+
+      theMouseIsGoingUp: function() {
+            if (basket.power === 0) {
+                  basket.power = 1;
+            }
+
+            if (!mouseDown && basket.controller == 'mouse') {
+                  look.theUserIsShooting(event);
+                  mouseDown = false;
+            }
+      },
+
       theMouseIsMoving: function(event) {
 
             if (basket.start) {
@@ -202,6 +211,7 @@ var look = {
                               event.mozMovementY ||
                               event.webkitMovementY ||
                               0;
+
                         /**
                          *
                          * Update ball position
@@ -254,16 +264,16 @@ var look = {
       thePointerIsBeingLocked: function() {
 
             if (document.mozPointerLockElement === elem ||
-                  document.webkitPointerLockElement === elem) {} else {
-                  console.log("Pointer Lock was lost."); // #TODO SHOW ERROR MESSAGE
+                  document.webkitPointerLockElement === elem) {
+                  // console.log('pointer locked');
+            } else {
+                  // console.log("Pointer Lock was lost."); // #TODO SHOW ERROR MESSAGE
             }
 
       },
 
       thePointerLockHasGoneWrong: function() {
-
-            console.log("Error while locking pointer."); // #TODO ERROR MESSAGE
-
+            //console.log("Error while locking pointer."); // #TODO ERROR MESSAGE
       },
 
       theUserIsLockingThePointer: function() {
@@ -279,12 +289,9 @@ var look = {
             elem.webkitRequestFullscreen;
 
             elem.requestFullscreen();
-
       },
 
       theKeyIsGoingDown: function(event) {
-            // console.log('key', event.keyCode);
-
             if (basket.start) {
                   switch (event.keyCode) {
 
@@ -357,24 +364,13 @@ var look = {
                                           basket.replayLevel(basket.level);
                                     }
                                     break;
-
                         }
                   }
             }
 
             if (event.keyCode == 27 && !basket.infoVisible) { // esc
-                  //event.preventDefault();
+                  event.preventDefault();
                   basket.pause()
-
             }
-      },
-
-      // theBallIsBouncing : function( other_object, relative_velocity, relative_rotation, contact_normal ) {
-      //     // `this` has collided with `other_object` with an impact speed of `relative_velocity` and a rotational force of `relative_rotation` and at normal `contact_normal`
-
-      //     if(other_object.name == 'basket' || other_object.name == 'ring')
-      //     {
-      //         //console.log('collide', other_object);
-      //     }
-      // }
+      }
 }
