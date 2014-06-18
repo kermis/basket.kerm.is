@@ -10,6 +10,9 @@ $(function() {
       $('.room_id').html(room.id);
 });
 
+
+var mobile = {};
+
 url.check();
 room.setID();
 
@@ -41,14 +44,9 @@ socket.on('connect', function() {
  */
 
 socket.on('connected_person', function(data) {
-      console.log('A new user (mobile) is connected');
       if (room.id == data) {
-            // basket.start = true; // REMOVE
-
             $('.chose_socket .play').removeClass('hide');
-
             basket.controller = "mobile";
-
             basket.showNotification('Smartphone Connection');
       }
 });
@@ -61,8 +59,10 @@ socket.on('shooting', function(data) {
 
 
 socket.on('motiondatas', function(data) {
-      mobile.position = data;
-      look.AtTheObjectsMove(data.gamma, data.beta);
+      if (basket.start) {
+            mobile.position = data;
+            look.AtTheObjectsMove(data.gamma, data.beta);
+      }
 });
 
 socket.on('mobile_disconnect', function() {
@@ -71,6 +71,8 @@ socket.on('mobile_disconnect', function() {
 
             if (basket.start && !basket.infoVisible) {
                   basket.pause();
+            } else {
+                  $('.chose_socket .play').removeClass('hide');
             }
       }
 });

@@ -294,30 +294,9 @@ var look = {
       theKeyIsGoingDown: function(event) {
             if (basket.start) {
                   switch (event.keyCode) {
-
-                        case 40: // down
-                              yeswecan.get_theSceneCam.position.z += 10;
-                              break;
-                        case 37: // links
-                              yeswecan.get_theSceneCam.rotation.y -= 0.1;
-                              break;
-                        case 39: // rechts
-                              yeswecan.get_theSceneCam.rotation.y += 0.1;
-                              break;
-                        case 38: // up
-                              yeswecan.get_theSceneCam.position.z -= 10;
-                              break;
                         case 32: // spatie
                               if (basket.controller == "leap") {
                                     look.theUserIsShooting('shoot');
-                              } else {
-                                    if (yeswecan.get_thecurrentCam < yeswecan.get_AllTheCameras.length - 1) {
-                                          yeswecan.get_thecurrentCam++;
-                                    } else {
-                                          yeswecan.get_thecurrentCam = 0;
-                                    }
-
-                                    yeswecan.get_theSceneCam = yeswecan.get_AllTheCameras[yeswecan.get_thecurrentCam];
                               }
                               break;
                         case 49: // shift 1

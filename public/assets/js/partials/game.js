@@ -1,5 +1,8 @@
 $(function() {
 
+      // override the console log
+      console.log = function() {};
+
       //redirect if on mobile
       if (Modernizr.touch) {
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -36,7 +39,6 @@ var showInfo = function() {
                   basket.controller = 'mobile';
                   $('.buttons').hide();
                   $('.chose_socket').removeClass('hide').show();
-                  // socketController.updateInstructions();
                   break;
             case 'leap':
                   basket.controller = 'leap';

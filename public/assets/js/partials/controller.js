@@ -3,7 +3,6 @@ url.check();
 
 var room_id = room.getID();
 var allowed = false;
-// var motion;
 
 var socket = io.connect(url.currentURL);
 
@@ -12,6 +11,7 @@ var way = 'up';
 var powerCheck;
 
 $(function() {
+      // console.log = function() {};
 
       socket.on('connect', function() {
 
@@ -19,6 +19,13 @@ $(function() {
 
             socket.emit('message', {
                   message: 'Controller joined to the room : ' + room_id
+            });
+
+            socket.on('checkroom', function(data) {
+
+                  $('#controller_message').text(data);
+
+                  socket.emit('connected_user', room_id);
             });
 
             socket.on('connected_person', function() {

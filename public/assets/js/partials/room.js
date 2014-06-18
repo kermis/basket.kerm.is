@@ -13,6 +13,7 @@ var room = {
 
 
             this.id = this.generateRoomID();
+            this.id.toUpperCase();
       },
 
       generateRoomID: function() {

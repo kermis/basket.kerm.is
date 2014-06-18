@@ -113,6 +113,7 @@ function checkRoom(socket, roomID, type) {
             socket.join(roomio);
             roomdata = rooms['/' + roomio];
             io.sockets. in (roomio).emit('roomJoined', roomdata);
+            io.sockets. in (roomID).emit('checkroom', "Connected");
 
       } else {
             if (type == 'browser') {
